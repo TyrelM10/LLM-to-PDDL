@@ -1,5 +1,5 @@
 
-(define (domain blocks-world)
+(define (domain BLOCKS)
   (:requirements :strips)
   
   (:predicates

@@ -20,7 +20,7 @@
 
 from .errors import ParseError
 from .lisp_iterators import LispIterator
-
+from ..connector import receiver
 
 def parse_lisp_iterator(input):
     return LispIterator(parse_nested_list(input))
@@ -30,10 +30,14 @@ def parse_nested_list(input_file):
     tokens = _tokenize(input_file)
     next_token = next(tokens)
     if next_token != "(":
-        raise ParseError("Expected '(', got %s." % next_token)
+        # raise ParseError("Expected '(', got %s." % next_token)
+        receiver("Parsing Error: "+"Expected '(', got %s." % next_token)
+        
     result = list(_parse_list_aux(tokens))
     for tok in tokens:  # Check that generator is exhausted.
-        raise ParseError("Unexpected token: %s." % tok)
+        
+        # raise ParseError("Unexpected token: %s." % tok)
+        receiver("Parsing Error: "+"Unexpected token: %s." % tok)
     return result
 
 
@@ -55,4 +59,5 @@ def _parse_list_aux(tokenstream):
         else:
             yield token
     # If we exhausted the stream, the list is unbalanced.
-    raise ParseError("missing closing parenthesis")
+    # raise ParseError("missing closing parenthesis")
+    receiver("Parsing Error: missing closing parenthesis")

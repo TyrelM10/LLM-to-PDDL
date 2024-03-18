@@ -72,8 +72,8 @@ def llm_to_pddl():
     # else:
     #     args.domain = os.path.abspath(args.domain)
 
-    args.problem = "testingfolder/task01.pddl"
-    args.domain = "testingfolder/domain.pddl"
+    args.problem = "/Users/tyrelmenezes/Desktop/PDDL using LLM/LLM-to-PDDL/testingfolder/task01.pddl"
+    args.domain = "/Users/tyrelmenezes/Desktop/PDDL using LLM/LLM-to-PDDL/testingfolder/sampledomain.pddl"
 
     search = SEARCHES[args.search]
     heuristic = HEURISTICS[args.heuristic]
@@ -83,8 +83,8 @@ def llm_to_pddl():
     print("------------------------------------------")
     print(args)
     print("------------------------------------------")
-    logging.info("using search: %s" % search.__name__)
-    logging.info("using heuristic: %s" % (heuristic.__name__ if heuristic else None))
+    # logging.info("using search: %s" % search.__name__)
+    # logging.info("using heuristic: %s" % (heuristic.__name__ if heuristic else None))
     use_preferred_ops = args.heuristic == "hffpo"
     solution = search_plan(
         args.domain,

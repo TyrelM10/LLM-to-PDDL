@@ -51,7 +51,7 @@ def save_text_to_file(text, file_path):
         
 file_path = "testingfolder/sampletest.pddl"
 
-text_to_save = get_code_llm("Lets convert Natural Language to PDDL")
-save_text_to_file(text_to_save, file_path)
+# text_to_save = get_code_llm("Lets convert Natural Language to PDDL")
+# save_text_to_file(text_to_save, file_path)
 llm_to_pddl()
     
