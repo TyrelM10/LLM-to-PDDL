@@ -72,7 +72,7 @@ def llm_to_pddl():
     # else:
     #     args.domain = os.path.abspath(args.domain)
 
-    args.problem = "/Users/tyrelmenezes/Desktop/PDDL using LLM/LLM-to-PDDL/testingfolder/task01.pddl"
+    args.problem = "/Users/tyrelmenezes/Desktop/PDDL using LLM/LLM-to-PDDL/testingfolder/task03.pddl"
     args.domain = "/Users/tyrelmenezes/Desktop/PDDL using LLM/LLM-to-PDDL/testingfolder/sampledomain.pddl"
 
     search = SEARCHES[args.search]
@@ -80,9 +80,9 @@ def llm_to_pddl():
 
     if args.search in ["bfs", "ids", "sat"]:
         heuristic = None
-    print("------------------------------------------")
-    print(args)
-    print("------------------------------------------")
+    # print("------------------------------------------")
+    # print(args)
+    # print("------------------------------------------")
     # logging.info("using search: %s" % search.__name__)
     # logging.info("using heuristic: %s" % (heuristic.__name__ if heuristic else None))
     use_preferred_ops = args.heuristic == "hffpo"
@@ -96,8 +96,11 @@ def llm_to_pddl():
 
     if solution is None:
         logging.warning("No solution could be found")
+        return False
     else:
         solution_file = args.problem + ".soln"
         logging.info("Plan length: %s" % len(solution))
         write_solution(solution, solution_file)
         validate_solution(args.domain, args.problem, solution_file)
+        return True
+        

@@ -543,7 +543,7 @@ class TraversePDDLProblem(PDDLVisitor):
             #     "domain: %s together with a domain file that "
             #     "specifies domain: %s" % (node.domainName, self._domain.name)
             # )
-            receiver("Error trying to parse problem file with domain: {0} together with a domain file that specifies domain: {1}".format(node.domainName, self._domain.name))
+            receiver("Error trying to parse problem file with domain: {0} together with a domain file that specifies domain: {1}. Change the domain name in domain to {0}.".format(node.domainName, self._domain.name))
         # Apply to all object definitions.
         for o in node.objects:
             o.accept(self)

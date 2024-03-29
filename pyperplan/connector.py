@@ -1,13 +1,7 @@
-# from .pyperplan.llm_to_pddl import llm_to_pddl
-# from openapillm import get_code_llm
 import sys
+sys.path.append('LLM-to-PDDL')
+import llm_connect
 
 def receiver(error):
-    
-    print("----------------------- ERROR --------------------------")
-    print(error)
-    print("--------------------------------------------------------")
-    sys.exit()
-    # get_code_llm(error)
-    
-# llm_to_pddl()
+    print(" ------ ERROR FROM VALIDATOR ---- > ", error)
+    llm_connect.generate_answer(error, "Any", True)
