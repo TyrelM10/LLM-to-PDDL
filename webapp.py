@@ -1,6 +1,8 @@
 from flask import Flask, render_template, jsonify, request
 import config
 from llm_connect import *
+import logging
+logging.basicConfig(filename="logfilename.log", level=logging.ERROR)
 
 def page_not_found(e):
   return render_template('404.html'), 404
@@ -17,7 +19,7 @@ def index():
     if request.method == 'POST':
         question = request.form['prompt']
         # print(question)
-        answer = generate_answer(question, "CHAT_GPT", False)
+        answer = generate_answer(question, "HUGGING_FACE", False)
         res = {}
         res['answer'] = answer
         return jsonify(res), 200

@@ -31,13 +31,13 @@ def parse_nested_list(input_file):
     next_token = next(tokens)
     if next_token != "(":
         # raise ParseError("Expected '(', got %s." % next_token)
-        receiver("Parsing Error: "+"Expected '(', got %s." % next_token)
+        receiver({'error_number': 2, 'error':"Parsing Error: "+"Expected '(', got %s." % next_token})
         
     result = list(_parse_list_aux(tokens))
     for tok in tokens:  # Check that generator is exhausted.
         
         # raise ParseError("Unexpected token: %s." % tok)
-        receiver("Parsing Error: "+"Unexpected token: %s." % tok)
+        receiver({'error_number': 3, 'error':"Parsing Error: "+"Unexpected token: %s." % tok})
     return result
 
 
@@ -60,4 +60,4 @@ def _parse_list_aux(tokenstream):
             yield token
     # If we exhausted the stream, the list is unbalanced.
     # raise ParseError("missing closing parenthesis")
-    receiver("Parsing Error: missing closing parenthesis")
+    receiver({'error_number': 4, 'error':"Parsing Error: missing closing parenthesis"})

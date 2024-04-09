@@ -72,7 +72,7 @@ def llm_to_pddl():
     # else:
     #     args.domain = os.path.abspath(args.domain)
 
-    args.problem = "/Users/tyrelmenezes/Desktop/PDDL using LLM/LLM-to-PDDL/testingfolder/task03.pddl"
+    args.problem = "/Users/tyrelmenezes/Desktop/PDDL using LLM/LLM-to-PDDL/testingfolder/blocks_0.pddl"
     args.domain = "/Users/tyrelmenezes/Desktop/PDDL using LLM/LLM-to-PDDL/testingfolder/sampledomain.pddl"
 
     search = SEARCHES[args.search]

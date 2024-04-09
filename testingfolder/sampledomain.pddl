@@ -1,42 +1,37 @@
 
-(define (domain gripper-strips)
-
+(define (domain blocks-world)
     (:requirements :strips :typing)
     
-    (:types
-        ball room gripper
+    (:types block)
+    
+    (:constants
+        clear - (block),
+        on - (block block),
+        table - block
     )
-
+    
     (:predicates
-        (at-robot ?r - room)
-        (at-ball ?b - ball ?r - room)
-        (in-gripper ?g - gripper ?b - ball)
-        (empty ?g - gripper)
-        (goal-complete)
+       (on ?x - block ?y - block)
+       (clear ?x - block)
+       (ontable ?x - block)
     )
-
+    
     (:action pick-up
-        :parameters (?r - room ?b - ball ?g - gripper)
-        :precondition (and (at-robot ?r) (at-ball ?b ?r) (empty ?g))
-        :effect (and (not (at-ball ?b ?r)) (in-gripper ?g ?b))
-    )
-
-    (:action drop
-        :parameters (?r - room ?b - ball ?g - gripper)
-        :precondition (and (at-robot ?r) (in-gripper ?g ?b))
-        :effect (and (at-ball ?b ?r) (not (in-gripper ?g ?b)))
-    )
-
-    (:action move
-        :parameters (?from - room ?to - room)
-        :precondition (at-robot ?from)
-        :effect (and (at-robot ?to) (not (at-robot ?from)))
-    )
-
-    (:action unload
-        :parameters (?r - room ?g - gripper)
-        :precondition (and (at-robot ?r) (empty ?g) (goal-complete))
-        :effect (and (not (empty ?g)) (not (goal-complete)))
-    )
-
-)
+        :parameters (?x - block)
+        :precondition (and (clear ?x) (ontable ?x))
+        :effect (and (not (ontable ?x)) (not (clear ?x)) (clear ?table) (on ?x table)))
+    
+    (:action put-down
+        :parameters (?x - block)
+        :precondition (clear ?table)
+        :effect (and (ontable ?x) (clear ?x) (not (clear ?table)) (not (on ?x table))))
+    
+    (:action stack
+        :parameters (?x - block ?y - block)
+        :precondition (and (clear ?x) (on ?y table))
+        :effect (and (not (ontable ?y)) (on ?y ?x) (clear ?x) (not (clear ?table)) (not (on ?y table))))
+    
+    (:action unstack
+        :parameters (?x - block ?y - block)
+        :precondition (and (on ?x ?y) (clear ?x))
+        :effect (and (ontable ?y) (clear ?y) (not (ontable ?x)) (not (clear ?x)) (on ?x table))))

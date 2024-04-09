@@ -43,7 +43,7 @@ class LispIterator:
     def _raise_if(self, condition, msg):
         if condition:
             # raise ParseError(msg, self)
-            receiver("Parsing Error"+msg)
+            receiver({'error_number': 1, 'error':"Parsing Error "+ msg})
 
     def __repr__(self):
         return "<LispIterator(%d, %r)>" % (self.position, self.contents)
