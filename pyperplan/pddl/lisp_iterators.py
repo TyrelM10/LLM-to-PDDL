@@ -93,7 +93,7 @@ class LispIterator:
 
     ### High-level interface. The following methods are implemented in
     ### terms of the low-level interface.
-
+    
     def next(self):
         """Structures only. Return iterator for next subtree and
         advance. Raise ParseError if at the end."""

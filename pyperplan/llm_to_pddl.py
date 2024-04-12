@@ -49,12 +49,12 @@ def llm_to_pddl():
     args = argparser.parse_args()
     
 
-    logging.basicConfig(
-        level=getattr(logging, args.loglevel.upper()),
-        format="%(asctime)s %(levelname)-8s %(message)s",
-        stream=sys.stdout,
-    )
-   
+    # logging.basicConfig(
+    #     level=getattr(logging, args.loglevel.upper()),
+    #     format="%(asctime)s %(levelname)-8s %(message)s",
+    #     stream=sys.stdout,
+    # )
+    logging.basicConfig(filename="logfilename.log", level=getattr(logging, args.loglevel.upper()))
 
     hffpo_searches = ["gbf", "wastar", "ehs"]
     if args.heuristic == "hffpo" and args.search not in hffpo_searches:
@@ -72,8 +72,8 @@ def llm_to_pddl():
     # else:
     #     args.domain = os.path.abspath(args.domain)
 
-    args.problem = "/Users/tyrelmenezes/Desktop/PDDL using LLM/LLM-to-PDDL/testingfolder/blocks_0.pddl"
-    args.domain = "/Users/tyrelmenezes/Desktop/PDDL using LLM/LLM-to-PDDL/testingfolder/sampledomain.pddl"
+    args.problem = "/Users/tyrelmenezes/Desktop/PDDL using LLM/LLM-to-PDDL/testingfolder/blocks_1.pddl"
+    args.domain = "/Users/tyrelmenezes/Desktop/PDDL using LLM/LLM-to-PDDL/testingfolder/domain.pddl"
 
     search = SEARCHES[args.search]
     heuristic = HEURISTICS[args.heuristic]
@@ -93,8 +93,9 @@ def llm_to_pddl():
         heuristic,
         use_preferred_ops=use_preferred_ops,
     )
-
+    
     if solution is None:
+        # print("No solution could be found")
         logging.warning("No solution could be found")
         return False
     else:
