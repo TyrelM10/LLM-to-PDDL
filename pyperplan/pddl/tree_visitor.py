@@ -58,7 +58,7 @@ class Visitable:
     def accept(self, visitor):
         if self._visitorName == None:
             # raise ValueError("Error: visit method of uninitialized visitor " "called!")
-            receiver({'error_number': 28, 'error':str(ValueError("Error: visit method of uninitialized visitor " "called!"))})
+            receiver({'error_number': 28, 'error':"There is a value error where visit method of uninitialized visitor is called."})
         # get the appropriate method of the visitor instance
         m = getattr(visitor, self._visitorName)
         # ensure that the method is callable
@@ -67,10 +67,7 @@ class Visitable:
             #     "Error: cannot call undefined method: %s on "
             #     "visitor" % self._visitorName
             # )
-            receiver({'error_number': 29, 'error':str(ValueError(
-                "Error: cannot call undefined method: %s on "
-                "visitor" % self._visitorName
-            ))})
+            receiver({'error_number': 29, 'error': "There is a value error where it cannot call undefined method: %s on visitor" % self._visitorName })
         # and finally call the callback
         m(self)
 
@@ -212,7 +209,7 @@ class TraversePDDLDomain(PDDLVisitor):
                 continue
             if not t.parent in self._types:
                 # raise SemanticError("Error unknown parent type: " + t.parent)
-                receiver({'error_number': 30, 'error':str(SemanticError("Error unknown parent type: " + t.parent))})
+                receiver({'error_number': 30, 'error':"There is a semantic error of unknown parent type: " + t.parent})
             t.parent = self._types[t.parent]
 
         # Visit all predicates.
@@ -229,7 +226,7 @@ class TraversePDDLDomain(PDDLVisitor):
                     #     + action.name
                     #     + " has already been defined"
                     # )
-                    receiver({'error_number': 31, 'error':str(SemanticError("Error: action with name "+ action.name+ " has already been defined"))})
+                    receiver({'error_number': 31, 'error':"There is a semantic error where action with name "+ action.name + " has already been defined."})
                 self._actions[action.name] = action
 
         # Visit all constants.
@@ -251,13 +248,13 @@ class TraversePDDLDomain(PDDLVisitor):
             # raise SemanticError(
             #     "Error: unknown type " + type_name + " used in object definition!"
             # )
-            receiver({'error_number': 32, 'error':str(SemanticError("Error: unknown type " + type_name + " used in object definition!"))})
+            receiver({'error_number': 32, 'error':"There is a semantic error of unknown type " + type_name + " used in object definition!"})
             
         if node.name in self._constants:
             # raise SemanticError(
             #     "Error: multiple defines of object with " "name " + node.name
             # )
-            receiver({'error_number': 33, 'error':str(SemanticError("Error: multiple defines of object with " "name " + node.name))})
+            receiver({'error_number': 33, 'error':"There is a semantic error of multiple defines of object with name " + node.name})
             
         # Add constant with its corresponding type to the constants dict.
         self._constants[node.name] = self._types[type_name]
@@ -298,7 +295,7 @@ class TraversePDDLDomain(PDDLVisitor):
                 #     + predicate.name
                 #     + " has already been defined"
                 # )
-                receiver({'error_number': 34, 'error':str(SemanticError("Error predicate with name "+ predicate.name+ " has already been defined"))})
+                receiver({'error_number': 34, 'error':"There is a semantic error where predicate with name "+ predicate.name+ " has already been defined."})
             # Add to predicate list.
             self._predicates[predicate.name] = predicate
 
@@ -328,7 +325,7 @@ class TraversePDDLDomain(PDDLVisitor):
                     # raise SemanticError(
                     #     "Error unknown type " + t + " used in predicate definition"
                     # )
-                    receiver({'error_number': 35, 'error':str(SemanticError("Error unknown type " + t + " used in predicate definition"))})
+                    receiver({'error_number': 35, 'error':"There is a semantic error where unknown type " + t + " is used in predicate definition."})
                     
                 typelist.append(self._types[t])
             # Store variable information (var_name, tuple(types)) in node.
@@ -373,7 +370,7 @@ class TraversePDDLDomain(PDDLVisitor):
             #     "predicate " + c.key + " in precondition of "
             #     "action"
             # )
-            receiver({'error_number': 36, 'error':str(SemanticError("Error: wrong number of arguments for predicate " + c.key + " in precondition of action"))})
+            receiver({'error_number': 36, 'error':"There is a semantic error where there are wrong number of arguments for predicate " + c.key + " in precondition of action."})
         # Apply to all arguments.
         for v in c.children:
             if isinstance(v.key, Variable):
@@ -398,7 +395,7 @@ class TraversePDDLDomain(PDDLVisitor):
                     #     "Error predicate with non str key: "
                     #     + "".join([c2.key.name + " " for c2 in formula.children])
                     # )
-                    receiver({'error_number': 37, 'error':"Error predicate with non str key: "+ "".join([c2.key.name + " " for c2 in formula.children])})
+                    receiver({'error_number': 37, 'error':"There is a semantic error where predicate with non str key: "+ "".join([c2.key.name + " " for c2 in formula.children])})
                     
                 # Check whether predicate was defined.
                 if not c.key in self._predicates:
@@ -407,7 +404,7 @@ class TraversePDDLDomain(PDDLVisitor):
                     #     + c.key
                     #     + " used in precondition of action"
                     # )
-                    receiver({'error_number': 38, 'error':"Error unknown predicate '"+c.key+"' used in precondition of action"})
+                    receiver({'error_number': 38, 'error':"There is a semantic error where unknown predicate '"+c.key+"' used in precondition of action. Remove '"+c.key+"' from the precondition of all actions having it."})
                 # Call helper.
                 
                 self.add_precond(precond, c)
@@ -415,7 +412,7 @@ class TraversePDDLDomain(PDDLVisitor):
             # If not 'and' we only allow a single predicate in precondition.
             if not formula.key in self._predicates:
                 # raise SemanticError("Error: predicate in precondition is not " "in CNF")
-                receiver({'error_number': 39, 'error':"Error: predicate in precondition is not " "in CNF"})
+                receiver({'error_number': 39, 'error':"There is a semantic error where the predicate in precondition is not in Conjuctive Normal Form (CNF)."})
             # Call helper.
             self.add_precond(precond, formula)
         self.set_in(node, precond)
@@ -439,7 +436,7 @@ class TraversePDDLDomain(PDDLVisitor):
                 # raise SemanticError(
                 #     "Error not statement with multiple " "children in effect of action"
                 # )
-                receiver({'error_number': 40, 'error':"Error not statement with multiple " "children in effect of action"})
+                receiver({'error_number': 40, 'error':"There is a semantic error where not statement with multiple children in effect of action."})
             nextPredicate = c.children[0]
             isNegative = True
         else:
@@ -450,11 +447,11 @@ class TraversePDDLDomain(PDDLVisitor):
             #     "Error: unknown predicate %s used in effect "
             #     "of action" % nextPredicate.key
             # )
-            receiver({'error_number': 41, 'error':"Error: unknown predicate {0} used in effect of action".format(nextPredicate.key)})
+            receiver({'error_number': 41, 'error':"There is a semantic error where unknown predicate '{0}' used in effect of action. Please do not use '{0}' and use existing predicates from the above code only. Please do not use any conditional expression in the code to remove this error.".format(nextPredicate.key)})
             
         if nextPredicate == None:
             # raise SemanticError("Error: NoneType predicate used in effect of " "action")
-            receiver({'error_number': 42, 'error':"Error: NoneType predicate used in effect of " "action"})
+            receiver({'error_number': 42, 'error':"There is a semantic error where NoneType predicate used in effect of action."})
             
         predDef = self._predicates[nextPredicate.key]
         signature = list()
@@ -465,7 +462,7 @@ class TraversePDDLDomain(PDDLVisitor):
             #     "Error: wrong number of arguments for "
             #     "predicate " + nextPredicate.key + " in effect of action"
             # )
-            receiver({'error_number': 43, 'error':"Error: wrong number of arguments for predicate " + nextPredicate.key + " in effect of action"})
+            receiver({'error_number': 43, 'error':"There is a semantic error where wrong number of arguments for predicate '" + nextPredicate.key + "' in effect of action."})
         # Apply to all parameters.
         for v in nextPredicate.children:
             if isinstance(v.key, Variable):
@@ -495,7 +492,7 @@ class TraversePDDLDomain(PDDLVisitor):
         # Store effect in node.
         self.set_in(node, effect)
 
-
+#  ------------------------------- PROBLEM FILE PARSING AND PROMPTS -------------------------------
 class TraversePDDLProblem(PDDLVisitor):
     """The PDDL-problem Visitor.
 
@@ -543,7 +540,7 @@ class TraversePDDLProblem(PDDLVisitor):
             #     "domain: %s together with a domain file that "
             #     "specifies domain: %s" % (node.domainName, self._domain.name)
             # )
-            receiver({'error_number': 44, 'error':"Error trying to parse problem file with domain: {0} together with a domain file that specifies domain: {1}. Change the domain name in domain to {0}.".format(node.domainName, self._domain.name)})
+            receiver({'error_number': 44, 'error':"There is a semantic error in trying to parse problem file with domain '{0}' together with a domain file that specifies domain '{1}'. Change the domain name in domain to '{0}'.".format(node.domainName, self._domain.name)})
         # Apply to all object definitions.
         for o in node.objects:
             o.accept(self)
@@ -569,7 +566,7 @@ class TraversePDDLProblem(PDDLVisitor):
             # raise SemanticError(
             #     "Error multiple defines of object with name " + node.name
             # )
-            receiver({'error_number': 45, 'error':"Error multiple defines of object with name " + node.name})
+            receiver({'error_number': 45, 'error':"There is a semantic error where there is multiple defines of object with name " + node.name})
         # Untyped objects get the standard type 'object'.
         if node.typeName == None:
             type_def = self._domain.types["object"]
@@ -581,7 +578,7 @@ class TraversePDDLProblem(PDDLVisitor):
                 #     + node.typeName
                 #     + " used in object definition!"
                 # )
-                receiver({'error_number': 46, 'error':"Error: unknown type " + node.typeName + " used in object definition!"})
+                receiver({'error_number': 46, 'error':"There is a semantic error for unknown type " + node.typeName + " used in object definition."})
                 
             type_def = self._domain.types[node.typeName]
         self._objects[node.name] = type_def
@@ -608,7 +605,7 @@ class TraversePDDLProblem(PDDLVisitor):
             # raise SemanticError(
             #     "Error: unknown predicate " + c.key + " in goal definition"
             # )
-            receiver({'error_number': 47, 'error':"Error: unknown predicate " + c.key + " in goal definition"})
+            receiver({'error_number': 47, 'error':"There is a semantic error where unknown predicate '" + c.key + "' in goal definition."})
         # Get predicate from the domain data structure.
         predDef = self._domain.predicates[c.key]
         signature = list()
@@ -619,7 +616,7 @@ class TraversePDDLProblem(PDDLVisitor):
             #     "Error: wrong number of arguments for "
             #     "predicate " + c.key + " in goal"
             # )
-            receiver({'error_number': 48, 'error':"Error: wrong number of arguments for predicate " + c.key + " in goal"})
+            receiver({'error_number': 48, 'error':"There is a semantic error where wrong number of arguments for predicate '" + c.key + "' in goal."})
             
         for v in c.children:
             signature.append((v.key, predDef.signature[count][1]))
@@ -639,7 +636,7 @@ class TraversePDDLProblem(PDDLVisitor):
                     #     "Error predicate with non str key: "
                     #     + "".join([c2.key.name + " " for c2 in formula.children])
                     # )
-                    receiver({'error_number': 49, 'error':"Error predicate with non str key: " + "".join([c2.key.name + " " for c2 in formula.children])})
+                    receiver({'error_number': 49, 'error':"There is a semantic error where predicate with non str key: " + "".join([c2.key.name + " " for c2 in formula.children])})
                 # Call helper.
                 self.add_goal(goal, c)
         else:
@@ -648,7 +645,7 @@ class TraversePDDLProblem(PDDLVisitor):
                 # raise SemanticError(
                 #     "Error: predicate in goal definition is " "not in CNF"
                 # )
-                receiver({'error_number': 50, 'error':"Error: predicate in goal definition is " "not in CNF"})
+                receiver({'error_number': 50, 'error':"There is a semantic error predicate in goal definition is not in Conjuctive Normal Form (CNF)."})
             # Call helper.
             self.add_goal(goal, formula)
         self.set_in(node, goal)
@@ -666,7 +663,7 @@ class TraversePDDLProblem(PDDLVisitor):
                 #     "Error: object " + o + " referenced in "
                 #     "problem definition - but not defined"
                 # )
-                receiver({'error_number': 51, 'error':"Error: object " + o + " referenced in problem definition - but not defined"})
+                receiver({'error_number': 51, 'error':"There is a semantic error where object '" + o + "' referenced in problem definition, but not defined."})
             elif o in self._objects:
                 o_type = self._objects[o]
             elif o in self._domain.constants:

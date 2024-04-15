@@ -12,7 +12,7 @@ from pyperplan.planner import (
     write_solution,
 )
 
-def llm_to_pddl():
+def llm_to_pddl(only_dom):
     # Commandline parsing
     log_levels = ["debug", "info", "warning", "error"]
 
@@ -73,7 +73,7 @@ def llm_to_pddl():
     #     args.domain = os.path.abspath(args.domain)
 
     args.problem = "/Users/tyrelmenezes/Desktop/PDDL using LLM/LLM-to-PDDL/testingfolder/blocks_1.pddl"
-    args.domain = "/Users/tyrelmenezes/Desktop/PDDL using LLM/LLM-to-PDDL/testingfolder/domain.pddl"
+    args.domain = "/Users/tyrelmenezes/Desktop/PDDL using LLM/LLM-to-PDDL/testingfolder/sampledomain.pddl"
 
     search = SEARCHES[args.search]
     heuristic = HEURISTICS[args.heuristic]
@@ -92,16 +92,20 @@ def llm_to_pddl():
         search,
         heuristic,
         use_preferred_ops=use_preferred_ops,
+        only_domain=only_dom,
     )
-    
-    if solution is None:
-        # print("No solution could be found")
-        logging.warning("No solution could be found")
-        return False
+    if solution['success'] == True:
+        logging.info(solution['message'])
+        return solution
     else:
-        solution_file = args.problem + ".soln"
-        logging.info("Plan length: %s" % len(solution))
-        write_solution(solution, solution_file)
-        validate_solution(args.domain, args.problem, solution_file)
-        return True
+        if solution is None:
+            # print("No solution could be found")
+            logging.warning("No solution could be found")
+            return False
+        else:
+            solution_file = args.problem + ".soln"
+            logging.info("Plan length: %s" % len(solution))
+            write_solution(solution, solution_file)
+            validate_solution(args.domain, args.problem, solution_file)
+            return True
         

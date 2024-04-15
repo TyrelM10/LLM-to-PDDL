@@ -1,7 +1,7 @@
 from pyperplan.llm_to_pddl import llm_to_pddl
 from openapillm import get_code_llm_openai
 from hugchatapi import hugchatter
-import sys
+# import sys
 
 file_path = "testingfolder/sampledomain.pddl"
 
@@ -24,8 +24,8 @@ def generate_answer(question, model_name, error_code):
             global_counter = 0
             global model_used
             model_used = model_name
-            file_path = "testingfolder/sampledomain.pddl"
-            question = question+"\n \n Requirement: Generate PDDL domain code for the above text description in code blocks delimited only between ```pddl <CODE></CODE> ```."
+            file_path = "testingfolder/sampledomain1.pddl"
+            question = question+"\n \n Requirement 1: Generate PDDL domain code in code blocks delimited only between ```pddl <CODE></CODE> ```. Do not give any explanations. \n Requirement 2: Correct the error and give the entire pddl code. \n Requirement 3: Do not use conditional expressions in domain code. Do not create a problem file."
 
             if model_name == "CHAT_GPT": # Calling chatgpt api model
                 answer = get_code_llm_openai(question)
@@ -44,18 +44,20 @@ def generate_answer(question, model_name, error_code):
             conversational_texts.append("**LLM MODEL** ({}):".format(model_name)+"\n```pddl"+ answer['answer'] + "\n```") # Appending LLM model output to conversational_texts
             save_text_to_file(answer['answer'], file_path)
             global_counter += 1
-            final = llm_to_pddl()
-            if final or not final:
-                pass
+            final = llm_to_pddl(True)
+            if final['success']:
+                final['domain'] = conversational_texts[-1]
+                print(final)
+                return final['message']
         
         # ---------------- Second run when user inputs the error code. -------------------
         elif error_code == True:
             print("----- RUNNING FOR ERROR --- {}".format(model_used))
             code_with_error = get_code_from_previous_generated(file_path="testingfolder/sampledomain.pddl")
             file_path = "testingfolder/sampledomain.pddl"
-            error = code_with_error + "\n The above code produces the following error: " + str(question) + "\n Requirement 1: Correct the error and give the entire pddl code. \n Requirement 2: Do not create a problem file. \n Requirement 3: Generate PDDL domain code in code blocks delimited only between ```pddl <CODE></CODE> ```."
+            error = code_with_error + "\n The above code produces the following error: " + str(question) + "\n\n Requirement 1: Correct the error and give the entire pddl code. \n Requirement 2: Do not create a problem file. \n Requirement 3: Generate PDDL domain code in code blocks delimited only between ```pddl <CODE></CODE> ```. Do not give any explanations."
             
-            error_formatted = "\n```pddl\n"+code_with_error +"\n```"+"\n The above code produces the following error: " + str(question) + "\n Requirement 1: Correct the error and give the entire pddl code. \n Requirement 2: Do not create a problem file. \n Requirement 3: Generate PDDL domain code in code blocks delimited only between ```pddl <CODE></CODE> ```."
+            error_formatted = "\n```pddl\n"+code_with_error +"\n```"+"\n The above code produces the following error: " + str(question) + "\n\n Requirement 1: Correct the error and give the entire pddl code. \n Requirement 2: Do not create a problem file. \n Requirement 3: Generate PDDL domain code in code blocks delimited only between ```pddl <CODE></CODE> ```. Do not give any explanations."
             conversational_texts.append("**USER** :" + error_formatted) # Appending user input to conversational_texts
             print("=========== CHAT COUNT ==========>> ", global_counter)
             
@@ -65,9 +67,10 @@ def generate_answer(question, model_name, error_code):
                     conversational_texts.append("**LLM MODEL** ({}):".format(model_used)+"\n```pddl"+ answer + "\n```") # Appending LLM model output to conversational_texts
                     save_text_to_file(answer, "testingfolder/sampledomain.pddl")
                     global_counter += 1
-                    final = llm_to_pddl()
-                    if final or not final:
-                        pass
+                    final = llm_to_pddl(True)
+                    if final['success']:
+                        final['domain'] = conversational_texts[-1]
+                        return final
                 else:
                     paragraph = '\n'.join(conversational_texts)
                     save_text_to_file(paragraph, 'testingfolder/convo_open_ai_blocks.md')
@@ -75,7 +78,7 @@ def generate_answer(question, model_name, error_code):
                     
             elif model_used == "HUGGING_FACE": # Calling huggingface api model
                 
-                if global_counter <= 10:
+                if global_counter <= 20:
                     answer = hugchatter(error)
                     
                     if answer['answer']=="NO RESULT FOUND":
@@ -88,9 +91,10 @@ def generate_answer(question, model_name, error_code):
                     conversational_texts.append("**LLM MODEL** ({}):".format(model_used) +"\n```pddl"+ answer['answer'] + "\n```") # Appending LLM model output to conversational_texts
                     save_text_to_file(answer["answer"], "testingfolder/sampledomain.pddl")
                     global_counter += 1
-                    final = llm_to_pddl()
-                    if final or not final:
-                        pass
+                    final = llm_to_pddl(True)
+                    if final['success']:
+                        final['domain'] = conversational_texts[-1]
+                        return final
                 else:
                     try:
                         paragraph = '\n'.join(conversational_texts)

@@ -7,6 +7,5 @@ import logging
 
 def receiver(error):
     logging.error(error)
-    print(" ------ ERROR FROM VALIDATOR ---- > ", error["error_number"])
-    # llm_connect.generate_answer(error["error"], "Any", True)
-    sys.exit(0)
+    # print(" ------ ERROR FROM VALIDATOR ---- > ", error["error_number"])
+    llm_connect.generate_answer(error["error"], "Any", True)

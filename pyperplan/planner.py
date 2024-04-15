@@ -106,10 +106,14 @@ def find_domain(problem):
     logging.info(f"Found domain {domain}")
     return domain
 
+def _parse_domain(domain_file, problem_file):
+    parser = Parser(domain_file, problem_file)
+    logging.info(f"Parsing Domain {domain_file}")
+    domain = parser.parse_domain()
 
 def _parse(domain_file, problem_file):
     # Parsing
-    parser = Parser(domain_file, problem_file)
+    parser = Parser(domain_file, problem_file=False)
     logging.info(f"Parsing Domain {domain_file}")
     domain = parser.parse_domain()
     logging.info(f"Parsing Problem {problem_file}")
@@ -155,9 +159,7 @@ def write_solution(solution, filename):
             print(op.name, file=file)
 
 
-def search_plan(
-    domain_file, problem_file, search, heuristic_class, use_preferred_ops=False
-):
+def search_plan(domain_file, problem_file, search, heuristic_class, use_preferred_ops=False, only_domain=True):
     """
     Parses the given input files to a specific planner task and then tries to
     find a solution using the specified  search algorithm and heuristics.
@@ -171,18 +173,22 @@ def search_plan(
                             interface
     @return A list of actions that solve the problem
     """
-    problem = _parse(domain_file, problem_file)
-    task = _ground(problem)
-    heuristic = None
-    if not heuristic_class is None:
-        heuristic = heuristic_class(task)
-    search_start_time = time.process_time()
-    if use_preferred_ops and isinstance(heuristic, heuristics.hFFHeuristic):
-        solution = _search(task, search, heuristic, use_preferred_ops=True)
+    if only_domain:
+        domain = _parse_domain(domain_file, False)
+        return {'success': True, 'domain': domain, 'message': 'Domain parsed successfully.'}
     else:
-        solution = _search(task, search, heuristic)
-    logging.info("Search time: {:.2}".format(time.process_time() - search_start_time))
-    return solution
+        problem = _parse(domain_file, problem_file)
+        task = _ground(problem)
+        heuristic = None
+        if not heuristic_class is None:
+            heuristic = heuristic_class(task)
+        search_start_time = time.process_time()
+        if use_preferred_ops and isinstance(heuristic, heuristics.hFFHeuristic):
+            solution = _search(task, search, heuristic, use_preferred_ops=True)
+        else:
+            solution = _search(task, search, heuristic)
+        logging.info("Search time: {:.2}".format(time.process_time() - search_start_time))
+        return solution
 
 
 def validate_solution(domain_file, problem_file, solution_file):

@@ -60,4 +60,4 @@ def get_code_llm_openai(message):
 
 # text_to_save = get_code_llm("Lets convert Natural Language to PDDL")
 # save_text_to_file(text_to_save, file_path)
-llm_to_pddl()
+# llm_to_pddl(True)
