@@ -2,7 +2,7 @@ from flask import Flask, render_template, jsonify, request
 import config
 from llm_connect import *
 import logging
-logging.basicConfig(filename="logfilename.log", level=logging.ERROR)
+logging.basicConfig(filename="logfilename.log", level=logging.DEBUG)
 
 def page_not_found(e):
   return render_template('404.html'), 404

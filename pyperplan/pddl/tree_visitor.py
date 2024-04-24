@@ -213,7 +213,10 @@ class TraversePDDLDomain(PDDLVisitor):
             t.parent = self._types[t.parent]
 
         # Visit all predicates.
-        node.predicates.accept(self)
+        try:
+            node.predicates.accept(self)
+        except AttributeError as e:
+            receiver({'error_number': 52, 'error': "Regenerate the code as received an attribute error where there is NoneType object."})
 
         # Visit all actions.
         if node.actions != None:
@@ -370,7 +373,7 @@ class TraversePDDLDomain(PDDLVisitor):
             #     "predicate " + c.key + " in precondition of "
             #     "action"
             # )
-            receiver({'error_number': 36, 'error':"There is a semantic error where there are wrong number of arguments for predicate " + c.key + " in precondition of action."})
+            receiver({'error_number': 36, 'error':"There is a semantic error where there are wrong number of arguments for predicate '" + c.key + "' in precondition of action."})
         # Apply to all arguments.
         for v in c.children:
             if isinstance(v.key, Variable):

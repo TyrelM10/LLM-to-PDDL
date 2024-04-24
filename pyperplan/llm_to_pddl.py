@@ -72,7 +72,7 @@ def llm_to_pddl(only_dom):
     # else:
     #     args.domain = os.path.abspath(args.domain)
 
-    args.problem = "/Users/tyrelmenezes/Desktop/PDDL using LLM/LLM-to-PDDL/testingfolder/blocks_1.pddl"
+    args.problem = "/Users/tyrelmenezes/Desktop/PDDL using LLM/LLM-to-PDDL/testingfolder/problem.pddl"
     args.domain = "/Users/tyrelmenezes/Desktop/PDDL using LLM/LLM-to-PDDL/testingfolder/sampledomain.pddl"
 
     search = SEARCHES[args.search]
@@ -94,8 +94,10 @@ def llm_to_pddl(only_dom):
         use_preferred_ops=use_preferred_ops,
         only_domain=only_dom,
     )
+    print(solution)
     if solution['success'] == True:
-        logging.info(solution['message'])
+        logging.error(solution['message'])
+        print(solution)
         return solution
     else:
         if solution is None:

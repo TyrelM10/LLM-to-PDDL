@@ -110,19 +110,43 @@ def _parse_domain(domain_file, problem_file):
     parser = Parser(domain_file, problem_file)
     logging.info(f"Parsing Domain {domain_file}")
     domain = parser.parse_domain()
-
+    
+    logging.error("Number of Types Parsed: {}".format(len(domain.types)))
+    logging.error("Types Parsed: {}".format(domain.types.keys()))
+    
+    logging.error("Number of Predicates Parsed: {}".format(len(domain.predicates)))
+    logging.error("Predicates Parsed: {}".format(domain.predicates.keys()))
+    
+    logging.error("Number of Actions Parsed: {}".format(len(domain.actions)))
+    logging.error("Actions Parsed: {}".format(domain.actions.keys()))
+    
+    logging.error("Number of Constants Parsed: {}".format(len(domain.constants)))
+    logging.error("Constants Parsed: {}".format(domain.constants))
+    
 def _parse(domain_file, problem_file):
     # Parsing
-    parser = Parser(domain_file, problem_file=False)
+    parser = Parser(domain_file, problem_file)
     logging.info(f"Parsing Domain {domain_file}")
     domain = parser.parse_domain()
     logging.info(f"Parsing Problem {problem_file}")
     problem = parser.parse_problem(domain)
     logging.debug(domain)
-    logging.info("{} Predicates parsed".format(len(domain.predicates)))
-    logging.info("{} Actions parsed".format(len(domain.actions)))
-    logging.info("{} Objects parsed".format(len(problem.objects)))
-    logging.info("{} Constants parsed".format(len(domain.constants)))
+    
+    logging.error("Number of Types Parsed: {}".format(len(domain.types)))
+    logging.error("Types Parsed: {}".format(domain.types.keys()))
+    
+    logging.error("Number of Predicates Parsed: {}".format(len(domain.predicates)))
+    logging.error("Predicates Parsed: {}".format(domain.predicates.keys()))
+    
+    logging.error("Number of Actions Parsed: {}".format(len(domain.actions)))
+    logging.error("Actions Parsed: {}".format(domain.actions.keys()))
+    
+    logging.error("Number of Constants Parsed: {}".format(len(domain.constants)))
+    logging.error("Constants Parsed: {}".format(domain.constants))
+    
+    logging.error("Number of Objects Parsed: {}".format(len(problem.objects)))
+    logging.error("Objects Parsed: {}".format(problem.objects))
+    
     return problem
 
 
@@ -175,6 +199,7 @@ def search_plan(domain_file, problem_file, search, heuristic_class, use_preferre
     """
     if only_domain:
         domain = _parse_domain(domain_file, False)
+        # logging.error("Domain parsed successfully.")
         return {'success': True, 'domain': domain, 'message': 'Domain parsed successfully.'}
     else:
         problem = _parse(domain_file, problem_file)
@@ -188,7 +213,7 @@ def search_plan(domain_file, problem_file, search, heuristic_class, use_preferre
         else:
             solution = _search(task, search, heuristic)
         logging.info("Search time: {:.2}".format(time.process_time() - search_start_time))
-        return solution
+        return {'success': True, 'action_path': solution, 'message': 'Action Path Sucessfully Found.'}
 
 
 def validate_solution(domain_file, problem_file, solution_file):

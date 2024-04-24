@@ -20,17 +20,20 @@ def generate_answer(question, model_name, error_code):
         if error_code == False:
             global conversational_texts
             conversational_texts = []
+            
             global global_counter
             global_counter = 0
             global model_used
             model_used = model_name
-            file_path = "testingfolder/sampledomain1.pddl"
-            question = question+"\n \n Requirement 1: Generate PDDL domain code in code blocks delimited only between ```pddl <CODE></CODE> ```. Do not give any explanations. \n Requirement 2: Correct the error and give the entire pddl code. \n Requirement 3: Do not use conditional expressions in domain code. Do not create a problem file."
+            file_path = "testingfolder/sampledomain.pddl"
+            question = question+"\n \n Requirement 1: Generate PDDL domain code in code blocks delimited only between ```pddl <CODE></CODE> ```. Do not give any explanations or comments in code. \n Requirement 2: Correct the error and give the entire PDDL code. \n Requirement 3: Do not use conditional expressions in domain code. Do not create a problem file."
 
             if model_name == "CHAT_GPT": # Calling chatgpt api model
                 answer = get_code_llm_openai(question)
                 
             elif model_name == "HUGGING_FACE": # Calling huggingface api model
+                # global flag
+                # flag = {'flag':True, 'chatID':None, 'cookies':None}
                 answer = hugchatter(question)
                 
                 if answer['answer']=="NO RESULT FOUND":
@@ -39,7 +42,7 @@ def generate_answer(question, model_name, error_code):
                     paragraph = '\n'.join(conversational_texts)
                     save_text_to_file(paragraph, 'testingfolder/convo_mistral_ai_blocks.md')
                     return conversational_texts[-1]
-            
+            # flag = {'flag':False, 'chatID':answer['chatID'], 'cookies':answer['cookies']}
             conversational_texts.append("**USER** :" + question) # Appending user input to conversational_texts
             conversational_texts.append("**LLM MODEL** ({}):".format(model_name)+"\n```pddl"+ answer['answer'] + "\n```") # Appending LLM model output to conversational_texts
             save_text_to_file(answer['answer'], file_path)
@@ -52,10 +55,11 @@ def generate_answer(question, model_name, error_code):
         
         # ---------------- Second run when user inputs the error code. -------------------
         elif error_code == True:
+            
             print("----- RUNNING FOR ERROR --- {}".format(model_used))
             code_with_error = get_code_from_previous_generated(file_path="testingfolder/sampledomain.pddl")
             file_path = "testingfolder/sampledomain.pddl"
-            error = code_with_error + "\n The above code produces the following error: " + str(question) + "\n\n Requirement 1: Correct the error and give the entire pddl code. \n Requirement 2: Do not create a problem file. \n Requirement 3: Generate PDDL domain code in code blocks delimited only between ```pddl <CODE></CODE> ```. Do not give any explanations."
+            error = code_with_error + "\n The above PDDL code produces the following error: " + str(question) + "\n\n Requirement 1: Correct the error and give the entire PDDL code. \n Requirement 2: Do not create a problem file. \n Requirement 3: Generate PDDL domain code in code blocks delimited only between ```pddl <CODE></CODE> ```. Do not give any explanations or comments in code."
             
             error_formatted = "\n```pddl\n"+code_with_error +"\n```"+"\n The above code produces the following error: " + str(question) + "\n\n Requirement 1: Correct the error and give the entire pddl code. \n Requirement 2: Do not create a problem file. \n Requirement 3: Generate PDDL domain code in code blocks delimited only between ```pddl <CODE></CODE> ```. Do not give any explanations."
             conversational_texts.append("**USER** :" + error_formatted) # Appending user input to conversational_texts
@@ -78,9 +82,9 @@ def generate_answer(question, model_name, error_code):
                     
             elif model_used == "HUGGING_FACE": # Calling huggingface api model
                 
-                if global_counter <= 20:
+                if global_counter <= 30:
                     answer = hugchatter(error)
-                    
+                    # flag = {'flag':False, 'chatID':answer['chatID'], 'cookies':answer['cookies']}
                     if answer['answer']=="NO RESULT FOUND":
                         conversational_texts.append("**LLM MODEL** ({}):".format(model_used) +"\n"+str(answer['text'])+"\n")
                         paragraph = '\n'.join(conversational_texts)
