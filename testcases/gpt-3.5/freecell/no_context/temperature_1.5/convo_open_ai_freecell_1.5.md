@@ -1,0 +1,6 @@
+**USER** :
+Freecell is a solitaire game that comes with Windows.If you haven't seen it before: One has 8 columns of cards, 4 freecells and 4 homecells. The cards start in "random" (random according to MS's brain damaged RNG) piles in the 8 columns. We can move a card in the following ways:  1. we can move any card that is on top of a column to an empty free cell. The free cells only take one card each. 2. We can move any card from a free cell or from top of a column to a home cell if that home cell contains a card of the same suit and is one lower in value aces have value 1, Jacks 11, Queens 12, Kings 13, and to make things more symmetric we start the homecells off containing "phone" cards with value 0. 3. we can move any card from the  top of a column or from a freecell to the top of another column if that column currently holds a card with an opposite colour suit that has one higher value.  4. we can move any card from a free cell or on top of a column to a new column if there are less than 8 columns.  The aim is to get all of the card home. The problems show quite a good variety of difficulty.
+ 
+ Requirement: Generate PDDL domain code for the above text description in code blocks delimited only between ```pddl <CODE></CODE> ```. Do not give any explanations.
+**LLM MODEL** (CHAT_GPT):
+Could not generate code. Please try again later.

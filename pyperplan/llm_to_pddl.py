@@ -94,10 +94,10 @@ def llm_to_pddl(only_dom):
         use_preferred_ops=use_preferred_ops,
         only_domain=only_dom,
     )
-    print(solution)
+    # print(solution)
     if solution['success'] == True:
         logging.error(solution['message'])
-        print(solution)
+        # print(solution)
         return solution
     else:
         if solution is None:

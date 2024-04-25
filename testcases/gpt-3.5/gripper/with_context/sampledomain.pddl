@@ -1,0 +1,31 @@
+(define (domain robot-domain)
+  (:requirements :strips :typing)
+  (:types ball gripper room)
+  (:predicates 
+    (at-robot ?r - room)
+    (at-ball ?b - ball ?r - room)
+    (in-gripper ?g - gripper ?b - ball)
+    (empty ?g - gripper)
+    (goal-reached)
+  )
+  (:action pick-up
+    :parameters (?g - gripper ?b - ball ?r - room)
+    :precondition (and (at-ball ?b ?r) (at-robot ?r) (empty ?g))
+    :effect (and (in-gripper ?g ?b) (not (at-ball ?b ?r)) (not (empty ?g)))
+  )
+  (:action put-down
+    :parameters (?g - gripper ?b - ball ?r - room)
+    :precondition (and (in-gripper ?g ?b) (at-robot ?r))
+    :effect (and (at-ball ?b ?r) (empty ?g) (not (in-gripper ?g ?b)))
+  )
+  (:action move-robot
+    :parameters (?from - room ?to - room)
+    :precondition (at-robot ?from)
+    :effect (and (not (at-robot ?from)) (at-robot ?to))
+  )
+  (:action move-ball
+    :parameters (?b - ball ?from - room ?to - room)
+    :precondition (and (at-ball ?b ?from) (at-robot ?from))
+    :effect (and (not (at-ball ?b ?from)) (at-ball ?b ?to))
+  )
+)
