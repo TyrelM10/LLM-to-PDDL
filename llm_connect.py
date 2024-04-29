@@ -29,7 +29,11 @@ def generate_domain(question, model_name, error_code):
             model_used = model_name
             file_path = "testingfolder/sampledomain.pddl"
             
-            question = question+"\n \n Instruction: Generate PDDL domain code for the above text description in code blocks delimited only between ```pddl <CODE></CODE> ```. This code should be solved in a STRIPS Planner. Do not give any explanations."
+            # Initialising the question with the user input for LLAMA3.
+            # question = question+"\n \n Instruction: Generate PDDL domain code for the above text description in code blocks delimited only between ```pddl <CODE></CODE> ```. This code should be solved in a STRIPS Planner. Do not give any explanations."
+            
+            # Initialising the question with the user input for MISTRALAI.
+            question = question+"\n \n Instruction: Generate PDDL domain code for the above text description in code blocks delimited only between ```pddl <CODE></CODE> ```. This code should be solved in a STRIPS Planner. Do not give any explanations in the output."
             # question = question+"\n \n Requirement: Generate PDDL / STRIPS domain code for the above text description in code blocks delimited only between ```pddl <CODE></CODE> ```. This code should be solved in a STRIPS Planner. Do not give any explanations."
             
             #  ------- Calling ChatGPT API for Generating PDDL Code. -------
@@ -128,10 +132,14 @@ def generate_domain(question, model_name, error_code):
             elif model_used == "HUGGING_FACE": # Calling huggingface api model
                 
                 if global_counter <= 19:
-                    error = code_with_error + "\n \n The above PDDL code produces the following error -> " + str(question) + "\n \nRequirement 1: Correct the error and only give the entire PDDL code for solving in a STRIPS Planner.\n Requirement 2: Do not create a problem file and do not use conditional expressions.\n Requirement 3: Give your output as the PDDL code in code blocks delimited only between ```pddl <CODE></CODE> ``` without any explanations."
-            
-                    error_formatted = "\n```pddl\n"+code_with_error +"\n```"+"\n \n The above code produces the following error: " + str(question) + "\n \nRequirement 1: Correct the error and only give the entire PDDL code for solving in a STRIPS Planner.\n Requirement 2: Do not create a problem file and do not use conditional expressions.\n Requirement 3: Give your output as the PDDL code in code blocks delimited only between ```pddl <CODE></CODE> ``` without any explanations."
-            
+                    # FOR LLAMA3
+                    # error = code_with_error + "\n \n The above PDDL code produces the following error -> " + str(question) + "\n\nRequirement 1: Correct the error and only give the entire PDDL code for solving in a STRIPS Planner.\n Requirement 2: Do not create a problem file and do not use conditional expressions.\n Requirement 3: Give your output as the PDDL code in code blocks delimited only between ```pddl <CODE></CODE> ``` without any explanations."
+                    # error_formatted = "\n```pddl\n"+code_with_error +"\n```"+"\n \n The above code produces the following error: " + str(question) + "\n\nRequirement 1: Correct the error and only give the entire PDDL code for solving in a STRIPS Planner.\n Requirement 2: Do not create a problem file and do not use conditional expressions.\n Requirement 3: Give your output as the PDDL code in code blocks delimited only between ```pddl <CODE></CODE> ``` without any explanations."
+                    
+                    # FOR MISTRALAI
+                    error = code_with_error + "\n\nThe above PDDL code produces the following error -> " + str(question) + "\n\nInstruction 1: Correct the error and give the entire PDDL code in code blocks and please do not give any explanations in the output.\nInstruction 2: Do not create a problem file and do not use conditional expressions."
+                    error_formatted = "\n```pddl\n"+code_with_error +"\n```"+"\n\nThe above code produces the following error -> " + str(question) + "\n\nInstruction 1: Correct the error and give the entire PDDL code in code blocks and please do not give any explanations in the output.\nInstruction 2: Do not create a problem file and do not use conditional expressions."
+                    
                     conversational_texts.append("**USER** :" + error_formatted) # Appending user input to conversational_texts
                     print("=========== CHAT COUNT ==========>> " + str(global_counter)) # Printing the global counter for the number of times the API is called.
                     logging.error("=========== CHAT COUNT ==========>> " + str(global_counter)) # Printing the global counter for the number of times the API is called.
