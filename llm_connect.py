@@ -127,10 +127,10 @@ def generate_domain(question, model_name, error_code):
                     
             elif model_used == "HUGGING_FACE": # Calling huggingface api model
                 
-                if global_counter <= 15:
-                    error = code_with_error + "\n \n The above PDDL code produces the following error -> " + str(question) + "\n\n Please follow below instructions: \n\n Instruction 1: Correct the error and only give the entire PDDL code for solving in a STRIPS Planner.\n Instruction 2: Do not create a problem file and do not use conditional expressions.\n Instruction 3: Give your output as the PDDL code in code blocks delimited only between ```pddl <CODE></CODE> ``` without any explanations."
+                if global_counter <= 19:
+                    error = code_with_error + "\n \n The above PDDL code produces the following error -> " + str(question) + "\n \nRequirement 1: Correct the error and only give the entire PDDL code for solving in a STRIPS Planner.\n Requirement 2: Do not create a problem file and do not use conditional expressions.\n Requirement 3: Give your output as the PDDL code in code blocks delimited only between ```pddl <CODE></CODE> ``` without any explanations."
             
-                    error_formatted = "\n```pddl\n"+code_with_error +"\n```"+"\n \n The above code produces the following error: " + str(question) + "\n\n Please follow below instructions: \n \n Instruction 1: Correct the error and only give the entire PDDL code for solving in a STRIPS Planner.\n Instruction 2: Do not create a problem file and do not use conditional expressions.\n Instruction 3: Give your output as the PDDL code in code blocks delimited only between ```pddl <CODE></CODE> ``` without any explanations."
+                    error_formatted = "\n```pddl\n"+code_with_error +"\n```"+"\n \n The above code produces the following error: " + str(question) + "\n \nRequirement 1: Correct the error and only give the entire PDDL code for solving in a STRIPS Planner.\n Requirement 2: Do not create a problem file and do not use conditional expressions.\n Requirement 3: Give your output as the PDDL code in code blocks delimited only between ```pddl <CODE></CODE> ``` without any explanations."
             
                     conversational_texts.append("**USER** :" + error_formatted) # Appending user input to conversational_texts
                     print("=========== CHAT COUNT ==========>> " + str(global_counter)) # Printing the global counter for the number of times the API is called.

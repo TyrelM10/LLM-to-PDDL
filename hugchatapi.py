@@ -52,12 +52,12 @@ def hugchatter(question):
     cookies = sign.login(cookie_dir_path=cookie_path_dir, save_cookies=True)
 
     # Create your ChatBot
-    chatbot = hugchat.ChatBot(cookies=cookies.get_dict(), default_llm=3, system_prompt="You are an assistant to generate PDDL code for natural language text input descriptions and correct errors in PDDL code to solve in a STRIPS Planner. Please do not add comments and explanations to the output and only give code in PDDL format in code blocks designed as ```pddl (Your Generated Code Here) ```.")  # or cookie_path="usercookies/<email>.json"
+    chatbot = hugchat.ChatBot(cookies=cookies.get_dict(), default_llm=1, system_prompt="You are an assistant to generate PDDL code for natural language text input descriptions and correct errors in PDDL code to solve in a STRIPS Planner. Please do not add comments and explanations to the output and only give code in PDDL format in code blocks designed as ```pddl (Your Generated Code Here) ```.")  # or cookie_path="usercookies/<email>.json"
     # chatbot.new_conversation(modelIndex=6, system_prompt="Generate only PDDL code with no comments.")
     # for i, model in enumerate(models):
     #     print(str(i) + model.name)
     
-    chatbot.switch_llm(3) # Switch to the first model
+    # chatbot.switch_llm(3) # Switch to the first model
     
     # Get conversation list(local)
     # conversation_list = chatbot.get_conversation_list()
@@ -71,13 +71,13 @@ def hugchatter(question):
     
     logging.error("======== LENGTH OF QUERY TEXT : {} ==========".format(length_file))
     
-    while length_file < 80:
-        time.sleep(15)
-        logging.error(query_result["text"])
-        query_result = chatbot.query(question, temperature=0, web_search=False, stream=False)
-        save_text_to_file(query_result['text'], "query_result.txt")
-        length_file = read_file_length("query_result.txt")
-        logging.error("======== LENGTH OF QUERY TEXT : {} ==========".format(length_file))
+    # while length_file < 80:
+    #     time.sleep(15)
+    #     logging.error(query_result["text"])
+    #     query_result = chatbot.query(question, temperature=0, web_search=False, stream=False)
+    #     save_text_to_file(query_result['text'], "query_result.txt")
+    #     length_file = read_file_length("query_result.txt")
+    #     logging.error("======== LENGTH OF QUERY TEXT : {} ==========".format(length_file))
     
     # print(query_result)
     # Get information about the current conversation

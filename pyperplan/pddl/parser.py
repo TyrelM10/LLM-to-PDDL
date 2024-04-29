@@ -623,7 +623,12 @@ def _parse_precondition_or_effect(iter, keyword, type):
     """
     if not iter.try_match(keyword):
         # raise ValueError(f'Error: {type.__name__} must start with "{keyword}" keyword')
-        receiver({'error_number': 18, 'error':f'There is a value error where {type.__name__} must start with "{keyword}" keyword'})
+        # print(iter)
+        # print(iter.peek().get_word())
+        if type.__name__ == 'PreconditionStmt':
+            receiver({'error_number': 18, 'error':f'There is a value error where Predicate Statement must start with "{keyword}" keyword and not "{iter.peek().get_word()}."'})
+        elif type.__name__ == 'EffectStmt':
+            receiver({'error_number': 18, 'error':f'There is a value error where Effect Statement must start with "{keyword}" keyword  and not "{iter.peek().get_word()}."'})
         
     cond = parse_formula(next(iter))
     return type(cond)
@@ -714,7 +719,7 @@ def parse_domain_def(iter):
             break
         else:
             # raise ValueError("Found unknown keyword in domain definition: " + key.name)
-            receiver({'error_number': 22, 'error':"There is a value error on finding unknown keyword in domain definition: '" + key.name + "'. Remove the keyword '"+ key.name +"' from definition, keep the rest of code the same."})
+            receiver({'error_number': 22, 'error':"There is a value error on finding unknown keyword in domain definition: '" + key.name + "'. Valid keywords in definition are 'requirements', 'types', 'predicates', 'constants' and 'action'. Remove the keyword '"+ key.name +"' from definition, keep the rest of code the same."})
             
     # next parse all defined actions
     while not iter.empty():

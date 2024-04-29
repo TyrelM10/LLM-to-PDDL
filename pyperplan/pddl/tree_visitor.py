@@ -342,7 +342,8 @@ class TraversePDDLDomain(PDDLVisitor):
             v.accept(self)
             signatureTuple = self.get_in(v)
             signature.append(signatureTuple)
-
+            
+        self.action_name = node.name
         # Visit the precondition statement.
         node.precond.accept(self)
         precond = self.get_in(node.precond)
@@ -350,7 +351,6 @@ class TraversePDDLDomain(PDDLVisitor):
         # Visit the effect statement.
         node.effect.accept(self)
         effect = self.get_in(node.effect)
-
         # Create new PDDL action and store in node.
         self.set_in(node, pddl.Action(node.name, signature, precond, effect))
 
@@ -407,7 +407,11 @@ class TraversePDDLDomain(PDDLVisitor):
                     #     + c.key
                     #     + " used in precondition of action"
                     # )
-                    receiver({'error_number': 38, 'error':"There is a semantic error where unknown predicate '"+c.key+"' used in precondition of action. Remove '"+c.key+"' from the precondition of all actions having it."})
+                    
+                    if c.key == "not":
+                        receiver({'error_number': 38, 'error':"There is a semantic error where unknown predicate 'not' used in precondition of action name '"+self.action_name+"'. Remove negative literals from the precondition of the action having it and rewrite that action only."})
+                        
+                    receiver({'error_number': 38, 'error':"There is a semantic error where unknown predicate '"+c.key+"' used in precondition of action name '"+self.action_name+"'. Remove '"+c.key+"' from the precondition of all actions having it."})
                 # Call helper.
                 
                 self.add_precond(precond, c)
