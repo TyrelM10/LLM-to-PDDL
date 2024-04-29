@@ -29,8 +29,9 @@ def generate_domain(question, model_name, error_code):
             model_used = model_name
             file_path = "testingfolder/sampledomain.pddl"
             
-            question = question+"\n \n Requirement: Generate PDDL domain code for the above text description in code blocks delimited only between ```pddl <CODE></CODE> ```. Do not give any explanations."
-
+            question = question+"\n \n Instruction: Generate PDDL domain code for the above text description in code blocks delimited only between ```pddl <CODE></CODE> ```. This code should be solved in a STRIPS Planner. Do not give any explanations."
+            # question = question+"\n \n Requirement: Generate PDDL / STRIPS domain code for the above text description in code blocks delimited only between ```pddl <CODE></CODE> ```. This code should be solved in a STRIPS Planner. Do not give any explanations."
+            
             #  ------- Calling ChatGPT API for Generating PDDL Code. -------
             if model_name == "CHAT_GPT": # Calling chatgpt api model
                 answer = get_code_llm_openai(question)
@@ -41,7 +42,7 @@ def generate_domain(question, model_name, error_code):
                     paragraph = '\n'.join(conversational_texts)
                     save_text_to_file(paragraph, 'testingfolder/conversation.md')
                     time.sleep(3)
-                    return conversational_texts[-1]
+                    return conversational_texts[-1].split("LLM MODEL",1)[1]
             
             # ------- Calling HUGGING CHAT API for Generating PDDL Code. -------
             elif model_name == "HUGGING_FACE": # Calling huggingface api model
@@ -51,13 +52,18 @@ def generate_domain(question, model_name, error_code):
                     conversational_texts.append("**USER** :" + question) 
                     conversational_texts.append("**LLM MODEL** ({}):".format(model_used) +"\n"+str(answer['text'])+"\n")
                     paragraph = '\n'.join(conversational_texts)
-                    save_text_to_file(paragraph, 'testingfolder/convo_mistral_ai_blocks.md')
-                    return conversational_texts[-1]
+                    save_text_to_file(paragraph, 'testingfolder/conversation.md')
+                    time.sleep(3)
+                    text_return = conversational_texts[-1].split("(HUGGING_FACE):",1)[1]
+                    print(answer['answer'])
+                    # print(text_return)
+                    logging.error("ERROR : "+str(global_counter)+ " : "+text_return)
+                    sys.exit("ERROR : "+str(global_counter)+ " : "+text_return)
             else:
                 return "Invalid Model Name. Please provide a valid model name."
             
             conversational_texts.append("**USER** :\n" + question) # Appending user input to conversational_texts
-            conversational_texts.append("**LLM MODEL** ({}):".format(model_name)+"\n```pddl"+ answer['answer'] + "\n```") # Appending LLM model output to conversational_texts
+            conversational_texts.append("**LLM MODEL** ({}):".format(model_name)+"\n```pddl \n"+ answer['answer'] + "\n```") # Appending LLM model output to conversational_texts
             
             save_text_to_file(answer['answer'], file_path) # Saving the generated code to a file
         
@@ -88,7 +94,7 @@ def generate_domain(question, model_name, error_code):
                     error = code_with_error + "\n The above PDDL code produces the following error -> " + str(question) + "\n\n Requirement 1: Correct the error and give the entire PDDL code. \n Requirement 2: Do not create a problem file. Do not use conditional expressions. \n Requirement 3: Generate PDDL domain code in code blocks delimited only between ```pddl <CODE></CODE> ```. Do not give any explanations."
                     error_formatted = "\n```pddl\n"+code_with_error +"\n```"+"\n The above code produces the following error: " + str(question) + "\n\n Requirement 1: Correct the error and give the entire PDDL code. \n Requirement 2: Do not create a problem file. Do not use conditional expressions. \n Requirement 3: Generate PDDL domain code in code blocks delimited only between ```pddl <CODE></CODE> ```. Do not give any explanations."
                     conversational_texts.append("**USER** :" + error_formatted) # Appending user input to conversational_texts
-                    logging.info("=========== CHAT COUNT ==========>> " + str(global_counter)) # Printing the global counter for the number of times the API is called.
+                    logging.error("=========== CHAT COUNT ==========>> " + str(global_counter)) # Printing the global counter for the number of times the API is called.
                     answer = get_code_llm_openai(error) # Calling ChatGPT API for Generating PDDL Code for the error.
                     time.sleep(3)
                     
@@ -121,38 +127,55 @@ def generate_domain(question, model_name, error_code):
                     
             elif model_used == "HUGGING_FACE": # Calling huggingface api model
                 
-                if global_counter <= 30:
-                    error = code_with_error + "\n The above PDDL code produces the following error -> " + str(question) + "\n\n Requirement 1: Correct the error and give the entire PDDL code. \n Requirement 2: Do not create a problem file. Do not use conditional expressions. \n Requirement 3: Generate PDDL domain code in code blocks delimited only between ```pddl <CODE></CODE> ```. Do not give any explanations."
+                if global_counter <= 15:
+                    error = code_with_error + "\n \n The above PDDL code produces the following error -> " + str(question) + "\n\n Please follow below instructions: \n\n Instruction 1: Correct the error and only give the entire PDDL code for solving in a STRIPS Planner.\n Instruction 2: Do not create a problem file and do not use conditional expressions.\n Instruction 3: Give your output as the PDDL code in code blocks delimited only between ```pddl <CODE></CODE> ``` without any explanations."
             
-                    error_formatted = "\n```pddl\n"+code_with_error +"\n```"+"\n The above code produces the following error: " + str(question) + "\n\n Requirement 1: Correct the error and give the entire PDDL code. \n Requirement 2: Do not create a problem file. Do not use conditional expressions. \n Requirement 3: Generate PDDL domain code in code blocks delimited only between ```pddl <CODE></CODE> ```. Do not give any explanations."
+                    error_formatted = "\n```pddl\n"+code_with_error +"\n```"+"\n \n The above code produces the following error: " + str(question) + "\n\n Please follow below instructions: \n \n Instruction 1: Correct the error and only give the entire PDDL code for solving in a STRIPS Planner.\n Instruction 2: Do not create a problem file and do not use conditional expressions.\n Instruction 3: Give your output as the PDDL code in code blocks delimited only between ```pddl <CODE></CODE> ``` without any explanations."
+            
                     conversational_texts.append("**USER** :" + error_formatted) # Appending user input to conversational_texts
-                    logging.info("=========== CHAT COUNT ==========>> " + str(global_counter)) # Printing the global counter for the number of times the API is called.
+                    print("=========== CHAT COUNT ==========>> " + str(global_counter)) # Printing the global counter for the number of times the API is called.
+                    logging.error("=========== CHAT COUNT ==========>> " + str(global_counter)) # Printing the global counter for the number of times the API is called.
                     answer = hugchatter(error)
+                    time.sleep(3)
                     # flag = {'flag':False, 'chatID':answer['chatID'], 'cookies':answer['cookies']}
                     if answer['answer']=="NO RESULT FOUND":
                         conversational_texts.append("**LLM MODEL** ({}):".format(model_used) +"\n"+str(answer['text'])+"\n")
                         paragraph = '\n'.join(conversational_texts)
-                        save_text_to_file(paragraph, 'testingfolder/convo_mistral_ai_blocks.md')
-                        text_return = conversational_texts[-1].split("**LLM MODEL**",1)[1]
+                        save_text_to_file(paragraph, 'testingfolder/conversation.md')
+                        time.sleep(3)
+                        text_return = conversational_texts[-1].split("(HUGGING_FACE):",1)[1]
+                        print(answer['answer'])
+                        # print(text_return)
+                        logging.error("ERROR : "+str(global_counter)+ " : "+text_return)
+                        sys.exit("ERROR : "+str(global_counter)+ " : "+text_return)
                         return text_return
                     
-                    conversational_texts.append("**LLM MODEL** ({}):".format(model_used) +"\n```pddl"+ answer['answer'] + "\n```") # Appending LLM model output to conversational_texts
+                    conversational_texts.append("**LLM MODEL** ({}):".format(model_used) +"\n```pddl \n"+ answer['answer'] + "\n```") # Appending LLM model output to conversational_texts
                     save_text_to_file(answer["answer"], "testingfolder/sampledomain.pddl")
+                    time.sleep(3)
                     global_counter += 1
                     final = llm_to_pddl(True)
                     if final['success']:
+                        logging.error("SUCCESS : "+str(global_counter))
                         final['domain'] = conversational_texts[-1]
-                        return final
+                        paragraph = '\n'.join(conversational_texts)
+                        save_text_to_file(paragraph, 'testingfolder/conversation.md')
+                        time.sleep(3)
+                        logging.info(final)
+                        sys.exit("SUCCESS : "+str(global_counter))
+                        return final['domain'].split("pddl",1)[1].split('```')[0]
                 else:
                     try:
                         paragraph = '\n'.join(conversational_texts)
-                        save_text_to_file(paragraph, 'testingfolder/convo_mistral_ai_blocks.md')
-                        text_return = conversational_texts[-1].split("**LLM MODEL**",1)[1]
+                        save_text_to_file(paragraph, 'testingfolder/conversation.md')
+                        text_return = conversational_texts[-1].split("pddl",1)[1].split('```')[0]
                         return text_return
                     except Exception as e:
-                        print(" ----- API COUNTER ENDED ----- > ", e)
+                        logging.error("ERROR : "+str(global_counter))
+                        logging.error(" ----- API COUNTER ENDED ----- > " + str(e))
                         return "--- API ERROR: Please try again later !!!!! ----"
     
     except Exception as e:
         logging.error(" < --------- Exited Code -------- > ")
-        return conversational_texts[-1].split("pddl",1)[1].split('```')[0]
+        sys.exit(" < --------- Exited Code -------- > ")
+        # return conversational_texts[-1].split("pddl",1)[1].split('```')[0]
