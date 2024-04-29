@@ -394,7 +394,7 @@ def _parse_type_helper(iter, type_class):
                     # raise ValueError(
                     #     "Error multiple parent definition must " 'start with "either"'
                     # )
-                    receiver({'error_number': 7, 'error':"There is a value error where multiple parent definition must start with 'either'"})
+                    receiver({'error_number': 7, 'error':"There is a value error where multiple parent definition must start with 'either'."})
                     
                 tlist = parse_list_template(_parse_string_helper, types_iter)
                 while len(tmpList) != 0:
@@ -439,7 +439,7 @@ def parse_keyword(iter):
     # ensure keyword starts with ':'
     if name[0] != ":":
         # raise ValueError('Error keywords have to start with a colon ":"')
-        receiver({'error_number': 10, 'error':'There is a value error where keywords have to start with a colon ":"'})
+        receiver({'error_number': 10, 'error':'There is a value error where keywords have to start with a colon ":". For example, ":requirements", ":predicates", ":action", ":parameters", ":precondition" and ":effect" are valid keywords.'})
         
     return Keyword(name[1:])
 
@@ -461,11 +461,11 @@ def parse_variable(iter):
     name = iter.get_word()
     if name == "":
         # raise ValueError("Error empty variable found")
-        receiver({'error_number': 11, 'error':"There is a value error where empty variable found"})
+        receiver({'error_number': 11, 'error':"There is a value error where empty variable found."})
     # ensure variable starts with '?'
     if name[0] != "?":
         # raise ValueError('Error variables must start with a "?"')
-        receiver({'error_number': 12, 'error':'There is a value error where variables must start with a "?"'})
+        receiver({'error_number': 12, 'error':'There is a value error where variables must start with a "?".'})
         
     return Variable(name, None)
 
@@ -505,7 +505,7 @@ def parse_requirements_stmt(iter):
         # raise ValueError(
         #     "Error requirements list must contain keyword " '":requirements"'
         # )
-        receiver({'error_number': 14, 'error':"There is a value error where requirements list must contain keyword ':requirements'"})
+        receiver({'error_number': 14, 'error':"There is a value error where requirements list must contain keyword ':requirements'."})
         
     keywords = parse_keyword_list(iter)
     return RequirementsStmt(keywords)
@@ -652,7 +652,7 @@ def parse_action_stmt(iter):
     # each action begins with a name
     if not iter.try_match(":action"):
         # raise ValueError('Error: action must start with ":action" keyword!')
-        receiver({'error_number': 19, 'error':'There is a value error where action must start with ":action" keyword'})
+        receiver({'error_number': 19, 'error':'There is a value error where action must start with ":action" keyword.'})
         
     name = parse_name(iter, "action")
     # call parsers to parse parameters, precondition, effect
@@ -691,7 +691,7 @@ def parse_domain_def(iter):
         #     "Invalid domain definition! --> domain definition "
         #     'must start with "define"'
         # )
-        receiver({'error_number': 21, 'error':"There is a value error where there is invalid domain definition. Domain definition must start with 'define'"})
+        receiver({'error_number': 21, 'error':"There is a value error where there is invalid domain definition. Domain definition must start with 'define'."})
         
     dom = parse_domain_stmt(next(iter))
     # create new DomainDef
@@ -727,7 +727,7 @@ def parse_domain_def(iter):
         key = parse_keyword(next_iter.peek())
         if key.name != "action":
             # raise ValueError("Error: Found invalid keyword while parsing " "actions")
-            receiver({'error_number': 23, 'error':"There is a value error on finding invalid keyword while parsing actions"})
+            receiver({'error_number': 23, 'error':"There is a value error on finding invalid keyword while parsing actions."})
             
         action = parse_action_stmt(next_iter)
         domain.actions.append(action)

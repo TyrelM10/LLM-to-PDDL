@@ -37,7 +37,7 @@ def parse_nested_list(input_file):
     for tok in tokens:  # Check that generator is exhausted.
         
         # raise ParseError("Unexpected token: %s." % tok)
-        receiver({'error_number': 3, 'error':"There was an error in parsing the code."+"Got unexpected token: %s." % tok})
+        receiver({'error_number': 3, 'error':"There was an error in parsing the code."+" Got unexpected token: %s." % tok})
     return result
 
 
@@ -60,4 +60,4 @@ def _parse_list_aux(tokenstream):
             yield token
     # If we exhausted the stream, the list is unbalanced.
     # raise ParseError("missing closing parenthesis")
-    receiver({'error_number': 4, 'error':"There was an error in parsing the code. Missing closing parenthesis"})
+    receiver({'error_number': 4, 'error':"There was an error in parsing the code. Missing closing parenthesis. Please check the parenthesis."})

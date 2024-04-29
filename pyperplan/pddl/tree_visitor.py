@@ -328,7 +328,7 @@ class TraversePDDLDomain(PDDLVisitor):
                     # raise SemanticError(
                     #     "Error unknown type " + t + " used in predicate definition"
                     # )
-                    receiver({'error_number': 35, 'error':"There is a semantic error where unknown type " + t + " is used in predicate definition."})
+                    receiver({'error_number': 35, 'error':"There is a semantic error where unknown type '" + t + "' is used in predicate definition."})
                     
                 typelist.append(self._types[t])
             # Store variable information (var_name, tuple(types)) in node.
@@ -373,7 +373,7 @@ class TraversePDDLDomain(PDDLVisitor):
             #     "predicate " + c.key + " in precondition of "
             #     "action"
             # )
-            receiver({'error_number': 36, 'error':"There is a semantic error where there are wrong number of arguments for predicate '" + c.key + "' in precondition of action."})
+            receiver({'error_number': 36, 'error':"There is a semantic error where there are wrong number of arguments for predicate '" + c.key + "' in precondition of action '"+ self.action_name +"'."})
         # Apply to all arguments.
         for v in c.children:
             if isinstance(v.key, Variable):
@@ -454,7 +454,7 @@ class TraversePDDLDomain(PDDLVisitor):
             #     "Error: unknown predicate %s used in effect "
             #     "of action" % nextPredicate.key
             # )
-            receiver({'error_number': 41, 'error':"There is a semantic error where unknown predicate '{0}' used in effect of action. Please do not use '{0}' and use existing predicates from the above code only. Please do not use any conditional expression in the code to remove this error.".format(nextPredicate.key)})
+            receiver({'error_number': 41, 'error':"There is a semantic error where unknown predicate '{0}' used in effect of action {1}. Please do not use '{0}' and use existing predicates from the above code only. Please do not use any conditional expression in the code to remove this error.".format(nextPredicate.key, self.action_name)})
             
         if nextPredicate == None:
             # raise SemanticError("Error: NoneType predicate used in effect of " "action")
