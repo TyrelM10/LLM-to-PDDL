@@ -64,7 +64,7 @@ def hugchatter(question):
     # print(len(models))
     # question = "[INST]" + question + "[/INST]"
     # Non stream response
-    query_result = chatbot.query(question, temperature=0, web_search=False, stream=False)
+    query_result = chatbot.query(question, temperature=0.0, web_search=False, stream=False)
     # time.sleep(10)
     save_text_to_file(query_result['text'], "query_result.txt")
     length_file = read_file_length("query_result.txt")

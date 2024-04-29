@@ -1,0 +1,35 @@
+
+(define (domain freecell)
+  (:predicates 
+    (on-top?card?column)
+    (in-freecell?card?freecell)
+    (in-homecell?card?homecell)
+    (is-suit?card?suit)
+    (is-value?card?value)
+    (is-opposite-color?suit1?suit2)
+    (is-one-higher?value1?value2)
+    (is-empty?column)
+    (is-empty-freecell?freecell)
+    (is-homecell-empty?homecell)
+  )
+  (:action move-to-freecell
+    :parameters (?card?column?freecell)
+    :precondition (and (on-top?card?column) (is-empty-freecell?freecell))
+    :effect (and (in-freecell?card?freecell) (not (on-top?card?column)))
+  )
+  (:action move-to-homecell
+    :parameters (?card?column?homecell)
+    :precondition (and (on-top?card?column) (is-homecell-empty?homecell) (is-suit?card?suit) (is-value?card?value) (is-value?homecell 0))
+    :effect (and (in-homecell?card?homecell) (not (on-top?card?column)))
+  )
+  (:action move-to-column
+    :parameters (?card?column1?column2)
+    :precondition (and (on-top?card?column1) (is-opposite-color?suit1?suit2) (is-one-higher?value2?value1) (is-empty?column2))
+    :effect (and (on-top?card?column2) (not (on-top?card?column1)))
+  )
+  (:action move-from-freecell-to-column
+    :parameters (?card?freecell?column)
+    :precondition (and (in-freecell?card?freecell) (is-empty?column))
+    :effect (and (on-top?card?column) (not (in-freecell?card?freecell)))
+  )
+)

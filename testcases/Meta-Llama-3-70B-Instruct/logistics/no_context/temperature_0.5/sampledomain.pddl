@@ -1,4 +1,4 @@
-```pddl
+
 (define (domain logistics)
   (:predicates 
     (at?obj?loc)
@@ -29,4 +29,3 @@
       :effect (at?obj?loc)
     )
 )
-```
