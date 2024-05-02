@@ -1,38 +1,36 @@
 
 (define (domain robot-domain)
   (:requirements :strips)
-  
-  (:types ball room gripper)
-  
   (:predicates
-    (at-robot ?r - room)
-    (at-ball ?b - ball ?r - room)
-    (in-gripper ?g - gripper ?b - ball)
-    (empty ?g - gripper)
-    (goal-achieved)
+    (at-robot ?room)
+    (at-ball ?ball ?room)
+    (empty ?gripper)
+    (holding ?gripper ?ball)
+    (full ?gripper)
+    (goal-reached)
   )
   
   (:action pick-up
-    :parameters (?g - gripper ?b - ball ?r - room)
-    :precondition (at-robot ?r) (at-ball ?b ?r) (empty ?g)
-    :effect (and (in-gripper ?g ?b) (not (at-ball ?b ?r)))
+    :parameters (?gripper ?ball ?room)
+    :precondition (and (at-robot ?room) (at-ball ?ball ?room) (empty ?gripper))
+    :effect (and (holding ?gripper ?ball) (not (at-ball ?ball ?room)) (not (empty ?gripper)))
   )
   
   (:action put-down
-    :parameters (?g - gripper ?b - ball ?r - room)
-    :precondition (at-robot ?r) (in-gripper ?g ?b)
-    :effect (and (at-ball ?b ?r) (not (in-gripper ?g ?b)))
+    :parameters (?gripper ?ball ?room)
+    :precondition (and (at-robot ?room) (holding ?gripper ?ball))
+    :effect (and (at-ball ?ball ?room) (empty ?gripper) (not (holding ?gripper ?ball)))
   )
   
   (:action move
-    :parameters (?from - room ?to - room)
+    :parameters (?from ?to)
     :precondition (at-robot ?from)
-    :effect (and (at-robot ?to) (not (at-robot ?from)))
+    :effect (at-robot ?to)
   )
   
-  (:action increase-goal
-    :parameters ()
-    :precondition (not (goal-achieved))
-    :effect (goal-achieved)
+  (:action unload
+    :parameters (?gripper)
+    :precondition (and (at-robot ?room) (empty ?gripper))
+    :effect (goal-reached)
   )
 )

@@ -627,9 +627,9 @@ def _parse_precondition_or_effect(iter, keyword, type):
         # print(iter)
         # print(iter.peek().get_word())
         if type.__name__ == 'PreconditionStmt':
-            receiver({'error_number': 18, 'error':f'There is a value error where Predicate Statement must start with "{keyword}" keyword and not "{iter.peek().get_word()}."'})
+            receiver({'error_number': 18, 'error':f'There is a value error where predicate statement must start with "{keyword}" keyword and not "{iter.peek().get_word()}. Make sure that the action has only 1 effect statement, 1 precondition statement and 1 parameters statement and not multiple.'})
         elif type.__name__ == 'EffectStmt':
-            receiver({'error_number': 18, 'error':f'There is a value error where Effect Statement must start with "{keyword}" keyword  and not "{iter.peek().get_word()}."'})
+            receiver({'error_number': 18, 'error':f'There is a value error where effect statement must start with "{keyword}" keyword  and not "{iter.peek().get_word()}. Make sure that the action has only 1 effect statement, 1 precondition statement and 1 parameters statement  and not multiple."'})
         
     cond = parse_formula(next(iter))
     return type(cond)

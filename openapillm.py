@@ -15,7 +15,7 @@ openai.api_key = OPEN_AI_API
 
 def get_code_llm_openai(message):
     try:
-        messages = [{"role": "system", "content": "Generate PDDL domain code for natural language text descriptions. Do not add comments and explanations to the code."}]
+        messages = [{"role": "system", "content": "You are an assistant to generate PDDL code for natural language text input descriptions and correct errors in PDDL code to solve in a STRIPS Planner. Please do not add comments and explanations to the output and only give code in PDDL format in code blocks designed as ```pddl (Your Generated Code Here) ```."}]
         print("RUNNING CHAT GPT API CODE")
         while True:
             if message:
@@ -23,7 +23,7 @@ def get_code_llm_openai(message):
                     {"role": "user", "content": message},
                 )
                 chat = openai.ChatCompletion.create(
-                    model="gpt-3.5-turbo", messages=messages, temperature=1
+                    model="gpt-3.5-turbo", messages=messages, temperature=0
                 )
             try:
                 reply = str(chat.choices[0].message.content).split("pddl",1)[1].split('```')[0]

@@ -33,8 +33,11 @@ def generate_domain(question, model_name, error_code):
             # question = question+"\n \n Instruction: Generate PDDL domain code for the above text description in code blocks delimited only between ```pddl <CODE></CODE> ```. This code should be solved in a STRIPS Planner. Do not give any explanations."
             
             # Initialising the question with the user input for MISTRALAI.
-            question = question+"\n \n Instruction: Generate PDDL domain code for the above text description in code blocks delimited only between ```pddl <CODE></CODE> ```. This code should be solved in a STRIPS Planner. Do not give any explanations in the output."
+            # question = question+"\n \nInstruction: Generate PDDL domain code for the above text description in code blocks delimited only between ```pddl <CODE></CODE> ```. This code should be solved in a STRIPS Planner. Do not give any explanations in the output."
             # question = question+"\n \n Requirement: Generate PDDL / STRIPS domain code for the above text description in code blocks delimited only between ```pddl <CODE></CODE> ```. This code should be solved in a STRIPS Planner. Do not give any explanations."
+            
+            # Initialising the question with the user input for ChatGPT.
+            question = question + "\n \nRequirement: Generate PDDL domain code for the above text description in code blocks delimited only between ```pddl <CODE></CODE> ```. Do not give any explanations."
             
             #  ------- Calling ChatGPT API for Generating PDDL Code. -------
             if model_name == "CHAT_GPT": # Calling chatgpt api model
@@ -94,7 +97,7 @@ def generate_domain(question, model_name, error_code):
             
             #  ------- Calling ChatGPT API for Generating PDDL Code. -------
             if model_used == "CHAT_GPT": # Calling chatgpt api model
-                if global_counter <= 5:
+                if global_counter <= 9:
                     error = code_with_error + "\n The above PDDL code produces the following error -> " + str(question) + "\n\n Requirement 1: Correct the error and give the entire PDDL code. \n Requirement 2: Do not create a problem file. Do not use conditional expressions. \n Requirement 3: Generate PDDL domain code in code blocks delimited only between ```pddl <CODE></CODE> ```. Do not give any explanations."
                     error_formatted = "\n```pddl\n"+code_with_error +"\n```"+"\n The above code produces the following error: " + str(question) + "\n\n Requirement 1: Correct the error and give the entire PDDL code. \n Requirement 2: Do not create a problem file. Do not use conditional expressions. \n Requirement 3: Generate PDDL domain code in code blocks delimited only between ```pddl <CODE></CODE> ```. Do not give any explanations."
                     conversational_texts.append("**USER** :" + error_formatted) # Appending user input to conversational_texts
