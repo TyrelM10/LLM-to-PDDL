@@ -1,699 +1,861 @@
 **USER** :
 This domain was devised in order to see what would happen if two previously well-researched domains were joined together. These were the logistics and blocks domains. They are combined to form a domain in which trucks can transport crates around and then the crates must be stacked onto pallets at their destinations. The stacking is achieved using hoists, so the stacking problem is like a blocks-world problem with hands. Trucks can behave like "tables", since the pallets on which crates are stacked are limited.
  
- Requirement: Generate PDDL domain code for the above text description in code blocks delimited only between ```pddl <CODE></CODE> ```. This code should be solved in a STRIPS Planner. Do not give any explanations.
+ Instruction: Generate PDDL domain code for the above text description in code blocks delimited only between ```pddl <CODE></CODE> ```. This code should be solved in a STRIPS Planner. Do not give any explanations in the output.
 **LLM MODEL** (HUGGING_FACE):
+```pddl 
+
+(define (domain LogisticsBlocksWorld)
+    (:requirements :strips :typing)
+    
+    ;; Define object types
+    (:types location truck crate pallet hoist)
+    
+    ;; Define predicates
+    (:predicate (location ?x - location))
+    (:predicate (truck-at ?t - truck ?l - location))
+    (:predicate (holding ?h - hoist ?c - crate))
+    (:predicate (on ?c1 - crate ?c2 - crate))
+    (:predicate (ontable ?c - crate ?p - pallet))
+    (:predicate (free ?h - hoist))
+    (:predicate (clear ?x - crate))
+    (:predicate (carrying ?t - truck ?c - crate))
+    (:predicate (full ?p - pallet))
+    
+    ;; Define actions
+    (:action load-crane
+        :parameters (?h - hoist ?c - crate ?l - location)
+        :precondition (and (holding nothing) (clear ?c) (location ?h ?l) (location ?c ?l))
+        :effect (and (not (clear ?c)) (holding ?h ?c)))
+    
+    (:action unload-crane
+        :parameters (?h - hoist ?c - crate ?l - location)
+        :precondition (holding ?h ?c)
+        :effect (and (clear ?c) (not (holding ?h ?c)) (ontable ?c ?l)))
+    
+    (:action pick-up-crate
+        :parameters (?t - truck ?c - crate ?l - location)
+        :precondition (and (carrying nothing) (clear ?c) (truck-at ?t ?l) (ontable ?c ?l))
+        :effect (and (not (clear ?c)) (carrying ?t ?c)))
+    
+    (:action put-down-crate
+        :parameters (?t - truck ?c - crate ?l - location)
+        :precondition (and (carrying ?t ?c) (truck-at ?t ?l))
+        :effect (and (clear ?c) (not (carrying ?t ?c)) (ontable ?c ?l)))
+    
+    (:action move-truck
+        :parameters (?t - truck ?from - location ?to - location)
+        :precondition (and (truck-at ?t ?from))
+        :effect (and (not (truck-at ?t ?from)) (truck-at ?t ?to))))
+
+```
+**USER** :
 ```pddl
-(define (domain truck_and_hoist)
+
+(define (domain LogisticsBlocksWorld)
+    (:requirements :strips :typing)
+    
+    ;; Define object types
+    (:types location truck crate pallet hoist)
+    
+    ;; Define predicates
+    (:predicate (location ?x - location))
+    (:predicate (truck-at ?t - truck ?l - location))
+    (:predicate (holding ?h - hoist ?c - crate))
+    (:predicate (on ?c1 - crate ?c2 - crate))
+    (:predicate (ontable ?c - crate ?p - pallet))
+    (:predicate (free ?h - hoist))
+    (:predicate (clear ?x - crate))
+    (:predicate (carrying ?t - truck ?c - crate))
+    (:predicate (full ?p - pallet))
+    
+    ;; Define actions
+    (:action load-crane
+        :parameters (?h - hoist ?c - crate ?l - location)
+        :precondition (and (holding nothing) (clear ?c) (location ?h ?l) (location ?c ?l))
+        :effect (and (not (clear ?c)) (holding ?h ?c)))
+    
+    (:action unload-crane
+        :parameters (?h - hoist ?c - crate ?l - location)
+        :precondition (holding ?h ?c)
+        :effect (and (clear ?c) (not (holding ?h ?c)) (ontable ?c ?l)))
+    
+    (:action pick-up-crate
+        :parameters (?t - truck ?c - crate ?l - location)
+        :precondition (and (carrying nothing) (clear ?c) (truck-at ?t ?l) (ontable ?c ?l))
+        :effect (and (not (clear ?c)) (carrying ?t ?c)))
+    
+    (:action put-down-crate
+        :parameters (?t - truck ?c - crate ?l - location)
+        :precondition (and (carrying ?t ?c) (truck-at ?t ?l))
+        :effect (and (clear ?c) (not (carrying ?t ?c)) (ontable ?c ?l)))
+    
+    (:action move-truck
+        :parameters (?t - truck ?from - location ?to - location)
+        :precondition (and (truck-at ?t ?from))
+        :effect (and (not (truck-at ?t ?from)) (truck-at ?t ?to))))
+
+```
+
+The above code produces the following error -> There is a value error on finding unknown keyword in domain definition: 'predicate'. Valid keyword representations in definition are ':requirements', ':types', ':predicates', ':constants' and ':action'. Remove the unknown keyword 'predicate' from definition and update the code.
+
+Instruction 1: Correct the error and give the entire PDDL code in code blocks and please do not give any explanations in the output.
+Instruction 2: Do not create a problem file and do not use conditional expressions.
+**LLM MODEL** (HUGGING_FACE):
+```pddl 
+
+(define (domain LogisticsBlocksWorld)
   (:requirements :strips :typing)
   
-  ;; Define types of objects
-  (:types location crate truck pallet hoist)
+  ;; Define object types
+  (:types location truck crate pallet hoist)
   
   ;; Define predicates
-  (:predicate (on ?c - crate ?pl - pallet)        ; Crate c is on pallet p
-              (clear ?pl - pallet)                ; No crate is directly on pallet p
-              (holding ?h - hoist ?c - crate))    ; Hoist h is holding crate c
+  (:predicates
+    (location ?x - location)
+    (truck-at ?t - truck ?l - location)
+    (holding ?h - hoist ?c - crate)
+    (on ?c1 - crate ?c2 - crate)
+    (ontable ?c - crate ?p - pallet)
+    (free ?h - hoist)
+    (clear ?x - crate)
+    (carrying ?t - truck ?c - crate)
+    (full ?p - pallet))
   
   ;; Define actions
-  (:action pickup
-    :parameters (?h - hoist ?c - crate ?pl - pallet)
-    :precondition (and (clear ?pl) (on ?c ?pl) (at ?h ?pl))
-    :effect (and (not (on ?c ?pl)) (not (clear ?pl)) (holding ?h ?c)))
+  (:action load-crane
+      :parameters (?h - hoist ?c - crate ?l - location)
+      :precondition (and (holding nothing) (clear ?c) (location ?h ?l) (location ?c ?l))
+      :effect (and (not (clear ?c)) (holding ?h ?c)))
   
-  (:action putdown
-    :parameters (?h - hoist ?c - crate ?pl - pallet)
-    :precondition (holding ?h ?c)
-    :effect (and (on ?c ?pl) (clear ?pl) (not (holding ?h ?c))))
+  (:action unload-crane
+      :parameters (?h - hoist ?c - crate ?l - location)
+      :precondition (holding ?h ?c)
+      :effect (and (clear ?c) (not (holding ?h ?c)) (ontable ?c ?l)))
   
-  (:action load
-    :parameters (?truck - truck ?crateload - crate+ ?pl1 - pallet ?pl2 - pallet)
-    :precondition (and (at ?truck ?pl1) (or (null ?crateload) (and (on ?crateload ?pl2) (clear ?pl2))))
-    :effect (and (if ?crateload (on ?crateload ?truck)) (not (on ?crateload ?pl2)) (not (clear ?pl2)))))
+  (:action pick-up-crate
+      :parameters (?t - truck ?c - crate ?l - location)
+      :precondition (and (carrying nothing) (clear ?c) (truck-at ?t ?l) (ontable ?c ?l))
+      :effect (and (not (clear ?c)) (carrying ?t ?c)))
   
-  (:action unload
-    :parameters (?truck - truck ?crateload - crate+ ?pl - pallet)
-    :precondition (and (at ?truck ?pl) (on ?crateload ?truck))
-    :effect (and (on ?crateload ?pl) (clear ?pl) (not (on ?crateload ?truck)))))
-
-  (:action move
-    :parameters (?truck - truck ?loc1 - location ?loc2 - location)
-    :precondition (and (at ?truck ?loc1))
-    :effect (and (not (at ?truck ?loc1)) (at ?truck ?loc2)))
-)
+  (:action put-down-crate
+      :parameters (?t - truck ?c - crate ?l - location)
+      :precondition (and (carrying ?t ?c) (truck-at ?t ?l))
+      :effect (and (clear ?c) (not (carrying ?t ?c)) (ontable ?c ?l)))
+  
+  (:action move-truck
+      :parameters (?t - truck ?from - location ?to - location)
+      :precondition (and (truck-at ?t ?from))
+      :effect (and (not (truck-at ?t ?from)) (truck-at ?t ?to))))
 
 ```
 **USER** :
 ```pddl
 
-(define (domain truck_and_hoist)
+(define (domain LogisticsBlocksWorld)
   (:requirements :strips :typing)
   
-  ;; Define types of objects
-  (:types location crate truck pallet hoist)
+  ;; Define object types
+  (:types location truck crate pallet hoist)
   
   ;; Define predicates
-  (:predicate (on ?c - crate ?pl - pallet)        ; Crate c is on pallet p
-              (clear ?pl - pallet)                ; No crate is directly on pallet p
-              (holding ?h - hoist ?c - crate))    ; Hoist h is holding crate c
+  (:predicates
+    (location ?x - location)
+    (truck-at ?t - truck ?l - location)
+    (holding ?h - hoist ?c - crate)
+    (on ?c1 - crate ?c2 - crate)
+    (ontable ?c - crate ?p - pallet)
+    (free ?h - hoist)
+    (clear ?x - crate)
+    (carrying ?t - truck ?c - crate)
+    (full ?p - pallet))
   
   ;; Define actions
-  (:action pickup
-    :parameters (?h - hoist ?c - crate ?pl - pallet)
-    :precondition (and (clear ?pl) (on ?c ?pl) (at ?h ?pl))
-    :effect (and (not (on ?c ?pl)) (not (clear ?pl)) (holding ?h ?c)))
+  (:action load-crane
+      :parameters (?h - hoist ?c - crate ?l - location)
+      :precondition (and (holding nothing) (clear ?c) (location ?h ?l) (location ?c ?l))
+      :effect (and (not (clear ?c)) (holding ?h ?c)))
   
-  (:action putdown
-    :parameters (?h - hoist ?c - crate ?pl - pallet)
-    :precondition (holding ?h ?c)
-    :effect (and (on ?c ?pl) (clear ?pl) (not (holding ?h ?c))))
+  (:action unload-crane
+      :parameters (?h - hoist ?c - crate ?l - location)
+      :precondition (holding ?h ?c)
+      :effect (and (clear ?c) (not (holding ?h ?c)) (ontable ?c ?l)))
   
-  (:action load
-    :parameters (?truck - truck ?crateload - crate+ ?pl1 - pallet ?pl2 - pallet)
-    :precondition (and (at ?truck ?pl1) (or (null ?crateload) (and (on ?crateload ?pl2) (clear ?pl2))))
-    :effect (and (if ?crateload (on ?crateload ?truck)) (not (on ?crateload ?pl2)) (not (clear ?pl2)))))
+  (:action pick-up-crate
+      :parameters (?t - truck ?c - crate ?l - location)
+      :precondition (and (carrying nothing) (clear ?c) (truck-at ?t ?l) (ontable ?c ?l))
+      :effect (and (not (clear ?c)) (carrying ?t ?c)))
   
-  (:action unload
-    :parameters (?truck - truck ?crateload - crate+ ?pl - pallet)
-    :precondition (and (at ?truck ?pl) (on ?crateload ?truck))
-    :effect (and (on ?crateload ?pl) (clear ?pl) (not (on ?crateload ?truck)))))
-
-  (:action move
-    :parameters (?truck - truck ?loc1 - location ?loc2 - location)
-    :precondition (and (at ?truck ?loc1))
-    :effect (and (not (at ?truck ?loc1)) (at ?truck ?loc2)))
-)
+  (:action put-down-crate
+      :parameters (?t - truck ?c - crate ?l - location)
+      :precondition (and (carrying ?t ?c) (truck-at ?t ?l))
+      :effect (and (clear ?c) (not (carrying ?t ?c)) (ontable ?c ?l)))
+  
+  (:action move-truck
+      :parameters (?t - truck ?from - location ?to - location)
+      :precondition (and (truck-at ?t ?from))
+      :effect (and (not (truck-at ?t ?from)) (truck-at ?t ?to))))
 
 ```
- The above code produces the following error: There was an error in parsing the code.Got unexpected token: (.
 
- Requirement 1: Correct the error and give the entire PDDL code for a STRIPS Planner. 
- Requirement 2: Do not create a problem file. Do not use conditional expressions. 
- Requirement 3: Generate PDDL domain code in code blocks delimited only between ```pddl <CODE></CODE> ```for a STRIPS Planner. Do not give any explanations.
+The above code produces the following error -> There is a semantic error where there are wrong number of arguments for predicate 'holding' in precondition of action 'load-crane'.
+
+Instruction 1: Correct the error and give the entire PDDL code in code blocks and please do not give any explanations in the output.
+Instruction 2: Do not create a problem file and do not use conditional expressions.
 **LLM MODEL** (HUGGING_FACE):
+```pddl 
+
+(define (domain LogisticsBlocksWorld)
+  (:requirements :strips :typing)
+
+  ;; Define object types
+  (:types location truck crate pallet hoist)
+
+  ;; Define predicates
+  (:predicates
+    (location ?x - location)
+    (truck-at ?t - truck ?l - location)
+    (holding ?h - hoist ?o - object)
+    (on ?c1 - crate ?c2 - crate)
+    (ontable ?c - crate ?p - pallet)
+    (free ?h - hoist)
+    (clear ?x - crate)
+    (carrying ?t - truck ?c - crate)
+    (full ?p - pallet))
+
+  ;; Define actions
+  (:action load-crane
+      :parameters (?h - hoist ?c - crate ?l - location)
+      :precondition (and (holding nothing) (clear ?c) (location ?h ?l) (location ?c ?l))
+      :effect (and (not (clear ?c)) (holding ?h ?c)))
+
+  (:action unload-crane
+      :parameters (?h - hoist ?c - crate ?l - location)
+      :precondition (holding ?h ?c)
+      :effect (and (clear ?c) (not (holding ?h ?c)) (ontable ?c ?l)))
+
+  (:action pick-up-crate
+      :parameters (?t - truck ?c - crate ?l - location)
+      :precondition (and (carrying nothing) (clear ?c) (truck-at ?t ?l) (ontable ?c ?l))
+      :effect (and (not (clear ?c)) (carrying ?t ?c)))
+
+  (:action put-down-crate
+      :parameters (?t - truck ?c - crate ?l - location)
+      :precondition (and (carrying ?t ?c) (truck-at ?t ?l))
+      :effect (and (clear ?c) (not (carrying ?t ?c)) (ontable ?c ?l)))
+
+  (:action move-truck
+      :parameters (?t - truck ?from - location ?to - location)
+      :precondition (and (truck-at ?t ?from))
+      :effect (and (not (truck-at ?t ?from)) (truck-at ?t ?to))))
+
+```
+**USER** :
 ```pddl
-(define (domain truck_and_hoist)
+
+(define (domain LogisticsBlocksWorld)
+  (:requirements :strips :typing)
+
+  ;; Define object types
+  (:types location truck crate pallet hoist)
+
+  ;; Define predicates
+  (:predicates
+    (location ?x - location)
+    (truck-at ?t - truck ?l - location)
+    (holding ?h - hoist ?o - object)
+    (on ?c1 - crate ?c2 - crate)
+    (ontable ?c - crate ?p - pallet)
+    (free ?h - hoist)
+    (clear ?x - crate)
+    (carrying ?t - truck ?c - crate)
+    (full ?p - pallet))
+
+  ;; Define actions
+  (:action load-crane
+      :parameters (?h - hoist ?c - crate ?l - location)
+      :precondition (and (holding nothing) (clear ?c) (location ?h ?l) (location ?c ?l))
+      :effect (and (not (clear ?c)) (holding ?h ?c)))
+
+  (:action unload-crane
+      :parameters (?h - hoist ?c - crate ?l - location)
+      :precondition (holding ?h ?c)
+      :effect (and (clear ?c) (not (holding ?h ?c)) (ontable ?c ?l)))
+
+  (:action pick-up-crate
+      :parameters (?t - truck ?c - crate ?l - location)
+      :precondition (and (carrying nothing) (clear ?c) (truck-at ?t ?l) (ontable ?c ?l))
+      :effect (and (not (clear ?c)) (carrying ?t ?c)))
+
+  (:action put-down-crate
+      :parameters (?t - truck ?c - crate ?l - location)
+      :precondition (and (carrying ?t ?c) (truck-at ?t ?l))
+      :effect (and (clear ?c) (not (carrying ?t ?c)) (ontable ?c ?l)))
+
+  (:action move-truck
+      :parameters (?t - truck ?from - location ?to - location)
+      :precondition (and (truck-at ?t ?from))
+      :effect (and (not (truck-at ?t ?from)) (truck-at ?t ?to))))
+
+```
+
+The above code produces the following error -> There is a semantic error where there are wrong number of arguments for predicate 'holding' in precondition of action 'load-crane'.
+
+Instruction 1: Correct the error and give the entire PDDL code in code blocks and please do not give any explanations in the output.
+Instruction 2: Do not create a problem file and do not use conditional expressions.
+**LLM MODEL** (HUGGING_FACE):
+```pddl 
+
+(define (domain LogisticsBlocksWorld)
+  (:requirements :strips :typing)
+
+  ;; Define object types
+  (:types location truck crate pallet hoist)
+
+  ;; Define predicates
+  (:predicates
+    (location ?x - location)
+    (truck-at ?t - truck ?l - location)
+    (holding ?h - hoist ?o - object)
+    (on ?c1 - crate ?c2 - crate)
+    (ontable ?c - crate ?p - pallet)
+    (free ?h - hoist)
+    (clear ?x - crate)
+    (carrying ?t - truck ?c - crate)
+    (full ?p - pallet))
+
+  ;; Define actions
+  (:action load-crane
+      :parameters (?h - hoist ?c - crate ?l - location)
+      :precondition (and (holding nil) (clear ?c) (location ?h ?l) (location ?c ?l))
+      :effect (and (not (clear ?c)) (holding ?h ?c)))
+
+  (:action unload-crane
+      :parameters (?h - hoist ?c - crate ?l - location)
+      :precondition (holding ?h ?c)
+      :effect (and (clear ?c) (not (holding ?h ?c)) (ontable ?c ?l)))
+
+  (:action pick-up-crate
+      :parameters (?t - truck ?c - crate ?l - location)
+      :precondition (and (carrying nil) (clear ?c) (truck-at ?t ?l) (ontable ?c ?l))
+      :effect (and (not (clear ?c)) (carrying ?t ?c)))
+
+  (:action put-down-crate
+      :parameters (?t - truck ?c - crate ?l - location)
+      :precondition (and (carrying ?t ?c) (truck-at ?t ?l))
+      :effect (and (clear ?c) (not (carrying ?t ?c)) (ontable ?c ?l)))
+
+  (:action move-truck
+      :parameters (?t - truck ?from - location ?to - location)
+      :precondition (and (truck-at ?t ?from))
+      :effect (and (not (truck-at ?t ?from)) (truck-at ?t ?to))))
+
+```
+**USER** :
+```pddl
+
+(define (domain LogisticsBlocksWorld)
+  (:requirements :strips :typing)
+
+  ;; Define object types
+  (:types location truck crate pallet hoist)
+
+  ;; Define predicates
+  (:predicates
+    (location ?x - location)
+    (truck-at ?t - truck ?l - location)
+    (holding ?h - hoist ?o - object)
+    (on ?c1 - crate ?c2 - crate)
+    (ontable ?c - crate ?p - pallet)
+    (free ?h - hoist)
+    (clear ?x - crate)
+    (carrying ?t - truck ?c - crate)
+    (full ?p - pallet))
+
+  ;; Define actions
+  (:action load-crane
+      :parameters (?h - hoist ?c - crate ?l - location)
+      :precondition (and (holding nil) (clear ?c) (location ?h ?l) (location ?c ?l))
+      :effect (and (not (clear ?c)) (holding ?h ?c)))
+
+  (:action unload-crane
+      :parameters (?h - hoist ?c - crate ?l - location)
+      :precondition (holding ?h ?c)
+      :effect (and (clear ?c) (not (holding ?h ?c)) (ontable ?c ?l)))
+
+  (:action pick-up-crate
+      :parameters (?t - truck ?c - crate ?l - location)
+      :precondition (and (carrying nil) (clear ?c) (truck-at ?t ?l) (ontable ?c ?l))
+      :effect (and (not (clear ?c)) (carrying ?t ?c)))
+
+  (:action put-down-crate
+      :parameters (?t - truck ?c - crate ?l - location)
+      :precondition (and (carrying ?t ?c) (truck-at ?t ?l))
+      :effect (and (clear ?c) (not (carrying ?t ?c)) (ontable ?c ?l)))
+
+  (:action move-truck
+      :parameters (?t - truck ?from - location ?to - location)
+      :precondition (and (truck-at ?t ?from))
+      :effect (and (not (truck-at ?t ?from)) (truck-at ?t ?to))))
+
+```
+
+The above code produces the following error -> There is a semantic error where there are wrong number of arguments for predicate 'holding' in precondition of action 'load-crane'.
+
+Instruction 1: Correct the error and give the entire PDDL code in code blocks and please do not give any explanations in the output.
+Instruction 2: Do not create a problem file and do not use conditional expressions.
+**LLM MODEL** (HUGGING_FACE):
+```pddl 
+
+(define (domain LogisticsBlocksWorld)
   (:requirements :strips :typing)
   
-  ;; Define types of objects
-  (:types location crate truck pallet hoist)
+  ;; Define object types
+  (:types location truck crate pallet hoist)
   
   ;; Define predicates
-  (:predicate (on ?c - crate ?pl - pallet)        ; Crate c is on pallet p
-              (clear ?pl - pallet)                ; No crate is directly on pallet p
-              (holding ?h - hoist ?c - crate))    ; Hoist h is holding crate c
+  (:predicates
+    (location ?x - location)
+    (truck-at ?t - truck ?l - location)
+    (holding ?h - hoist ?o - object)
+    (on ?c1 - crate ?c2 - crate)
+    (ontable ?c - crate ?p - pallet)
+    (free ?h - hoist)
+    (clear ?x - crate)
+    (carrying ?t - truck ?c - crate)
+    (full ?p - pallet))
   
   ;; Define actions
-  (:action pickup
-    :parameters (?h - hoist ?c - crate ?pl - pallet)
-    :precondition (and (clear ?pl) (on ?c ?pl) (at ?h ?pl))
-    :effect (and (not (on ?c ?pl)) (not (clear ?pl)) (holding ?h ?c)))
+  (:action load-crane
+      :parameters (?h - hoist ?c - crate ?l - location)
+      :precondition (and (not (holding ?h anything)) (clear ?c) (location ?h ?l) (location ?c ?l))
+      :effect (and (not (clear ?c)) (holding ?h ?c)))
   
-  (:action putdown
-    :parameters (?h - hoist ?c - crate ?pl - pallet)
-    :precondition (holding ?h ?c)
-    :effect (and (on ?c ?pl) (clear ?pl) (not (holding ?h ?c))))
+  (:action unload-crane
+      :parameters (?h - hoist ?c - crate ?l - location)
+      :precondition (holding ?h ?c)
+      :effect (and (clear ?c) (not (holding ?h ?c)) (ontable ?c ?l)))
   
-  (:action load
-    :parameters (?truck - truck ?crates - crate*)
-    :precondition (and (at ?truck some-location) (clear some-location))
-    :effect (forall (?c - crate . ?rest)
-                     (iff (member ?c ?crates)
-                          (and (on ?c ?truck)
-                               (not (on ?c some-location))
-                               (not (clear some-location)))))
-            (not (clear some-location))))
-
-  (:action unload
-    :parameters (?truck - truck ?crates - crate*)
-    :precondition (and (at ?truck some-location)
-                       (forall (?c - crate . ?rest)
-                               (if (member ?c ?crates)
-                                   (on ?c ?truck)
-                                   true))))
-    :effect (forall (?c - crate . ?rest)
-                     (iff (member ?c ?crates)
-                          (and (on ?c some-location)
-                               (clear some-location)
-                               (not (on ?c ?truck))))
-             (not (on some-other-crate some-location))))
-
-  (:action move
-    :parameters (?vehicle - vehicle ?fromLoc - location ?toLoc - location)
-    :precondition (and (at ?vehicle ?fromLoc))
-    :effect (and (not (at ?vehicle ?fromLoc)) (at ?vehicle ?toLoc))))
+  (:action pick-up-crate
+      :parameters (?t - truck ?c - crate ?l - location)
+      :precondition (and (not (carrying ?t anything)) (clear ?c) (truck-at ?t ?l) (ontable ?c ?l))
+      :effect (and (not (clear ?c)) (carrying ?t ?c)))
+  
+  (:action put-down-crate
+      :parameters (?t - truck ?c - crate ?l - location)
+      :precondition (and (carrying ?t ?c) (truck-at ?t ?l))
+      :effect (and (clear ?c) (not (carrying ?t ?c)) (ontable ?c ?l)))
+  
+  (:action move-truck
+      :parameters (?t - truck ?from - location ?to - location)
+      :precondition (and (truck-at ?t ?from))
+      :effect (and (not (truck-at ?t ?from)) (truck-at ?t ?to))))
 
 ```
 **USER** :
 ```pddl
 
-(define (domain truck_and_hoist)
+(define (domain LogisticsBlocksWorld)
   (:requirements :strips :typing)
   
-  ;; Define types of objects
-  (:types location crate truck pallet hoist)
+  ;; Define object types
+  (:types location truck crate pallet hoist)
   
   ;; Define predicates
-  (:predicate (on ?c - crate ?pl - pallet)        ; Crate c is on pallet p
-              (clear ?pl - pallet)                ; No crate is directly on pallet p
-              (holding ?h - hoist ?c - crate))    ; Hoist h is holding crate c
+  (:predicates
+    (location ?x - location)
+    (truck-at ?t - truck ?l - location)
+    (holding ?h - hoist ?o - object)
+    (on ?c1 - crate ?c2 - crate)
+    (ontable ?c - crate ?p - pallet)
+    (free ?h - hoist)
+    (clear ?x - crate)
+    (carrying ?t - truck ?c - crate)
+    (full ?p - pallet))
   
   ;; Define actions
-  (:action pickup
-    :parameters (?h - hoist ?c - crate ?pl - pallet)
-    :precondition (and (clear ?pl) (on ?c ?pl) (at ?h ?pl))
-    :effect (and (not (on ?c ?pl)) (not (clear ?pl)) (holding ?h ?c)))
+  (:action load-crane
+      :parameters (?h - hoist ?c - crate ?l - location)
+      :precondition (and (not (holding ?h anything)) (clear ?c) (location ?h ?l) (location ?c ?l))
+      :effect (and (not (clear ?c)) (holding ?h ?c)))
   
-  (:action putdown
-    :parameters (?h - hoist ?c - crate ?pl - pallet)
-    :precondition (holding ?h ?c)
-    :effect (and (on ?c ?pl) (clear ?pl) (not (holding ?h ?c))))
+  (:action unload-crane
+      :parameters (?h - hoist ?c - crate ?l - location)
+      :precondition (holding ?h ?c)
+      :effect (and (clear ?c) (not (holding ?h ?c)) (ontable ?c ?l)))
   
-  (:action load
-    :parameters (?truck - truck ?crates - crate*)
-    :precondition (and (at ?truck some-location) (clear some-location))
-    :effect (forall (?c - crate . ?rest)
-                     (iff (member ?c ?crates)
-                          (and (on ?c ?truck)
-                               (not (on ?c some-location))
-                               (not (clear some-location)))))
-            (not (clear some-location))))
-
-  (:action unload
-    :parameters (?truck - truck ?crates - crate*)
-    :precondition (and (at ?truck some-location)
-                       (forall (?c - crate . ?rest)
-                               (if (member ?c ?crates)
-                                   (on ?c ?truck)
-                                   true))))
-    :effect (forall (?c - crate . ?rest)
-                     (iff (member ?c ?crates)
-                          (and (on ?c some-location)
-                               (clear some-location)
-                               (not (on ?c ?truck))))
-             (not (on some-other-crate some-location))))
-
-  (:action move
-    :parameters (?vehicle - vehicle ?fromLoc - location ?toLoc - location)
-    :precondition (and (at ?vehicle ?fromLoc))
-    :effect (and (not (at ?vehicle ?fromLoc)) (at ?vehicle ?toLoc))))
+  (:action pick-up-crate
+      :parameters (?t - truck ?c - crate ?l - location)
+      :precondition (and (not (carrying ?t anything)) (clear ?c) (truck-at ?t ?l) (ontable ?c ?l))
+      :effect (and (not (clear ?c)) (carrying ?t ?c)))
+  
+  (:action put-down-crate
+      :parameters (?t - truck ?c - crate ?l - location)
+      :precondition (and (carrying ?t ?c) (truck-at ?t ?l))
+      :effect (and (clear ?c) (not (carrying ?t ?c)) (ontable ?c ?l)))
+  
+  (:action move-truck
+      :parameters (?t - truck ?from - location ?to - location)
+      :precondition (and (truck-at ?t ?from))
+      :effect (and (not (truck-at ?t ?from)) (truck-at ?t ?to))))
 
 ```
- The above code produces the following error: There was an error in parsing the code.Got unexpected token: (.
 
- Requirement 1: Correct the error and give the entire PDDL code for a STRIPS Planner. 
- Requirement 2: Do not create a problem file. Do not use conditional expressions. 
- Requirement 3: Generate PDDL domain code in code blocks delimited only between ```pddl <CODE></CODE> ```for a STRIPS Planner. Do not give any explanations.
+The above code produces the following error -> There is a semantic error where unknown predicate 'not' used in precondition statement of action name 'load-crane'. Remove negative literals from the precondition statement of the action having it and replan that action only. Try adding another predicate in the precondition statement to remove this error.
+
+Instruction 1: Correct the error and give the entire PDDL code in code blocks and please do not give any explanations in the output.
+Instruction 2: Do not create a problem file and do not use conditional expressions.
 **LLM MODEL** (HUGGING_FACE):
-```pddl
-(define (domain truck_and_hoist)
-  (:requirements :strips :typing)
-  
-  (:types location crate truck pallet hoist vehicle)
-  
-  (:predicate (on ?c - crate ?pl - pallet)         ; Crate c is on pallet p
-              (clear ?pl - pallet)                 ; No crate is directly on pallet p
-              (holding ?h - hoist ?c - crate)      ; Hoist h is holding crate c
-              (at ?v - vehicle ?l - location))      ; Vehicle v is at location l
-  
-  (:action pickup
-    :parameters (?h - hoist ?c - crate ?pl - pallet)
-    :precondition (and (clear ?pl) (on ?c ?pl) (at ?h ?pl))
-    :effect (and (not (on ?c ?pl)) (not (clear ?pl)) (holding ?h ?c) (not (at ?h ?pl)) (at ?h some-location)))
-  
-  (:action putdown
-    :parameters (?h - hoist ?c - crate ?pl - pallet)
-    :precondition (holding ?h ?c)
-    :effect (and (on ?c ?pl) (clear ?pl) (not (holding ?h ?c)) (at ?h some-location) (at ?h ?pl)))
-  
-  (:action load
-    :parameters (?t - truck ?cs - crate*)
-    :precondition (and (at ?t some-location) (clear some-location))
-    :effect (forall (?c - crate . ?rest)
-                     (iff (member ?c ?cs)
-                          (and (on ?c ?t)
-                               (not (on ?c some-location))
-                               (not (clear some-location)))
-                          (not (on ?c ?t)))))
-  
-  (:action unload
-    :parameters (?t - truck ?cs - crate*)
-    :precondition (and (at ?t some-location)
-                       (forall (?c - crate . ?rest)
-                               (if (member ?c ?cs)
-                                   (on ?c ?t)
-                                   true))))
-    :effect (forall (?c - crate . ?rest)
-                     (iff (member ?c ?cs)
-                          (and (on ?c some-location)
-                               (clear some-location)
-                               (not (on ?c ?t)))
-                          (not (on some-other-crate some-location)))))
+```pddl 
 
-  (:action move
-    :parameters (?v - vehicle ?fl - location ?tl - location)
-    :precondition (and (at ?v ?fl))
-    :effect (and (not (at ?v ?fl)) (at ?v ?tl))))
+(define (domain LogisticsBlocksWorld)
+  (:requirements :strips :typing)
+
+  ;; Define object types
+  (:types location truck crate pallet hoist)
+
+  ;; Define predicates
+  (:predicates
+    (location ?x - location)
+    (truck-at ?t - truck ?l - location)
+    (holding ?h - hoist ?o - object)
+    (on ?c1 - crate ?c2 - crate)
+    (ontable ?c - crate ?p - pallet)
+    (free ?h - hoist)
+    (clear ?x - crate)
+    (carrying ?t - truck ?c - crate)
+    (full ?p - pallet))
+
+  ;; Define actions
+  (:action load-crane
+      :parameters (?h - hoist ?c - crate ?l - location)
+      :precondition (and (not (holding ?h anything)) (clear ?c) (location ?h ?l) (location ?c ?l))
+      :effect (and (not (clear ?c)) (holding ?h ?c)))
+
+  (:action unload-crane
+      :parameters (?h - hoist ?c - crate ?l - location)
+      :precondition (holding ?h ?c)
+      :effect (and (clear ?c) (not (holding ?h ?c)) (ontable ?c ?l)))
+
+  (:action pick-up-crate
+      :parameters (?t - truck ?c - crate ?l - location)
+      :precondition (and (not (carrying ?t anything)) (clear ?c) (truck-at ?t ?l) (ontable ?c ?l))
+      :effect (and (not (clear ?c)) (carrying ?t ?c)))
+
+  (:action put-down-crate
+      :parameters (?t - truck ?c - crate ?l - location)
+      :precondition (and (carrying ?t ?c) (truck-at ?t ?l))
+      :effect (and (clear ?c) (not (carrying ?t ?c)) (ontable ?c ?l)))
+
+  (:action move-truck
+      :parameters (?t - truck ?from - location ?to - location)
+      :precondition (and (truck-at ?t ?from))
+      :effect (and (not (truck-at ?t ?from)) (truck-at ?t ?to))))
 
 ```
 **USER** :
 ```pddl
 
-(define (domain truck_and_hoist)
+(define (domain LogisticsBlocksWorld)
   (:requirements :strips :typing)
-  
-  (:types location crate truck pallet hoist vehicle)
-  
-  (:predicate (on ?c - crate ?pl - pallet)         ; Crate c is on pallet p
-              (clear ?pl - pallet)                 ; No crate is directly on pallet p
-              (holding ?h - hoist ?c - crate)      ; Hoist h is holding crate c
-              (at ?v - vehicle ?l - location))      ; Vehicle v is at location l
-  
-  (:action pickup
-    :parameters (?h - hoist ?c - crate ?pl - pallet)
-    :precondition (and (clear ?pl) (on ?c ?pl) (at ?h ?pl))
-    :effect (and (not (on ?c ?pl)) (not (clear ?pl)) (holding ?h ?c) (not (at ?h ?pl)) (at ?h some-location)))
-  
-  (:action putdown
-    :parameters (?h - hoist ?c - crate ?pl - pallet)
-    :precondition (holding ?h ?c)
-    :effect (and (on ?c ?pl) (clear ?pl) (not (holding ?h ?c)) (at ?h some-location) (at ?h ?pl)))
-  
-  (:action load
-    :parameters (?t - truck ?cs - crate*)
-    :precondition (and (at ?t some-location) (clear some-location))
-    :effect (forall (?c - crate . ?rest)
-                     (iff (member ?c ?cs)
-                          (and (on ?c ?t)
-                               (not (on ?c some-location))
-                               (not (clear some-location)))
-                          (not (on ?c ?t)))))
-  
-  (:action unload
-    :parameters (?t - truck ?cs - crate*)
-    :precondition (and (at ?t some-location)
-                       (forall (?c - crate . ?rest)
-                               (if (member ?c ?cs)
-                                   (on ?c ?t)
-                                   true))))
-    :effect (forall (?c - crate . ?rest)
-                     (iff (member ?c ?cs)
-                          (and (on ?c some-location)
-                               (clear some-location)
-                               (not (on ?c ?t)))
-                          (not (on some-other-crate some-location)))))
 
-  (:action move
-    :parameters (?v - vehicle ?fl - location ?tl - location)
-    :precondition (and (at ?v ?fl))
-    :effect (and (not (at ?v ?fl)) (at ?v ?tl))))
+  ;; Define object types
+  (:types location truck crate pallet hoist)
+
+  ;; Define predicates
+  (:predicates
+    (location ?x - location)
+    (truck-at ?t - truck ?l - location)
+    (holding ?h - hoist ?o - object)
+    (on ?c1 - crate ?c2 - crate)
+    (ontable ?c - crate ?p - pallet)
+    (free ?h - hoist)
+    (clear ?x - crate)
+    (carrying ?t - truck ?c - crate)
+    (full ?p - pallet))
+
+  ;; Define actions
+  (:action load-crane
+      :parameters (?h - hoist ?c - crate ?l - location)
+      :precondition (and (not (holding ?h anything)) (clear ?c) (location ?h ?l) (location ?c ?l))
+      :effect (and (not (clear ?c)) (holding ?h ?c)))
+
+  (:action unload-crane
+      :parameters (?h - hoist ?c - crate ?l - location)
+      :precondition (holding ?h ?c)
+      :effect (and (clear ?c) (not (holding ?h ?c)) (ontable ?c ?l)))
+
+  (:action pick-up-crate
+      :parameters (?t - truck ?c - crate ?l - location)
+      :precondition (and (not (carrying ?t anything)) (clear ?c) (truck-at ?t ?l) (ontable ?c ?l))
+      :effect (and (not (clear ?c)) (carrying ?t ?c)))
+
+  (:action put-down-crate
+      :parameters (?t - truck ?c - crate ?l - location)
+      :precondition (and (carrying ?t ?c) (truck-at ?t ?l))
+      :effect (and (clear ?c) (not (carrying ?t ?c)) (ontable ?c ?l)))
+
+  (:action move-truck
+      :parameters (?t - truck ?from - location ?to - location)
+      :precondition (and (truck-at ?t ?from))
+      :effect (and (not (truck-at ?t ?from)) (truck-at ?t ?to))))
 
 ```
- The above code produces the following error: There was an error in parsing the code.Got unexpected token: (.
 
- Requirement 1: Correct the error and give the entire PDDL code for a STRIPS Planner. 
- Requirement 2: Do not create a problem file. Do not use conditional expressions. 
- Requirement 3: Generate PDDL domain code in code blocks delimited only between ```pddl <CODE></CODE> ```for a STRIPS Planner. Do not give any explanations.
+The above code produces the following error -> There is a semantic error where unknown predicate 'not' used in precondition statement of action name 'load-crane'. Remove negative literals from the precondition statement of the action having it and replan that action only. Try adding another predicate in the precondition statement to remove this error.
+
+Instruction 1: Correct the error and give the entire PDDL code in code blocks and please do not give any explanations in the output.
+Instruction 2: Do not create a problem file and do not use conditional expressions.
 **LLM MODEL** (HUGGING_FACE):
-```pddl
-(define (domain truck_and_hoist)
+```pddl 
+
+(define (domain LogisticsBlocksWorld)
   (:requirements :strips :typing)
   
-  (:types location crate truck pallet hoist vehicle)
+  ;; Define object types
+  (:types location truck crate pallet hoist)
   
-  (:predicate (on ?c - crate ?pl - pallet)         ; Crate c is on pallet p
-              (clear ?pl - pallet)                 ; No crate is directly on pallet p
-              (holding ?h - hoist ?c - crate)      ; Hoist h is holding crate c
-              (at ?v - vehicle ?l - location))      ; Vehicle v is at location l
+  ;; Define predicates
+  (:predicates
+    (location ?x - location)
+    (truck-at ?t - truck ?l - location)
+    (holding ?h - hoist ?o - object)
+    (on ?c1 - crate ?c2 - crate)
+    (ontable ?c - crate ?p - pallet)
+    (free ?h - hoist)
+    (clear ?x - crate)
+    (carrying ?t - truck ?c - crate)
+    (full ?p - pallet))
   
-  (:action pickup
-    :parameters (?h - hoist ?c - crate ?pl - pallet)
-    :precondition (and (clear ?pl) (on ?c ?pl) (at ?h ?pl))
-    :effect (and (not (on ?c ?pl)) (not (clear ?pl)) (holding ?h ?c) (not (at ?h ?pl)) (at ?h some-location)))
+  ;; Define actions
+  (:action load-crane
+      :parameters (?h - hoist ?c - crate ?l - location)
+      :precondition (and (not (holding ?h anything)) (and (clear ?c) (location ?c ?l)))
+      :effect (and (not (clear ?c)) (holding ?h ?c)))
   
-  (:action putdown
-    :parameters (?h - hoist ?c - crate ?pl - pallet)
-    :precondition (holding ?h ?c)
-    :effect (and (on ?c ?pl) (clear ?pl) (not (holding ?h ?c)) (at ?h some-location) (at ?h ?pl)))
+  (:action unload-crane
+      :parameters (?h - hoist ?c - crate ?l - location)
+      :precondition (holding ?h ?c)
+      :effect (and (clear ?c) (not (holding ?h ?c)) (ontable ?c ?l)))
   
-  (:action load
-    :parameters (?t - truck ?cs - crate*)
-    :precondition (and (at ?t some-location) (clear some-location))
-    :effect (and (for-all (?c - crate . ?rest)
-                  (if (member ?c ?cs)
-                      (and (on ?c ?t)
-                           (not (on ?c some-location))
-                           (not (clear some-location)))
-                      true))))
+  (:action pick-up-crate
+      :parameters (?t - truck ?c - crate ?l - location)
+      :precondition (and (not (carrying ?t anything)) (and (clear ?c) (truck-at ?t ?l) (ontable ?c ?l)))
+      :effect (and (not (clear ?c)) (carrying ?t ?c)))
   
-  (:action unload
-    :parameters (?t - truck ?cs - crate*)
-    :precondition (and (at ?t some-location)
-                       (for-all (?c - crate . ?rest)
-                               (if (member ?c ?cs)
-                                   (on ?c ?t)
-                                   true)))
-    :effect (and (for-all (?c - crate . ?rest)
-                  (if (member ?c ?cs)
-                      (and (on ?c some-location)
-                           (clear some-location)
-                           (not (on ?c ?t)))
-                      true))))
-
-  (:action move
-    :parameters (?v - vehicle ?fl - location ?tl - location)
-    :precondition (at ?v ?fl)
-    :effect (and (not (at ?v ?fl)) (at ?v ?tl))))
+  (:action put-down-crate
+      :parameters (?t - truck ?c - crate ?l - location)
+      :precondition (and (carrying ?t ?c) (truck-at ?t ?l))
+      :effect (and (clear ?c) (not (carrying ?t ?c)) (ontable ?c ?l)))
+  
+  (:action move-truck
+      :parameters (?t - truck ?from - location ?to - location)
+      :precondition (truck-at ?t ?from)
+      :effect (and (not (truck-at ?t ?from)) (truck-at ?t ?to))))
 
 ```
 **USER** :
 ```pddl
 
-(define (domain truck_and_hoist)
+(define (domain LogisticsBlocksWorld)
   (:requirements :strips :typing)
   
-  (:types location crate truck pallet hoist vehicle)
+  ;; Define object types
+  (:types location truck crate pallet hoist)
   
-  (:predicate (on ?c - crate ?pl - pallet)         ; Crate c is on pallet p
-              (clear ?pl - pallet)                 ; No crate is directly on pallet p
-              (holding ?h - hoist ?c - crate)      ; Hoist h is holding crate c
-              (at ?v - vehicle ?l - location))      ; Vehicle v is at location l
+  ;; Define predicates
+  (:predicates
+    (location ?x - location)
+    (truck-at ?t - truck ?l - location)
+    (holding ?h - hoist ?o - object)
+    (on ?c1 - crate ?c2 - crate)
+    (ontable ?c - crate ?p - pallet)
+    (free ?h - hoist)
+    (clear ?x - crate)
+    (carrying ?t - truck ?c - crate)
+    (full ?p - pallet))
   
-  (:action pickup
-    :parameters (?h - hoist ?c - crate ?pl - pallet)
-    :precondition (and (clear ?pl) (on ?c ?pl) (at ?h ?pl))
-    :effect (and (not (on ?c ?pl)) (not (clear ?pl)) (holding ?h ?c) (not (at ?h ?pl)) (at ?h some-location)))
+  ;; Define actions
+  (:action load-crane
+      :parameters (?h - hoist ?c - crate ?l - location)
+      :precondition (and (not (holding ?h anything)) (and (clear ?c) (location ?c ?l)))
+      :effect (and (not (clear ?c)) (holding ?h ?c)))
   
-  (:action putdown
-    :parameters (?h - hoist ?c - crate ?pl - pallet)
-    :precondition (holding ?h ?c)
-    :effect (and (on ?c ?pl) (clear ?pl) (not (holding ?h ?c)) (at ?h some-location) (at ?h ?pl)))
+  (:action unload-crane
+      :parameters (?h - hoist ?c - crate ?l - location)
+      :precondition (holding ?h ?c)
+      :effect (and (clear ?c) (not (holding ?h ?c)) (ontable ?c ?l)))
   
-  (:action load
-    :parameters (?t - truck ?cs - crate*)
-    :precondition (and (at ?t some-location) (clear some-location))
-    :effect (and (for-all (?c - crate . ?rest)
-                  (if (member ?c ?cs)
-                      (and (on ?c ?t)
-                           (not (on ?c some-location))
-                           (not (clear some-location)))
-                      true))))
+  (:action pick-up-crate
+      :parameters (?t - truck ?c - crate ?l - location)
+      :precondition (and (not (carrying ?t anything)) (and (clear ?c) (truck-at ?t ?l) (ontable ?c ?l)))
+      :effect (and (not (clear ?c)) (carrying ?t ?c)))
   
-  (:action unload
-    :parameters (?t - truck ?cs - crate*)
-    :precondition (and (at ?t some-location)
-                       (for-all (?c - crate . ?rest)
-                               (if (member ?c ?cs)
-                                   (on ?c ?t)
-                                   true)))
-    :effect (and (for-all (?c - crate . ?rest)
-                  (if (member ?c ?cs)
-                      (and (on ?c some-location)
-                           (clear some-location)
-                           (not (on ?c ?t)))
-                      true))))
-
-  (:action move
-    :parameters (?v - vehicle ?fl - location ?tl - location)
-    :precondition (at ?v ?fl)
-    :effect (and (not (at ?v ?fl)) (at ?v ?tl))))
+  (:action put-down-crate
+      :parameters (?t - truck ?c - crate ?l - location)
+      :precondition (and (carrying ?t ?c) (truck-at ?t ?l))
+      :effect (and (clear ?c) (not (carrying ?t ?c)) (ontable ?c ?l)))
+  
+  (:action move-truck
+      :parameters (?t - truck ?from - location ?to - location)
+      :precondition (truck-at ?t ?from)
+      :effect (and (not (truck-at ?t ?from)) (truck-at ?t ?to))))
 
 ```
- The above code produces the following error: There is a value error on finding unknown keyword in domain definition: 'predicate'. Remove the keyword 'predicate' from definition, keep the rest of code the same.
 
- Requirement 1: Correct the error and give the entire PDDL code for a STRIPS Planner. 
- Requirement 2: Do not create a problem file. Do not use conditional expressions. 
- Requirement 3: Generate PDDL domain code in code blocks delimited only between ```pddl <CODE></CODE> ```for a STRIPS Planner. Do not give any explanations.
+The above code produces the following error -> There is a semantic error where unknown predicate 'not' used in precondition statement of action name 'load-crane'. Remove negative literals from the precondition statement of the action having it and replan that action only. Try adding another predicate in the precondition statement to remove this error.
+
+Instruction 1: Correct the error and give the entire PDDL code in code blocks and please do not give any explanations in the output.
+Instruction 2: Do not create a problem file and do not use conditional expressions.
 **LLM MODEL** (HUGGING_FACE):
-```pddl
-(define (domain truck_and_hoist)
+```pddl 
+
+(define (domain LogisticsBlocksWorld)
   (:requirements :strips :typing)
-
-  (:types location crate truck pallet hoist vehicle)
-
-  (:constants some-location)
-
+  
+  ;; Define object types
+  (:types location truck crate pallet hoist)
+  
+  ;; Define predicates
   (:predicates
-    (on ?c - crate ?pl - pallet)
-    (clear ?pl - pallet)
-    (holding ?h - hoist ?c - crate)
-    (at ?v - vehicle ?l - location))
-
-  (:action pickup
-    :parameters (?h - hoist ?c - crate ?pl - pallet)
-    :precondition (and (clear ?pl) (on ?c ?pl) (at ?h ?pl))
-    :effect (and (not (on ?c ?pl)) (not (clear ?pl)) (holding ?h ?c) (not (at ?h ?pl)) (at ?h some-location)))
-
-  (:action putdown
-    :parameters (?h - hoist ?c - crate ?pl - pallet)
-    :precondition (holding ?h ?c)
-    :effect (and (on ?c ?pl) (clear ?pl) (not (holding ?h ?c)) (at ?h some-location) (at ?h ?pl)))
-
-  (:action load
-    :parameters (?t - truck ?cs - crate*)
-    :precondition (and (at ?t some-location) (clear some-location))
-    :effect (and (for-all (?c - crate . ?rest)
-                  (if (member ?c ?cs)
-                      (and (on ?c ?t)
-                           (not (on ?c some-location))
-                           (not (clear some-location)))
-                      true))))
-
-  (:action unload
-    :parameters (?t - truck ?cs - crate*)
-    :precondition (and (at ?t some-location)
-                       (for-all (?c - crate . ?rest)
-                               (if (member ?c ?cs)
-                                   (on ?c ?t)
-                                   true)))
-    :effect (and (for-all (?c - crate . ?rest)
-                  (if (member ?c ?cs)
-                      (and (on ?c some-location)
-                           (clear some-location)
-                           (not (on ?c ?t)))
-                      true))))
-
-  (:action move
-    :parameters (?v - vehicle ?fl - location ?tl - location)
-    :precondition (at ?v ?fl)
-    :effect (and (not (at ?v ?fl)) (at ?v ?tl))))
+    (location ?x - location)
+    (truck-at ?t - truck ?l - location)
+    (holding ?h - hoist ?o - object)
+    (unloaded ?c - crate)
+    (on ?c1 - crate ?c2 - crate)
+    (ontable ?c - crate ?p - pallet)
+    (free ?h - hoist)
+    (clear ?x - crate)
+    (carrying ?t - truck ?c - crate)
+    (full ?p - pallet))
+  
+  ;; Define actions
+  (:action load-crane
+      :parameters (?h - hoist ?c - crate ?l - location)
+      :precondition (and (unloaded ?c) (clear ?c) (location ?c ?l))
+      :effect (and (not (unloaded ?c)) (holding ?h ?c)))
+  
+  (:action unload-crane
+      :parameters (?h - hoist ?c - crate ?l - location)
+      :precondition (holding ?h ?c)
+      :effect (and (unloaded ?c) (not (holding ?h ?c)) (ontable ?c ?l)))
+  
+  (:action pick-up-crate
+      :parameters (?t - truck ?c - crate ?l - location)
+      :precondition (and (unloaded ?c) (clear ?c) (truck-at ?t ?l) (ontable ?c ?l))
+      :effect (and (not (unloaded ?c)) (carrying ?t ?c)))
+  
+  (:action put-down-crate
+      :parameters (?t - truck ?c - crate ?l - location)
+      :precondition (and (carrying ?t ?c) (truck-at ?t ?l))
+      :effect (and (unloaded ?c) (not (carrying ?t ?c)) (ontable ?c ?l)))
+  
+  (:action move-truck
+      :parameters (?t - truck ?from - location ?to - location)
+      :precondition (truck-at ?t ?from)
+      :effect (and (not (truck-at ?t ?from)) (truck-at ?t ?to))))
 
 ```
 **USER** :
 ```pddl
 
-(define (domain truck_and_hoist)
+(define (domain LogisticsBlocksWorld)
   (:requirements :strips :typing)
-
-  (:types location crate truck pallet hoist vehicle)
-
-  (:constants some-location)
-
+  
+  ;; Define object types
+  (:types location truck crate pallet hoist)
+  
+  ;; Define predicates
   (:predicates
-    (on ?c - crate ?pl - pallet)
-    (clear ?pl - pallet)
-    (holding ?h - hoist ?c - crate)
-    (at ?v - vehicle ?l - location))
-
-  (:action pickup
-    :parameters (?h - hoist ?c - crate ?pl - pallet)
-    :precondition (and (clear ?pl) (on ?c ?pl) (at ?h ?pl))
-    :effect (and (not (on ?c ?pl)) (not (clear ?pl)) (holding ?h ?c) (not (at ?h ?pl)) (at ?h some-location)))
-
-  (:action putdown
-    :parameters (?h - hoist ?c - crate ?pl - pallet)
-    :precondition (holding ?h ?c)
-    :effect (and (on ?c ?pl) (clear ?pl) (not (holding ?h ?c)) (at ?h some-location) (at ?h ?pl)))
-
-  (:action load
-    :parameters (?t - truck ?cs - crate*)
-    :precondition (and (at ?t some-location) (clear some-location))
-    :effect (and (for-all (?c - crate . ?rest)
-                  (if (member ?c ?cs)
-                      (and (on ?c ?t)
-                           (not (on ?c some-location))
-                           (not (clear some-location)))
-                      true))))
-
-  (:action unload
-    :parameters (?t - truck ?cs - crate*)
-    :precondition (and (at ?t some-location)
-                       (for-all (?c - crate . ?rest)
-                               (if (member ?c ?cs)
-                                   (on ?c ?t)
-                                   true)))
-    :effect (and (for-all (?c - crate . ?rest)
-                  (if (member ?c ?cs)
-                      (and (on ?c some-location)
-                           (clear some-location)
-                           (not (on ?c ?t)))
-                      true))))
-
-  (:action move
-    :parameters (?v - vehicle ?fl - location ?tl - location)
-    :precondition (at ?v ?fl)
-    :effect (and (not (at ?v ?fl)) (at ?v ?tl))))
+    (location ?x - location)
+    (truck-at ?t - truck ?l - location)
+    (holding ?h - hoist ?o - object)
+    (unloaded ?c - crate)
+    (on ?c1 - crate ?c2 - crate)
+    (ontable ?c - crate ?p - pallet)
+    (free ?h - hoist)
+    (clear ?x - crate)
+    (carrying ?t - truck ?c - crate)
+    (full ?p - pallet))
+  
+  ;; Define actions
+  (:action load-crane
+      :parameters (?h - hoist ?c - crate ?l - location)
+      :precondition (and (unloaded ?c) (clear ?c) (location ?c ?l))
+      :effect (and (not (unloaded ?c)) (holding ?h ?c)))
+  
+  (:action unload-crane
+      :parameters (?h - hoist ?c - crate ?l - location)
+      :precondition (holding ?h ?c)
+      :effect (and (unloaded ?c) (not (holding ?h ?c)) (ontable ?c ?l)))
+  
+  (:action pick-up-crate
+      :parameters (?t - truck ?c - crate ?l - location)
+      :precondition (and (unloaded ?c) (clear ?c) (truck-at ?t ?l) (ontable ?c ?l))
+      :effect (and (not (unloaded ?c)) (carrying ?t ?c)))
+  
+  (:action put-down-crate
+      :parameters (?t - truck ?c - crate ?l - location)
+      :precondition (and (carrying ?t ?c) (truck-at ?t ?l))
+      :effect (and (unloaded ?c) (not (carrying ?t ?c)) (ontable ?c ?l)))
+  
+  (:action move-truck
+      :parameters (?t - truck ?from - location ?to - location)
+      :precondition (truck-at ?t ?from)
+      :effect (and (not (truck-at ?t ?from)) (truck-at ?t ?to))))
 
 ```
- The above code produces the following error: There is a semantic error where unknown type crate* is used in predicate definition.
 
- Requirement 1: Correct the error and give the entire PDDL code for a STRIPS Planner. 
- Requirement 2: Do not create a problem file. Do not use conditional expressions. 
- Requirement 3: Generate PDDL domain code in code blocks delimited only between ```pddl <CODE></CODE> ```for a STRIPS Planner. Do not give any explanations.
+The above code produces the following error -> There is a semantic error where there are wrong number of arguments for predicate 'location' in precondition of action 'load-crane'.
+
+Instruction 1: Correct the error and give the entire PDDL code in code blocks and please do not give any explanations in the output.
+Instruction 2: Do not create a problem file and do not use conditional expressions.
 **LLM MODEL** (HUGGING_FACE):
-```pddl
-(define (domain truck_and_hoist)
+```pddl 
+
+(define (domain LogisticsBlocksWorld)
   (:requirements :strips :typing)
-
-  (:types location crate hoist truck pallet vehicle)
-
-  (:constants some-location)
-
+  
+  ;; Define object types
+  (:types location truck crate pallet hoist)
+  
+  ;; Define predicates
   (:predicates
-    (on ?c - crate ?pl - pallet)
-    (clear ?pl - pallet)
-    (holding ?h - hoist ?c - crate)
-    (at ?v - vehicle ?l - location))
-
-  (:action pickup
-    :parameters (?h - hoist ?c - crate ?pl - pallet)
-    :precondition (and (clear ?pl) (on ?c ?pl) (at ?h ?pl))
-    :effect (and (not (on ?c ?pl)) (not (clear ?pl)) (holding ?h ?c) (not (at ?h ?pl)) (at ?h some-location)))
-
-  (:action putdown
-    :parameters (?h - hoist ?c - crate ?pl - pallet)
-    :precondition (holding ?h ?c)
-    :effect (and (on ?c ?pl) (clear ?pl) (not (holding ?h ?c)) (at ?h some-location) (at ?h ?pl)))
-
-  (:action load
-    :parameters (?t - truck ?cs - crates)
-    :precondition (and (at ?t some-location) (clear some-location))
-    :effect (and (forall (?c - crate . ?rest)
-                  (if (member ?c cs)
-                      (and (on ?c ?t)
-                           (not (on ?c some-location))
-                           (not (clear some-location)))
-                      true))))
-
-  (:action unload
-    :parameters (?t - truck ?cs - crates)
-    :precondition (and (at ?t some-location)
-                       (forall (?c - crate . ?rest)
-                               (if (member ?c cs)
-                                   (on ?c ?t)
-                                   true)))
-    :effect (and (forall (?c - crate . ?rest)
-                  (if (member ?c cs)
-                      (and (on ?c some-location)
-                           (clear some-location)
-                           (not (on ?c ?t)))
-                      true))))
-
-  (:action move
-    :parameters (?v - vehicle ?fl - location ?tl - location)
-    :precondition (at ?v ?fl)
-    :effect (and (not (at ?v ?fl)) (at ?v ?tl))))
-
-```
-**USER** :
-```pddl
-
-(define (domain truck_and_hoist)
-  (:requirements :strips :typing)
-
-  (:types location crate hoist truck pallet vehicle)
-
-  (:constants some-location)
-
-  (:predicates
-    (on ?c - crate ?pl - pallet)
-    (clear ?pl - pallet)
-    (holding ?h - hoist ?c - crate)
-    (at ?v - vehicle ?l - location))
-
-  (:action pickup
-    :parameters (?h - hoist ?c - crate ?pl - pallet)
-    :precondition (and (clear ?pl) (on ?c ?pl) (at ?h ?pl))
-    :effect (and (not (on ?c ?pl)) (not (clear ?pl)) (holding ?h ?c) (not (at ?h ?pl)) (at ?h some-location)))
-
-  (:action putdown
-    :parameters (?h - hoist ?c - crate ?pl - pallet)
-    :precondition (holding ?h ?c)
-    :effect (and (on ?c ?pl) (clear ?pl) (not (holding ?h ?c)) (at ?h some-location) (at ?h ?pl)))
-
-  (:action load
-    :parameters (?t - truck ?cs - crates)
-    :precondition (and (at ?t some-location) (clear some-location))
-    :effect (and (forall (?c - crate . ?rest)
-                  (if (member ?c cs)
-                      (and (on ?c ?t)
-                           (not (on ?c some-location))
-                           (not (clear some-location)))
-                      true))))
-
-  (:action unload
-    :parameters (?t - truck ?cs - crates)
-    :precondition (and (at ?t some-location)
-                       (forall (?c - crate . ?rest)
-                               (if (member ?c cs)
-                                   (on ?c ?t)
-                                   true)))
-    :effect (and (forall (?c - crate . ?rest)
-                  (if (member ?c cs)
-                      (and (on ?c some-location)
-                           (clear some-location)
-                           (not (on ?c ?t)))
-                      true))))
-
-  (:action move
-    :parameters (?v - vehicle ?fl - location ?tl - location)
-    :precondition (at ?v ?fl)
-    :effect (and (not (at ?v ?fl)) (at ?v ?tl))))
-
-```
- The above code produces the following error: There is a semantic error where unknown type crates is used in predicate definition.
-
- Requirement 1: Correct the error and give the entire PDDL code for a STRIPS Planner. 
- Requirement 2: Do not create a problem file. Do not use conditional expressions. 
- Requirement 3: Generate PDDL domain code in code blocks delimited only between ```pddl <CODE></CODE> ```for a STRIPS Planner. Do not give any explanations.
-**LLM MODEL** (HUGGING_FACE):
-```pddl
-(define (domain truck_and_hoist)
-  (:requirements :strips :typing)
-
-  (:types location hoist truck pallet crate vehicle)
-
-  (:constants some-location)
-
-  (:predicates
-    (on ?c - crate ?pl - pallet)
-    (clear ?pl - pallet)
-    (holding ?h - hoist ?c - crate)
-    (at ?v - vehicle ?l - location))
-
-  (:action pickup
-    :parameters (?h - hoist ?c - crate ?pl - pallet)
-    :precondition (and (clear ?pl) (on ?c ?pl) (at ?h ?pl))
-    :effect (and (not (on ?c ?pl)) (not (clear ?pl)) (holding ?h ?c) (not (at ?h ?pl)) (at ?h some-location)))
-
-  (:action putdown
-    :parameters (?h - hoist ?c - crate ?pl - pallet)
-    :precondition (holding ?h ?c)
-    :effect (and (on ?c ?pl) (clear ?pl) (not (holding ?h ?c)) (at ?h some-location) (at ?h ?pl)))
-
-  (:action load
-    :parameters (?t - truck ?c - crate)
-    :precondition (and (at ?t some-location) (clear some-location))
-    :effect (and (on ?c ?t) (not (on ?c some-location)) (not (clear some-location))))
-
-  (:action unload
-    :parameters (?t - truck ?c - crate)
-    :precondition (and (at ?t some-location) (on ?c ?t))
-    :effect (and (on ?c some-location) (clear some-location) (not (on ?c ?t))))
-
-  (:action move
-    :parameters (?v - vehicle ?fl - location ?tl - location)
-    :precondition (at ?v ?fl)
-    :effect (and (not (at ?v ?fl)) (at ?v ?tl))))
+    (location ?x - object ?l - location)
+    (truck-at ?t - truck ?l - location)
+    (holding ?h - hoist ?o - object)
+    (unloaded ?c - crate)
+    (on ?c1 - crate ?c2 - crate)
+    (ontable ?c - crate ?p - pallet)
+    (free ?h - hoist)
+    (clear ?x - crate)
+    (carrying ?t - truck ?c - crate)
+    (full ?p - pallet))
+  
+  ;; Define actions
+  (:action load-crane
+      :parameters (?h - hoist ?c - crate ?l - location)
+      :precondition (and (unloaded ?c) (clear ?c) (location ?c ?l))
+      :effect (and (not (unloaded ?c)) (holding ?h ?c)))
+  
+  (:action unload-crane
+      :parameters (?h - hoist ?c - crate ?l - location)
+      :precondition (holding ?h ?c)
+      :effect (and (unloaded ?c) (not (holding ?h ?c)) (ontable ?c ?l)))
+  
+  (:action pick-up-crate
+      :parameters (?t - truck ?c - crate ?l - location)
+      :precondition (and (unloaded ?c) (clear ?c) (truck-at ?t ?l) (ontable ?c ?l))
+      :effect (and (not (unloaded ?c)) (carrying ?t ?c)))
+  
+  (:action put-down-crate
+      :parameters (?t - truck ?c - crate ?l - location)
+      :precondition (and (carrying ?t ?c) (truck-at ?t ?l))
+      :effect (and (unloaded ?c) (not (carrying ?t ?c)) (ontable ?c ?l)))
+  
+  (:action move-truck
+      :parameters (?t - truck ?from - location ?to - location)
+      :precondition (truck-at ?t ?from)
+      :effect (and (not (truck-at ?t ?from)) (truck-at ?t ?to))))
 
 ```

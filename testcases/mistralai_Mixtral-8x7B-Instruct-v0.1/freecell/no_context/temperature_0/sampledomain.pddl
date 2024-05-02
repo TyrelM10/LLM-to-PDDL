@@ -1,55 +1,70 @@
 
-(define (domain freecell)
+(define (domain freecell-game)
   (:requirements :strips :typing)
-  (:types card location number - object)
+  (:types card location)
+  (:constants
+          Spade Heart Diamond Club - suit
+          Ace Two Three Four Five Six Seven Eight Nine Ten Jack Queen King - value
+          North South East West - location)
+  ((at ?c - card ?l - location))
+  ((suit ?c - card ?s - suit))
+  ((value ?c - card ?v - value))
+  ((above ?c1 - card ?c2 - card))
+  ((open ?l - location))
   
-  (:constants 1 2 3 4 - number)
+  ;; Definition of some-location
+  (:definition some-location
+    (or North South East West))
   
-  (:predicates
-    (empty ?l - location)
-    (top-card-of ?c1 - card ?c2 - location)
-    (value-greater-than ?c1 - card ?c2 - card)
-    (valid-move ?f1 - card ?f2 - location ?t - location)
-    (eq-locations ?l1 - location ?l2 - location)
-    (eq-cards ?c1 - card ?c2 - card)
-    (type-of ?o - object - types)
-    (homecard ?c - card - objects)
-    (the-freecell ?c - card - number)
-    (the-column ?c - card - number)
-    (the-destination-for-freecell ?c - card - number))
-  
-  (:action move-to-freecell
-    :parameters (?c - card ?src - location)
-    :precondition (and (top-card-of ?c ?src) (empty (destination)))
-    :effect (and (not (top-card-of ?c ?src))
-                 (not (empty (destination)))
-                 (top-card-of ?c (destination))
-                 (increase (num-cards-in-homecell ?c) 1)))
-  
-  (:action move-to-homecell
-    :parameters (?c - card ?src - location)
-    :precondition (and (empty ?src)
-                       (value-greater-than ?c (homecard next-card))
-                       (< (+ 1 (value ?c)) (value (homecard next-card))))
-    :effect (and (not (top-card-of ?c ?src))
-                 (top-card-of ?c (homelocation ?c))
-                 (increase (num-cards-in-homecell ?c) 1)))
-  
-  (:action move-to-column
-    :parameters (?c - card ?src - location ?dst - location)
-    :precondition (and (empty ?src)
-                       (not (top-card-of * ?dst))
-                       (<= (- (value (top-card-of * ?dst)) (value ?c)) 1)
-                       (< (count) 8))
-    :effect (and (not (top-card-of ?c ?src))
-                 (top-card-of ?c ?dst)
-                 (dec (count))))
-  
-  (:action create-new-column
-    :parameters (?c - card)
-    :precondition (and (empty (source ?c))
-                       (< (count) 8))
-    :effect (and (not (top-card-of ?c (source ?c)))
-                 (top-card-of ?c (destination ?c))
-                 (add-location (destination ?c))
-                 (inc (count)))))
+  ;; Predicate to indicate whether a location has no cards
+  (:predicate empty (?l - location))
+  (:axiom (= (empty North) true))
+  (:axiom (= (empty South) true))
+  (:axiom (= (empty East) true))
+  (:axiom (= (empty West) true))
+
+  ;; Function to determine whether a location contains any cards
+  (:function num-cards-at (?l - location) -> num {0})
+  (:durative-action increment-num-cards-at
+    :parameters (?l - location)
+    :duration (= 1)
+    :goal (and (>= (num-cards-at ?l) (+ 1 (num-cards-at ?l))) (< (num-cards-at ?l) +inf.0))
+    :effect (when (and (<= (num-cards-at ?l) (- +inf.0 1)))
+             (at start (num-cards-at ?l) (+ 1 (num-cards-at ?l)))
+             (at end (num-cards-at ?l) (+ 1 (num-cards-at ?l))))
+    :condition (over all (at t (num-cards-at ?l)) (< (at t (num-cards-at ?l)) +inf.0)))
+
+  ;; Predicate to check if two cards can be placed together based on their suits
+  (:predicate compatible-suits (?s1 - suit ?s2 - suit))
+  (:axiom (compatible-suits Spade Diamond))
+  (:axiom (compatible-suits Heart Club))
+  (:axiom (compatible-suits Diamonds Hearts))
+  (:axiom (compatible-suits Clubs Spades))
+
+  ;; Predicate to check if two cards have consecutive values
+  (:predicate consecutive-values (?val1 - value ?val2 - value))
+  (:axiom (consecutive-values Ace Two))
+  (:axiom (consecutive-values Two Three))
+  (:axiom (consecutive-values Three Four))
+  (:axiom (consecutive-values Four Five))
+  (:axiom (consecutive-values Five Six))
+  (:axiom (consecutive-values Six Seven))
+  (:axiom (consecutive-values Seven Eight))
+  (:axiom (consecutive-values Eight Nine))
+  (:axiom (consecutive-values Nine Ten))
+  (:axiom (consecutive-values Ten Jack))
+  (:axiom (consecutive-values Jack Queen))
+  (:axiom (consecutive-values Queen King))
+
+  ;; Derived predicate to determine if a card can be moved onto another card
+  (:derived moving-allowed (?c1 - card ?c2 - card) =>
+           (and (exists (?loc - location) (and (at ?c1 ?loc)))
+                (exists (?loc - location) (and (at ?c2 ?loc)))
+                (not (above ?c1 ?c2))
+                (compatible-suits (suit ?c1) (suit ?c2))))
+
+  ;; Action to move a card from one location to another
+  (:action move
+    :parameters (?src - location ?dst - location ?c - card)
+    :precondition (and (at ?c src) (open dst) (empty src) (not (moving-allowed ?c (last dst))))
+    :effect (and (not (at ?c src)) (at ?c dst) (increment-num-cards-at dst) (decrement-num-cards-at src))))

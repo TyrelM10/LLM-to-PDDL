@@ -411,8 +411,9 @@ def _parse_type_helper(iter, type_class):
             # found new object definition --> enqueue
             if type_class == Variable:
                 if var[0] != "?":
+                    print('VAR:', var)
                     # raise ValueError('Error variables must start with a "?"')
-                    receiver({'error_number': 8, 'error':'There is a value error where variables must start with a "?"'})
+                    receiver({'error_number': 8, 'error':'There is a value error where variables must start with a "?".'+"Please add '?' before the variable name also check if {} is a variable and replan the code.".format(var)})
                 tmpList.insert(0, var)
             else:
                 tmpList.insert(0, var)
@@ -719,7 +720,7 @@ def parse_domain_def(iter):
             break
         else:
             # raise ValueError("Found unknown keyword in domain definition: " + key.name)
-            receiver({'error_number': 22, 'error':"There is a value error on finding unknown keyword in domain definition: '" + key.name + "'. Valid keywords in definition are 'requirements', 'types', 'predicates', 'constants' and 'action'. Remove the keyword '"+ key.name +"' from definition, keep the rest of code the same."})
+            receiver({'error_number': 22, 'error':"There is a value error on finding unknown keyword in domain definition: '" + key.name + "'. Valid keyword representations in definition are ':requirements', ':types', ':predicates', ':constants' and ':action'. Remove the unknown keyword '"+ key.name +"' from definition and update the code."})
             
     # next parse all defined actions
     while not iter.empty():

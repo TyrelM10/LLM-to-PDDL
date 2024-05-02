@@ -1,67 +1,46 @@
 **USER** :
 There is a robot with two grippers. It can carry a ball in each. The goal is to take N balls from one room to another; N rises with problem number. Some planners treat the two grippers asymmetrically, giving rise to an unnecessary combinatorial explosion. This domain was created by Jana Koehler.
  
- Requirement: Generate PDDL domain code for the above text description in code blocks delimited only between ```pddl <CODE></CODE> ```. This code should be solved in a STRIPS Planner. Do not give any explanations.
+ Instruction: Generate PDDL domain code for the above text description in code blocks delimited only between ```pddl <CODE></CODE> ```. This code should be solved in a STRIPS Planner. Do not give any explanations in the output.
 **LLM MODEL** (HUGGING_FACE):
-```pddl
+```pddl 
+
 (define (domain robots-with-grippers)
   (:requirements :strips :typing)
   
- (:types room object - thing)
- (:predicates
-    (carrying ?r - robot ?o - object)
-    (at ?x - robot ?y - room)
-    (ball ?o - object)
-    (room-full ?r - room))
+  ;; Define types of objects
+  (:types room ball gripper - object)
+  (:constants n - integer)
   
- (:action pick-up
-    :parameters (?r - robot ?b - ball ?fromRoom - room)
-    :precondition (and
-                    (at ?r ?fromRoom)
-                    (not (carrying ?r ?b))
-                    (ball ?b)
-                    (not (room-full ?fromRoom)))
-    :effect (and
-              (not (at ?r ?fromRoom))
-              (carrying ?r ?b)
-              (room-full ?fromRoom)))
+  ;; Define predicates
+  ((at ?r - room))
+  ((carrying ?b - ball ?g - gripper))
   
- (:action put-down
-    :parameters (?r - robot ?b - ball ?toRoom - room)
-    :precondition (and
-                    (carrying ?r ?b)
-                    (at ?r ?toRoom)
-                    (not (room-full ?toRoom)))
-    :effect (and
-              (at ?r ?toRoom)
-              (not (carrying ?r ?b))
-              (not (room-full ?toRoom))))
+  ;; Define actions
+  (:action pickup
+    :parameters (?g1 - gripper ?g2 - gripper ?b - ball ?r - room)
+    :precondition (and (at ?r) (not (carrying ?b ?g1)) (not (carrying ?b ?g2)))
+    :effect (and (not (at ?r)) (carrying ?b ?g1))
+  )
+  
+  (:action putdown
+    :parameters (?g1 - gripper ?g2 - gripper ?b - ball ?r - room)
+    :precondition (and (carrying ?b ?g1))
+    :effect (and (at ?r) (not (carrying ?b ?g1)) (not (carrying ?b ?g2)))
+  )
   
   (:action move
-    :parameters (?r1 - robot ?r2 - robot ?fromRoom - room ?toRoom - room)
-    :precondition (and
-                    (or (and (at ?r1 ?fromRoom)
-                             (at ?r2 ?fromRoom))
-                        (and (at ?r1 ?toRoom)
-                             (at ?r2 ?toRoom)))
-                    (not (= ?r1 ?r2))
-                    (not (room-full ?fromRoom))
-                    (not (room-full ?toRoom)))
-    :effect (and
-              (when (and (at ?r1 ?fromRoom)
-                         (at ?r2 ?fromRoom))
-                (not (at ?r1 ?fromRoom))
-                (at ?r1 ?toRoom)
-                (not (at ?r2 ?fromRoom))
-                (at ?r2 ?toRoom))
-              (when (and (at ?r1 ?toRoom)
-                         (at ?r2 ?toRoom))
-                (not (at ?r1 ?toRoom))
-                (at ?r1 ?fromRoom)
-                (not (at ?r2 ?toRoom))
-                (at ?r2 ?fromRoom))
-              (not (room-full ?fromRoom))
-              (not (room-full ?toRoom)))))
+    :parameters (?g1 - gripper ?g2 - gripper ?r1 - room ?r2 - room)
+    :precondition (and (at ?r1))
+    :effect (and (not (at ?r1)) (at ?r2))
+  )
+  
+  (:action transfer
+    :parameters (?g1 - gripper ?g2 - gripper ?b1 - ball ?b2 - ball ?r1 - room ?r2 - room)
+    :precondition (and (carrying ?b1 ?g1) (not (carrying ?b2 ?g2)) (at ?r1))
+    :effect (and (not (carrying ?b1 ?g1)) (carrying ?b2 ?g2) (not (at ?r1)) (at ?r2))
+  )
+)
 
 ```
 **USER** :
@@ -70,288 +49,257 @@ There is a robot with two grippers. It can carry a ball in each. The goal is to 
 (define (domain robots-with-grippers)
   (:requirements :strips :typing)
   
- (:types room object - thing)
- (:predicates
-    (carrying ?r - robot ?o - object)
-    (at ?x - robot ?y - room)
-    (ball ?o - object)
-    (room-full ?r - room))
+  ;; Define types of objects
+  (:types room ball gripper - object)
+  (:constants n - integer)
   
- (:action pick-up
-    :parameters (?r - robot ?b - ball ?fromRoom - room)
-    :precondition (and
-                    (at ?r ?fromRoom)
-                    (not (carrying ?r ?b))
-                    (ball ?b)
-                    (not (room-full ?fromRoom)))
-    :effect (and
-              (not (at ?r ?fromRoom))
-              (carrying ?r ?b)
-              (room-full ?fromRoom)))
+  ;; Define predicates
+  ((at ?r - room))
+  ((carrying ?b - ball ?g - gripper))
   
- (:action put-down
-    :parameters (?r - robot ?b - ball ?toRoom - room)
-    :precondition (and
-                    (carrying ?r ?b)
-                    (at ?r ?toRoom)
-                    (not (room-full ?toRoom)))
-    :effect (and
-              (at ?r ?toRoom)
-              (not (carrying ?r ?b))
-              (not (room-full ?toRoom))))
+  ;; Define actions
+  (:action pickup
+    :parameters (?g1 - gripper ?g2 - gripper ?b - ball ?r - room)
+    :precondition (and (at ?r) (not (carrying ?b ?g1)) (not (carrying ?b ?g2)))
+    :effect (and (not (at ?r)) (carrying ?b ?g1))
+  )
+  
+  (:action putdown
+    :parameters (?g1 - gripper ?g2 - gripper ?b - ball ?r - room)
+    :precondition (and (carrying ?b ?g1))
+    :effect (and (at ?r) (not (carrying ?b ?g1)) (not (carrying ?b ?g2)))
+  )
   
   (:action move
-    :parameters (?r1 - robot ?r2 - robot ?fromRoom - room ?toRoom - room)
-    :precondition (and
-                    (or (and (at ?r1 ?fromRoom)
-                             (at ?r2 ?fromRoom))
-                        (and (at ?r1 ?toRoom)
-                             (at ?r2 ?toRoom)))
-                    (not (= ?r1 ?r2))
-                    (not (room-full ?fromRoom))
-                    (not (room-full ?toRoom)))
-    :effect (and
-              (when (and (at ?r1 ?fromRoom)
-                         (at ?r2 ?fromRoom))
-                (not (at ?r1 ?fromRoom))
-                (at ?r1 ?toRoom)
-                (not (at ?r2 ?fromRoom))
-                (at ?r2 ?toRoom))
-              (when (and (at ?r1 ?toRoom)
-                         (at ?r2 ?toRoom))
-                (not (at ?r1 ?toRoom))
-                (at ?r1 ?fromRoom)
-                (not (at ?r2 ?toRoom))
-                (at ?r2 ?fromRoom))
-              (not (room-full ?fromRoom))
-              (not (room-full ?toRoom)))))
+    :parameters (?g1 - gripper ?g2 - gripper ?r1 - room ?r2 - room)
+    :precondition (and (at ?r1))
+    :effect (and (not (at ?r1)) (at ?r2))
+  )
+  
+  (:action transfer
+    :parameters (?g1 - gripper ?g2 - gripper ?b1 - ball ?b2 - ball ?r1 - room ?r2 - room)
+    :precondition (and (carrying ?b1 ?g1) (not (carrying ?b2 ?g2)) (at ?r1))
+    :effect (and (not (carrying ?b1 ?g1)) (carrying ?b2 ?g2) (not (at ?r1)) (at ?r2))
+  )
+)
 
 ```
- The above code produces the following error: There is a semantic error of unknown parent type: thing
 
- Requirement 1: Correct the error and give the entire PDDL code for a STRIPS Planner. 
- Requirement 2: Do not create a problem file. Do not use conditional expressions. 
- Requirement 3: Generate PDDL domain code in code blocks for a STRIPS Planner. Do not give any explanations.
+The above code produces the following error -> There was an error in parsing the code for something that is not a word
+
+Instruction 1: Correct the error and give the entire PDDL code in code blocks and please do not give any explanations in the output.
+Instruction 2: Do not create a problem file and do not use conditional expressions.
 **LLM MODEL** (HUGGING_FACE):
-```pddl (define (domain robots-with-grippers)
-(:requirements :strips :typing)
+```pddl 
 
-(:types robot - agent, room, object)
-(:functions (num-objects-in-room ?r - room))
-
-(:predicates
-(carrying ?a - robot ?o - object)
-(at ?a - robot ?r - room)
-(object-in-room ?o - object ?r - room)
-(room-full ?r - room))
-
-(:action pick-up
-:parameters (?a - robot ?o - object ?r - room)
-:precondition (and
-(at ?a ?r)
-(not (carrying ?a ?o))
-(object-in-room ?o ?r)
-(not (room-full ?r)))
-:effect (and
-(not (at ?a ?r))
-(carrying ?a ?o)
-(not (object-in-room ?o ?r))
-(not (room-full ?r))
-(increase (num-objects-in-room ?r) -1)))
-
-(:action put-down
-:parameters (?a - robot ?o - object ?r - room)
-:precondition (and
-(carrying ?a ?o)
-(at ?a ?r)
-(not (room-full ?r)))
-:effect (and
-(at ?a ?r)
-(not (carrying ?a ?o))
-(object-in-room ?o ?r)
-(not (room-full ?r))
-(increase (num-objects-in-room ?r) 1)))
-
-(:action move
-:parameters (?a1 - robot ?a2 - robot ?r1 - room ?r2 - room)
-:precondition (and
-(or (and (at ?a1 ?r1)
-(at ?a2 ?r1))
-(and (at ?a1 ?r2)
-(at ?a2 ?r2)))
-(not (= ?r1 ?r2))
-(not (room-full ?r1))
-(not (room-full ?r2)))
-:effect (and
-(when (and (at ?a1 ?r1)
-(at ?a2 ?r1))
-(not (at ?a1 ?r1))
-(at ?a1 ?r2)
-(not (at ?a2 ?r1))
-(at ?a2 ?r2))
-(when (and (at ?a1 ?r2)
-(at ?a2 ?r2))
-(not (at ?a1 ?r2))
-(at ?a1 ?r1)
-(not (at ?a2 ?r2))
-(at ?a2 ?r1))
-(not (room-full ?r1))
-(not (room-full ?r2)))))
-
-(:action fill-room
-:parameters (?r - room)
-:precondition (and
-(not (room-full ?r)))
-:effect (and
-(room-full ?r)))
-
-(:action empty-room
-:parameters (?r - room)
-:precondition (and
-(room-full ?r))
-:effect (and
-(not (room-full ?r)))))
-```
-**USER** :
-```pddl
- (define (domain robots-with-grippers)
-(:requirements :strips :typing)
-
-(:types robot - agent, room, object)
-(:functions (num-objects-in-room ?r - room))
-
-(:predicates
-(carrying ?a - robot ?o - object)
-(at ?a - robot ?r - room)
-(object-in-room ?o - object ?r - room)
-(room-full ?r - room))
-
-(:action pick-up
-:parameters (?a - robot ?o - object ?r - room)
-:precondition (and
-(at ?a ?r)
-(not (carrying ?a ?o))
-(object-in-room ?o ?r)
-(not (room-full ?r)))
-:effect (and
-(not (at ?a ?r))
-(carrying ?a ?o)
-(not (object-in-room ?o ?r))
-(not (room-full ?r))
-(increase (num-objects-in-room ?r) -1)))
-
-(:action put-down
-:parameters (?a - robot ?o - object ?r - room)
-:precondition (and
-(carrying ?a ?o)
-(at ?a ?r)
-(not (room-full ?r)))
-:effect (and
-(at ?a ?r)
-(not (carrying ?a ?o))
-(object-in-room ?o ?r)
-(not (room-full ?r))
-(increase (num-objects-in-room ?r) 1)))
-
-(:action move
-:parameters (?a1 - robot ?a2 - robot ?r1 - room ?r2 - room)
-:precondition (and
-(or (and (at ?a1 ?r1)
-(at ?a2 ?r1))
-(and (at ?a1 ?r2)
-(at ?a2 ?r2)))
-(not (= ?r1 ?r2))
-(not (room-full ?r1))
-(not (room-full ?r2)))
-:effect (and
-(when (and (at ?a1 ?r1)
-(at ?a2 ?r1))
-(not (at ?a1 ?r1))
-(at ?a1 ?r2)
-(not (at ?a2 ?r1))
-(at ?a2 ?r2))
-(when (and (at ?a1 ?r2)
-(at ?a2 ?r2))
-(not (at ?a1 ?r2))
-(at ?a1 ?r1)
-(not (at ?a2 ?r2))
-(at ?a2 ?r1))
-(not (room-full ?r1))
-(not (room-full ?r2)))))
-
-(:action fill-room
-:parameters (?r - room)
-:precondition (and
-(not (room-full ?r)))
-:effect (and
-(room-full ?r)))
-
-(:action empty-room
-:parameters (?r - room)
-:precondition (and
-(room-full ?r))
-:effect (and
-(not (room-full ?r)))))
-```
- The above code produces the following error: There was an error in parsing the code.Got unexpected token: (.
-
- Requirement 1: Correct the error and give the entire PDDL code for a STRIPS Planner. 
- Requirement 2: Do not create a problem file. Do not use conditional expressions. 
- Requirement 3: Generate PDDL domain code in code blocks for a STRIPS Planner. Do not give any explanations.
-**LLM MODEL** (HUGGING_FACE):
-```pddl
 (define (domain robots-with-grippers)
-(:requirements :strips :typing)
+  (:requirements :strips :typing)
 
-(:types robot - agent, room, object)
-(:functions (num-objects-in-room ?r - room))
+  ;; Define types of objects
+  (:types room ball gripper - object)
+  (:constants n - integer)
 
-(:predicates
-(carrying ?a - robot ?o - object)
-(at ?a - robot ?r - room)
+  ;; Define predicates
+  ((at ?r - room))
+  ((carrying ?g - gripper ?b - ball))
+
+  ;; Define actions
+  (:action pickup
+    :parameters (?g1 - gripper ?g2 - gripper ?b - ball ?r - room)
+    :precondition (and (at ?r) (not (carrying ?b ?g1)) (not (carrying ?b ?g2)))
+    :effect (and (not (at ?r)) (carrying ?b ?g1) (not (carrying ?b ?g2)))
+  )
+  
+  (:action putdown
+    :parameters (?g1 - gripper ?g2 - gripper ?b - ball ?r - room)
+    :precondition (and (carrying ?b ?g1))
+    :effect (and (at ?r) (not (carrying ?b ?g1)) (not (carrying ?b ?g2)))
+  )
+  
+  (:action move
+    :parameters (?g1 - gripper ?g2 - gripper ?r1 - room ?r2 - room)
+    :precondition (and (at ?r1))
+    :effect (and (not (at ?r1)) (at ?r2))
+  )
+  
+  (:action transfer
+    :parameters (?g1 - gripper ?g2 - gripper ?b1 - ball ?b2 - ball ?r1 - room ?r2 - room)
+    :precondition (and (carrying ?b1 ?g1) (not (carrying ?b2 ?g2)) (at ?r1))
+    :effect (and (not (carrying ?b1 ?g1)) (carrying ?b2 ?g2) (not (at ?r1)) (at ?r2))
+  )
+)
+
 ```
 **USER** :
 ```pddl
 
 (define (domain robots-with-grippers)
-(:requirements :strips :typing)
+  (:requirements :strips :typing)
 
-(:types robot - agent, room, object)
-(:functions (num-objects-in-room ?r - room))
+  ;; Define types of objects
+  (:types room ball gripper - object)
+  (:constants n - integer)
 
-(:predicates
-(carrying ?a - robot ?o - object)
-(at ?a - robot ?r - room)
+  ;; Define predicates
+  ((at ?r - room))
+  ((carrying ?g - gripper ?b - ball))
+
+  ;; Define actions
+  (:action pickup
+    :parameters (?g1 - gripper ?g2 - gripper ?b - ball ?r - room)
+    :precondition (and (at ?r) (not (carrying ?b ?g1)) (not (carrying ?b ?g2)))
+    :effect (and (not (at ?r)) (carrying ?b ?g1) (not (carrying ?b ?g2)))
+  )
+  
+  (:action putdown
+    :parameters (?g1 - gripper ?g2 - gripper ?b - ball ?r - room)
+    :precondition (and (carrying ?b ?g1))
+    :effect (and (at ?r) (not (carrying ?b ?g1)) (not (carrying ?b ?g2)))
+  )
+  
+  (:action move
+    :parameters (?g1 - gripper ?g2 - gripper ?r1 - room ?r2 - room)
+    :precondition (and (at ?r1))
+    :effect (and (not (at ?r1)) (at ?r2))
+  )
+  
+  (:action transfer
+    :parameters (?g1 - gripper ?g2 - gripper ?b1 - ball ?b2 - ball ?r1 - room ?r2 - room)
+    :precondition (and (carrying ?b1 ?g1) (not (carrying ?b2 ?g2)) (at ?r1))
+    :effect (and (not (carrying ?b1 ?g1)) (carrying ?b2 ?g2) (not (at ?r1)) (at ?r2))
+  )
+)
+
 ```
- The above code produces the following error: There was an error in parsing the code. Missing closing parenthesis
 
- Requirement 1: Correct the error and give the entire PDDL code for a STRIPS Planner. 
- Requirement 2: Do not create a problem file. Do not use conditional expressions. 
- Requirement 3: Generate PDDL domain code in code blocks for a STRIPS Planner. Do not give any explanations.
+The above code produces the following error -> There was an error in parsing the code for something that is not a word
+
+Instruction 1: Correct the error and give the entire PDDL code in code blocks and please do not give any explanations in the output.
+Instruction 2: Do not create a problem file and do not use conditional expressions.
 **LLM MODEL** (HUGGING_FACE):
+```pddl 
+
+(define (domain robots-with-grippers)
+  (:requirements :strips :typing)
+
+  ;; Define types of objects
+  (:types room ball gripper - object)
+  (:constants n - integer)
+
+  ;; Define predicates
+  ((at ?r - room))
+  ((carrying ?g - gripper ?b - ball))
+
+  ;; Define actions
+  (:action pickup
+    :parameters (?g1 - gripper ?g2 - gripper ?b - ball ?r - room)
+    :precondition (and (at ?r) (not (carrying ?b ?g1)) (not (carrying ?b ?g2)))
+    :effect (and (not (at ?r)) (carrying ?b ?g1) (not (carrying ?b ?g2)))
+  )
+  
+  (:action putdown
+    :parameters (?g1 - gripper ?g2 - gripper ?b - ball ?r - room)
+    :precondition (and (carrying ?b ?g1))
+    :effect (and (at ?r) (not (carrying ?b ?g1)) (not (carrying ?b ?g2)))
+  )
+  
+  (:action move
+    :parameters (?g1 - gripper ?g2 - gripper ?r1 - room ?r2 - room)
+    :precondition (and (at ?r1))
+    :effect (and (not (at ?r1)) (at ?r2))
+  )
+  
+  (:action transfer
+    :parameters (?g1 - gripper ?g2 - gripper ?b1 - ball ?b2 - ball ?r1 - room ?r2 - room)
+    :precondition (and (carrying ?b1 ?g1) (not (carrying ?b2 ?g2)) (at ?r1))
+    :effect (and (not (carrying ?b1 ?g1)) (carrying ?b2 ?g2) (not (at ?r1)) (at ?r2))
+  )
+)
+
+```
+**USER** :
 ```pddl
+
+(define (domain robots-with-grippers)
+  (:requirements :strips :typing)
+
+  ;; Define types of objects
+  (:types room ball gripper - object)
+  (:constants n - integer)
+
+  ;; Define predicates
+  ((at ?r - room))
+  ((carrying ?g - gripper ?b - ball))
+
+  ;; Define actions
+  (:action pickup
+    :parameters (?g1 - gripper ?g2 - gripper ?b - ball ?r - room)
+    :precondition (and (at ?r) (not (carrying ?b ?g1)) (not (carrying ?b ?g2)))
+    :effect (and (not (at ?r)) (carrying ?b ?g1) (not (carrying ?b ?g2)))
+  )
+  
+  (:action putdown
+    :parameters (?g1 - gripper ?g2 - gripper ?b - ball ?r - room)
+    :precondition (and (carrying ?b ?g1))
+    :effect (and (at ?r) (not (carrying ?b ?g1)) (not (carrying ?b ?g2)))
+  )
+  
+  (:action move
+    :parameters (?g1 - gripper ?g2 - gripper ?r1 - room ?r2 - room)
+    :precondition (and (at ?r1))
+    :effect (and (not (at ?r1)) (at ?r2))
+  )
+  
+  (:action transfer
+    :parameters (?g1 - gripper ?g2 - gripper ?b1 - ball ?b2 - ball ?r1 - room ?r2 - room)
+    :precondition (and (carrying ?b1 ?g1) (not (carrying ?b2 ?g2)) (at ?r1))
+    :effect (and (not (carrying ?b1 ?g1)) (carrying ?b2 ?g2) (not (at ?r1)) (at ?r2))
+  )
+)
+
+```
+
+The above code produces the following error -> There was an error in parsing the code for something that is not a word
+
+Instruction 1: Correct the error and give the entire PDDL code in code blocks and please do not give any explanations in the output.
+Instruction 2: Do not create a problem file and do not use conditional expressions.
+**LLM MODEL** (HUGGING_FACE):
+```pddl 
+
 (define (domain robots-with-grippers)
 (:requirements :strips :typing)
 
-(:types robot - agent, room, object)
-(:functions (num-objects-in-room ?r - room))
+;; Define types of objects
+(:types room ball gripper - object)
+(:constants n - integer)
 
-(:action pick-up
-    :parameters (?r - room ?a - robot ?o - object)
-    :precondition (and (at ?a ?r) (on-floor ?o) (free ?a))
-    :effect (and (not (on-floor ?o)) (carrying ?a ?o) (dec (num-objects-in-room ?r)))
+;; Define predicates
+((at ?r - room))
+((carrying ?g - gripper ?b - ball))
+
+;; Define actions
+(:action pickup
+	:parameters (?g1 - gripper ?g2 - gripper ?b - ball ?r - room)
+	:precondition (and (at ?r) (not (carrying ?b ?g1)) (not (carrying ?b ?g2)))
+	:effect (and (not (at ?r)) (carrying ?b ?g1) (not (carrying ?b ?g2)))
 )
 
-(:action put-down
-    :parameters (?r - room ?a - robot ?o - object)
-    :precondition (and (at ?a ?r) (carrying ?a ?o))
-    :effect (and (on-floor ?o) (free ?a) (inc (num-objects-in-room ?r)))
+(:action putdown
+	:parameters (?g1 - gripper ?g2 - gripper ?b - ball ?r - room)
+	:precondition (and (carrying ?b ?g1))
+	:effect (and (at ?r) (not (carrying ?b ?g1)) (not (carrying ?b ?g2)))
 )
 
 (:action move
-    :parameters (?r1 - room ?a - robot ?r2 - room)
-    :precondition (and (at ?a ?r1) (connected ?r1 ?r2))
-    :effect (and (not (at ?a ?r1)) (at ?a ?r2))
+	:parameters (?g1 - gripper ?g2 - gripper ?r1 - room ?r2 - room)
+	:precondition (and (at ?r1))
+	:effect (and (not (at ?r1)) (at ?r2))
+)
+
+(:action transfer
+	:parameters (?g1 - gripper ?g2 - gripper ?b1 - ball ?b2 - ball ?r1 - room ?r2 - room)
+	:precondition (and (carrying ?b1 ?g1) (not (carrying ?b2 ?g2)) (at ?r1))
+	:effect (and (not (carrying ?b1 ?g1)) (carrying ?b2 ?g2) (not (at ?r1)) (at ?r2))
 )
 )
 
@@ -362,159 +310,85 @@ There is a robot with two grippers. It can carry a ball in each. The goal is to 
 (define (domain robots-with-grippers)
 (:requirements :strips :typing)
 
-(:types robot - agent, room, object)
-(:functions (num-objects-in-room ?r - room))
+;; Define types of objects
+(:types room ball gripper - object)
+(:constants n - integer)
 
-(:action pick-up
-    :parameters (?r - room ?a - robot ?o - object)
-    :precondition (and (at ?a ?r) (on-floor ?o) (free ?a))
-    :effect (and (not (on-floor ?o)) (carrying ?a ?o) (dec (num-objects-in-room ?r)))
+;; Define predicates
+((at ?r - room))
+((carrying ?g - gripper ?b - ball))
+
+;; Define actions
+(:action pickup
+	:parameters (?g1 - gripper ?g2 - gripper ?b - ball ?r - room)
+	:precondition (and (at ?r) (not (carrying ?b ?g1)) (not (carrying ?b ?g2)))
+	:effect (and (not (at ?r)) (carrying ?b ?g1) (not (carrying ?b ?g2)))
 )
 
-(:action put-down
-    :parameters (?r - room ?a - robot ?o - object)
-    :precondition (and (at ?a ?r) (carrying ?a ?o))
-    :effect (and (on-floor ?o) (free ?a) (inc (num-objects-in-room ?r)))
+(:action putdown
+	:parameters (?g1 - gripper ?g2 - gripper ?b - ball ?r - room)
+	:precondition (and (carrying ?b ?g1))
+	:effect (and (at ?r) (not (carrying ?b ?g1)) (not (carrying ?b ?g2)))
 )
 
 (:action move
-    :parameters (?r1 - room ?a - robot ?r2 - room)
-    :precondition (and (at ?a ?r1) (connected ?r1 ?r2))
-    :effect (and (not (at ?a ?r1)) (at ?a ?r2))
+	:parameters (?g1 - gripper ?g2 - gripper ?r1 - room ?r2 - room)
+	:precondition (and (at ?r1))
+	:effect (and (not (at ?r1)) (at ?r2))
+)
+
+(:action transfer
+	:parameters (?g1 - gripper ?g2 - gripper ?b1 - ball ?b2 - ball ?r1 - room ?r2 - room)
+	:precondition (and (carrying ?b1 ?g1) (not (carrying ?b2 ?g2)) (at ?r1))
+	:effect (and (not (carrying ?b1 ?g1)) (carrying ?b2 ?g2) (not (at ?r1)) (at ?r2))
 )
 )
 
 ```
- The above code produces the following error: There is a value error on finding unknown keyword in domain definition: 'functions'. Remove the keyword 'functions' from definition, keep the rest of code the same.
 
- Requirement 1: Correct the error and give the entire PDDL code for a STRIPS Planner. 
- Requirement 2: Do not create a problem file. Do not use conditional expressions. 
- Requirement 3: Generate PDDL domain code in code blocks for a STRIPS Planner. Do not give any explanations.
+The above code produces the following error -> There was an error in parsing the code for something that is not a word
+
+Instruction 1: Correct the error and give the entire PDDL code in code blocks and please do not give any explanations in the output.
+Instruction 2: Do not create a problem file and do not use conditional expressions.
 **LLM MODEL** (HUGGING_FACE):
-```pddl
-(define (domain robots-with-grippers)
-(:requirements :strips :typing)
+```pddl 
 
-(:types robot - agent, room, object)
-
-(:action pick-up
-    :parameters (?r - room ?a - robot ?o - object)
-    :precondition (and (at ?a ?r) (on-floor ?o) (free ?a))
-    :effect (and (not (on-floor ?o)) (carrying ?a ?o))
-)
-
-(:action put-down
-    :parameters (?r - room ?a - robot ?o - object)
-    :precondition (and (at ?a ?r) (carrying ?a ?o))
-    :effect (and (on-floor ?o) (free ?a))
-)
-
-(:action move
-    :parameters (?r1 - room ?a - robot ?r2 - room)
-    :precondition (and (at ?a ?r1) (connected ?r1 ?r2))
-    :effect (and (not (at ?a ?r1)) (at ?a ?r2))
-)
-
-(:action grab-object
-    :parameters (?a - robot ?o - object ?r - room)
-    :precondition (and (at ?a ?r) (on-table ?o) (clear ?o) (free ?a))
-    :effect (and (holding ?a ?o) (not (on-table ?o)) (not (clear ?o))))
-    
-(:action release-object
-    :parameters (?a - robot ?o - object ?r - room)
-    :precondition (and (at ?a ?r) (holding ?a ?o))
-    :effect (and (on-table ?o) (clear ?o) (not (holding ?a ?o))))
-)
-
-```
-**USER** :
-```pddl
-
-(define (domain robots-with-grippers)
-(:requirements :strips :typing)
-
-(:types robot - agent, room, object)
-
-(:action pick-up
-    :parameters (?r - room ?a - robot ?o - object)
-    :precondition (and (at ?a ?r) (on-floor ?o) (free ?a))
-    :effect (and (not (on-floor ?o)) (carrying ?a ?o))
-)
-
-(:action put-down
-    :parameters (?r - room ?a - robot ?o - object)
-    :precondition (and (at ?a ?r) (carrying ?a ?o))
-    :effect (and (on-floor ?o) (free ?a))
-)
-
-(:action move
-    :parameters (?r1 - room ?a - robot ?r2 - room)
-    :precondition (and (at ?a ?r1) (connected ?r1 ?r2))
-    :effect (and (not (at ?a ?r1)) (at ?a ?r2))
-)
-
-(:action grab-object
-    :parameters (?a - robot ?o - object ?r - room)
-    :precondition (and (at ?a ?r) (on-table ?o) (clear ?o) (free ?a))
-    :effect (and (holding ?a ?o) (not (on-table ?o)) (not (clear ?o))))
-    
-(:action release-object
-    :parameters (?a - robot ?o - object ?r - room)
-    :precondition (and (at ?a ?r) (holding ?a ?o))
-    :effect (and (on-table ?o) (clear ?o) (not (holding ?a ?o))))
-)
-
-```
- The above code produces the following error: There is a semantic error of unknown parent type: agent,
-
- Requirement 1: Correct the error and give the entire PDDL code for a STRIPS Planner. 
- Requirement 2: Do not create a problem file. Do not use conditional expressions. 
- Requirement 3: Generate PDDL domain code in code blocks for a STRIPS Planner. Do not give any explanations.
-**LLM MODEL** (HUGGING_FACE):
-```pddl
 (define (domain robots-with-grippers)
   (:requirements :strips :typing)
   
-  (:types robot - agent, location, container, gripper_state
-          object - unique, physical, portable)
+  ;; Define types of objects
+  (:types room ball gripper - object)
+  (:constants n - integer)
   
-  (:predicates
-    (at ?r - robot ?l - location)
-    (in ?o - object ?c - container)
-    (on-floor ?o - object)
-    (on-table ?o - object)
-    (held ?gripper - gripper_state ?o - object)
-    (free ?gripper - gripper_state)
-    (clear ?o - object)
-    (connected ?l1 - location ?l2 - location))
+  ;; Define predicates
+  ((at ?r - room))
+  ((carrying ?g - gripper ?b - ball))
   
-  (:functions
-    (num-objects-at ?l - location))
+  ;; Define actions
+  (:action pickup
+    :parameters (?g - gripper ?b - ball ?r - room)
+    :precondition (and (at ?r) (not (carrying ?b ?g)) )
+    :effect (and (not (at ?r)) (carrying ?b ?g))
+  )
   
-  (:action pick-up
-    :parameters (?r - robot ?o - object ?l - location ?g - gripper_state)
-    :precondition (and (at ?r l) (on-floor o) (free g) (clear o) (< (num-objects-at l) 2))
-    :effect (and (not (on-floor o)) (held g o)))
-  
-  (:action put-down
-    :parameters (?r - robot ?o - object ?l - location ?g - gripper_state)
-    :precondition (and (at ?r l) (held g o))
-    :effect (and (on-floor o) (free g)))
+  (:action putdown
+    :parameters (?g - gripper ?b - ball ?r - room)
+    :precondition (and (carrying ?b ?g))
+    :effect (and (at ?r) (not (carrying ?b ?g)))
+  )
   
   (:action move
-    :parameters (?r - robot ?l1 - location ?l2 - location)
-    :precondition (and (at r l1) (connected l1 l2))
-    :effect (and (not (at r l1)) (at r l2)))
+    :parameters (?g - gripper ?r1 - room ?r2 - room)
+    :precondition (and (at ?r1))
+    :effect (and (not (at ?r1)) (at ?r2))
+  )
   
-  (:action grab-object
-    :parameters (?r - robot ?o - object ?l - location ?g - gripper_state)
-    :precondition (and (at r l) (on-table o) (clear o) (free g))
-    :effect (and (held g o) (not (on-table o)) (not (clear o))))
-  
-  (:action release-object
-    :parameters (?r - robot ?o - object ?l - location ?g - gripper_state)
-    :precondition (and (at r l) (held g o))
-    :effect (and (on-table o) (clear o) (not (held g o)))))
+  (:action transfer
+    :parameters (?g1 - gripper ?g2 - gripper ?b1 - ball ?b2 - ball ?r1 - room ?r2 - room)
+    :precondition (and (carrying ?b1 ?g1) (not (carrying ?b2 ?g2)) (at ?r1))
+    :effect (and (not (carrying ?b1 ?g1)) (carrying ?b2 ?g2) (not (at ?r1)) (at ?r2))
+  )
+)
 
 ```
 **USER** :
@@ -523,184 +397,85 @@ There is a robot with two grippers. It can carry a ball in each. The goal is to 
 (define (domain robots-with-grippers)
   (:requirements :strips :typing)
   
-  (:types robot - agent, location, container, gripper_state
-          object - unique, physical, portable)
+  ;; Define types of objects
+  (:types room ball gripper - object)
+  (:constants n - integer)
   
-  (:predicates
-    (at ?r - robot ?l - location)
-    (in ?o - object ?c - container)
-    (on-floor ?o - object)
-    (on-table ?o - object)
-    (held ?gripper - gripper_state ?o - object)
-    (free ?gripper - gripper_state)
-    (clear ?o - object)
-    (connected ?l1 - location ?l2 - location))
+  ;; Define predicates
+  ((at ?r - room))
+  ((carrying ?g - gripper ?b - ball))
   
-  (:functions
-    (num-objects-at ?l - location))
+  ;; Define actions
+  (:action pickup
+    :parameters (?g - gripper ?b - ball ?r - room)
+    :precondition (and (at ?r) (not (carrying ?b ?g)) )
+    :effect (and (not (at ?r)) (carrying ?b ?g))
+  )
   
-  (:action pick-up
-    :parameters (?r - robot ?o - object ?l - location ?g - gripper_state)
-    :precondition (and (at ?r l) (on-floor o) (free g) (clear o) (< (num-objects-at l) 2))
-    :effect (and (not (on-floor o)) (held g o)))
-  
-  (:action put-down
-    :parameters (?r - robot ?o - object ?l - location ?g - gripper_state)
-    :precondition (and (at ?r l) (held g o))
-    :effect (and (on-floor o) (free g)))
+  (:action putdown
+    :parameters (?g - gripper ?b - ball ?r - room)
+    :precondition (and (carrying ?b ?g))
+    :effect (and (at ?r) (not (carrying ?b ?g)))
+  )
   
   (:action move
-    :parameters (?r - robot ?l1 - location ?l2 - location)
-    :precondition (and (at r l1) (connected l1 l2))
-    :effect (and (not (at r l1)) (at r l2)))
+    :parameters (?g - gripper ?r1 - room ?r2 - room)
+    :precondition (and (at ?r1))
+    :effect (and (not (at ?r1)) (at ?r2))
+  )
   
-  (:action grab-object
-    :parameters (?r - robot ?o - object ?l - location ?g - gripper_state)
-    :precondition (and (at r l) (on-table o) (clear o) (free g))
-    :effect (and (held g o) (not (on-table o)) (not (clear o))))
-  
-  (:action release-object
-    :parameters (?r - robot ?o - object ?l - location ?g - gripper_state)
-    :precondition (and (at r l) (held g o))
-    :effect (and (on-table o) (clear o) (not (held g o)))))
+  (:action transfer
+    :parameters (?g1 - gripper ?g2 - gripper ?b1 - ball ?b2 - ball ?r1 - room ?r2 - room)
+    :precondition (and (carrying ?b1 ?g1) (not (carrying ?b2 ?g2)) (at ?r1))
+    :effect (and (not (carrying ?b1 ?g1)) (carrying ?b2 ?g2) (not (at ?r1)) (at ?r2))
+  )
+)
 
 ```
- The above code produces the following error: There is a value error on finding unknown keyword in domain definition: 'functions'. Remove the keyword 'functions' from definition, keep the rest of code the same.
 
- Requirement 1: Correct the error and give the entire PDDL code for a STRIPS Planner. 
- Requirement 2: Do not create a problem file. Do not use conditional expressions. 
- Requirement 3: Generate PDDL domain code in code blocks for a STRIPS Planner. Do not give any explanations.
+The above code produces the following error -> There was an error in parsing the code for something that is not a word
+
+Instruction 1: Correct the error and give the entire PDDL code in code blocks and please do not give any explanations in the output.
+Instruction 2: Do not create a problem file and do not use conditional expressions.
 **LLM MODEL** (HUGGING_FACE):
-```pddl (define (domain robots-with-grippers)
-(:requirements :strips :typing)
+```pddl 
 
-(:types robot - agent, location, container, gripper\_state
-object - unique, physical, portable)
-
-(:predicates
-(at ?r - robot ?l - location)
-(in ?o - object ?c - container)
-(on-floor ?o - object)
-(on-table ?o - object)
-(held ?gripper - gripper\_state ?o - object)
-(free ?gripper - gripper\_state)
-(clear ?o - object)
-(connected ?l1 - location ?l2 - location))
-
-(:action pick-up
-:parameters (?r - robot ?o - object ?l - location ?g - gripper\_state)
-:precondition (and (at ?r l) (on-floor o) (free g) (clear o) (< (count objects at l) 2))
-:effect (and (not (on-floor o)) (held g o)))
-
-(:action put-down
-:parameters (?r - robot ?o - object ?l - location ?g - gripper\_state)
-:precondition (and (at ?r l) (held g o))
-:effect (and (on-floor o) (free g)))
-
-(:action move
-:parameters (?r - robot ?l1 - location ?l2 - location)
-:precondition (and (at r l1) (connected l1 l2))
-:effect (and (not (at r l1)) (at r l2)))
-
-(:action grab-object
-:parameters (?r - robot ?o - object ?l - location ?g - gripper\_state)
-:precondition (and (at r l) (on-table o) (clear o) (free g))
-:effect (and (held g o) (not (on-table o)) (not (clear o))))
-
-(:action release-object
-:parameters (?r - robot ?o - object ?l - location ?g - gripper\_state)
-:precondition (and (at r l) (held g o))
-:effect (and (on-table o) (clear o) (not (held g o)))))
-```
-**USER** :
-```pddl
- (define (domain robots-with-grippers)
-(:requirements :strips :typing)
-
-(:types robot - agent, location, container, gripper\_state
-object - unique, physical, portable)
-
-(:predicates
-(at ?r - robot ?l - location)
-(in ?o - object ?c - container)
-(on-floor ?o - object)
-(on-table ?o - object)
-(held ?gripper - gripper\_state ?o - object)
-(free ?gripper - gripper\_state)
-(clear ?o - object)
-(connected ?l1 - location ?l2 - location))
-
-(:action pick-up
-:parameters (?r - robot ?o - object ?l - location ?g - gripper\_state)
-:precondition (and (at ?r l) (on-floor o) (free g) (clear o) (< (count objects at l) 2))
-:effect (and (not (on-floor o)) (held g o)))
-
-(:action put-down
-:parameters (?r - robot ?o - object ?l - location ?g - gripper\_state)
-:precondition (and (at ?r l) (held g o))
-:effect (and (on-floor o) (free g)))
-
-(:action move
-:parameters (?r - robot ?l1 - location ?l2 - location)
-:precondition (and (at r l1) (connected l1 l2))
-:effect (and (not (at r l1)) (at r l2)))
-
-(:action grab-object
-:parameters (?r - robot ?o - object ?l - location ?g - gripper\_state)
-:precondition (and (at r l) (on-table o) (clear o) (free g))
-:effect (and (held g o) (not (on-table o)) (not (clear o))))
-
-(:action release-object
-:parameters (?r - robot ?o - object ?l - location ?g - gripper\_state)
-:precondition (and (at r l) (held g o))
-:effect (and (on-table o) (clear o) (not (held g o)))))
-```
- The above code produces the following error: There is a semantic error of unknown parent type: agent,
-
- Requirement 1: Correct the error and give the entire PDDL code for a STRIPS Planner. 
- Requirement 2: Do not create a problem file. Do not use conditional expressions. 
- Requirement 3: Generate PDDL domain code in code blocks for a STRIPS Planner. Do not give any explanations.
-**LLM MODEL** (HUGGING_FACE):
-```pddl
 (define (domain robots-with-grippers)
   (:requirements :strips :typing)
   
-  (:types robot location container gripper_state object)
+  ;; Define types of objects
+  (:types room ball gripper - object)
+  (:constants n - integer)
   
-  (:predicates
-    (at ?r - robot ?l - location)
-    (in ?o - object ?c - container)
-    (on-floor ?o - object)
-    (on-table ?o - object)
-    (held ?gripper - gripper_state ?o - object)
-    (free ?gripper - gripper_state)
-    (clear ?o - object)
-    (connected ?l1 - location ?l2 - location))
+  ;; Define predicates
+  ((at ?r - room))
+  ((carrying ?g - gripper ?b - ball))
   
-  (:action pick-up
-    :parameters (?r - robot ?o - object ?l - location ?g - gripper_state)
-    :precondition (and (at ?r ?l) (on-floor ?o) (free ?g) (clear ?o) (< (count objects at ?l) 2))
-    :effect (and (not (on-floor ?o)) (held ?g ?o)))
+  ;; Define actions
+  (:action pickup
+    :parameters (?g - gripper ?b - ball ?r - room)
+    :precondition (and (at ?r) (not (carrying ?b ?g)))
+    :effect (and (not (at ?r)) (carrying ?b ?g))
+  )
   
-  (:action put-down
-    :parameters (?r - robot ?o - object ?l - location ?g - gripper_state)
-    :precondition (and (at ?r ?l) (held ?g ?o))
-    :effect (and (on-floor ?o) (free ?g)))
+  (:action putdown
+    :parameters (?g - gripper ?b - ball ?r - room)
+    :precondition (and (carrying ?b ?g))
+    :effect (and (at ?r) (not (carrying ?b ?g)))
+  )
   
   (:action move
-    :parameters (?r - robot ?l1 - location ?l2 - location)
-    :precondition (and (at ?r ?l1) (connected ?l1 ?l2))
-    :effect (and (not (at ?r ?l1)) (at ?r ?l2)))
+    :parameters (?g - gripper ?r1 - room ?r2 - room)
+    :precondition (and (at ?r1))
+    :effect (and (not (at ?r1)) (at ?r2))
+  )
   
-  (:action grab-object
-    :parameters (?r - robot ?o - object ?l - location ?g - gripper_state)
-    :precondition (and (at ?r ?l) (on-table ?o) (clear ?o) (free ?g))
-    :effect (and (held ?g ?o) (not (on-table ?o)) (not (clear ?o))))
-  
-  (:action release-object
-    :parameters (?r - robot ?o - object ?l - location ?g - gripper_state)
-    :precondition (and (at ?r ?l) (held ?g ?o))
-    :effect (and (on-table ?o) (clear ?o) (not (held ?g ?o)))))
+  (:action transfer
+    :parameters (?g1 - gripper ?g2 - gripper ?b1 - ball ?b2 - ball ?r1 - room ?r2 - room)
+    :precondition (and (carrying ?b1 ?g1) (not (carrying ?b2 ?g2)) (at ?r1))
+    :effect (and (not (carrying ?b1 ?g1)) (carrying ?b2 ?g2) (not (at ?r1)) (at ?r2))
+  )
+)
 
 ```
 **USER** :
@@ -709,89 +484,1680 @@ object - unique, physical, portable)
 (define (domain robots-with-grippers)
   (:requirements :strips :typing)
   
-  (:types robot location container gripper_state object)
+  ;; Define types of objects
+  (:types room ball gripper - object)
+  (:constants n - integer)
   
-  (:predicates
-    (at ?r - robot ?l - location)
-    (in ?o - object ?c - container)
-    (on-floor ?o - object)
-    (on-table ?o - object)
-    (held ?gripper - gripper_state ?o - object)
-    (free ?gripper - gripper_state)
-    (clear ?o - object)
-    (connected ?l1 - location ?l2 - location))
+  ;; Define predicates
+  ((at ?r - room))
+  ((carrying ?g - gripper ?b - ball))
   
-  (:action pick-up
-    :parameters (?r - robot ?o - object ?l - location ?g - gripper_state)
-    :precondition (and (at ?r ?l) (on-floor ?o) (free ?g) (clear ?o) (< (count objects at ?l) 2))
-    :effect (and (not (on-floor ?o)) (held ?g ?o)))
+  ;; Define actions
+  (:action pickup
+    :parameters (?g - gripper ?b - ball ?r - room)
+    :precondition (and (at ?r) (not (carrying ?b ?g)))
+    :effect (and (not (at ?r)) (carrying ?b ?g))
+  )
   
-  (:action put-down
-    :parameters (?r - robot ?o - object ?l - location ?g - gripper_state)
-    :precondition (and (at ?r ?l) (held ?g ?o))
-    :effect (and (on-floor ?o) (free ?g)))
+  (:action putdown
+    :parameters (?g - gripper ?b - ball ?r - room)
+    :precondition (and (carrying ?b ?g))
+    :effect (and (at ?r) (not (carrying ?b ?g)))
+  )
   
   (:action move
-    :parameters (?r - robot ?l1 - location ?l2 - location)
-    :precondition (and (at ?r ?l1) (connected ?l1 ?l2))
-    :effect (and (not (at ?r ?l1)) (at ?r ?l2)))
+    :parameters (?g - gripper ?r1 - room ?r2 - room)
+    :precondition (and (at ?r1))
+    :effect (and (not (at ?r1)) (at ?r2))
+  )
   
-  (:action grab-object
-    :parameters (?r - robot ?o - object ?l - location ?g - gripper_state)
-    :precondition (and (at ?r ?l) (on-table ?o) (clear ?o) (free ?g))
-    :effect (and (held ?g ?o) (not (on-table ?o)) (not (clear ?o))))
-  
-  (:action release-object
-    :parameters (?r - robot ?o - object ?l - location ?g - gripper_state)
-    :precondition (and (at ?r ?l) (held ?g ?o))
-    :effect (and (on-table ?o) (clear ?o) (not (held ?g ?o)))))
+  (:action transfer
+    :parameters (?g1 - gripper ?g2 - gripper ?b1 - ball ?b2 - ball ?r1 - room ?r2 - room)
+    :precondition (and (carrying ?b1 ?g1) (not (carrying ?b2 ?g2)) (at ?r1))
+    :effect (and (not (carrying ?b1 ?g1)) (carrying ?b2 ?g2) (not (at ?r1)) (at ?r2))
+  )
+)
 
 ```
- The above code produces the following error: There is a semantic error where unknown predicate '<' used in precondition of action. Remove '<' from the precondition of all actions having it.
 
- Requirement 1: Correct the error and give the entire PDDL code for a STRIPS Planner. 
- Requirement 2: Do not create a problem file. Do not use conditional expressions. 
- Requirement 3: Generate PDDL domain code in code blocks for a STRIPS Planner. Do not give any explanations.
+The above code produces the following error -> There was an error in parsing the code for something that is not a word
+
+Instruction 1: Correct the error and give the entire PDDL code in code blocks and please do not give any explanations in the output.
+Instruction 2: Do not create a problem file and do not use conditional expressions.
 **LLM MODEL** (HUGGING_FACE):
-```pddl
+```pddl 
+
 (define (domain robots-with-grippers)
   (:requirements :strips :typing)
   
-  (:types robot location container gripper_state object)
+  ;; Define types of objects
+  (:types room ball gripper - object)
+  (:constants n - integer)
   
-  (:predicates
-    (at ?r - robot ?l - location)
-    (in ?o - object ?c - container)
-    (on-floor ?o - object)
-    (on-table ?o - object)
-    (held ?gripper - gripper_state ?o - object)
-    (free ?gripper - gripper_state)
-    (clear ?o - object)
-    (connected ?l1 - location ?l2 - location))
+  ;; Define predicates
+  ((at ?r - room))
+  ((carrying ?g - gripper ?b - ball))
   
-  (:action pick-up
-    :parameters (?r - robot ?o - object ?l - location ?g - gripper_state)
-    :precondition (and (at ?r ?l) (on-floor ?o) (free ?g) (clear ?o))
-    :effect (and (not (on-floor ?o)) (held ?g ?o)))
+  ;; Define actions
+  (:action pickup
+    :parameters (?g - gripper ?b - ball ?r - room)
+    :precondition (and (at "?r") (not (carrying "?b" "?g")))
+    :effect (and (not (at "?r")) (carrying "?b" "?g"))
+  )
   
-  (:action put-down
-    :parameters (?r - robot ?o - object ?l - location ?g - gripper_state)
-    :precondition (and (at ?r ?l) (held ?g ?o))
-    :effect (and (on-floor ?o) (free ?g)))
+  (:action putdown
+    :parameters (?g - gripper ?b - ball ?r - room)
+    :precondition (and (carrying "?b" "?g"))
+    :effect (and (at "?r") (not (carrying "?b" "?g")))
+  )
   
   (:action move
-    :parameters (?r - robot ?l1 - location ?l2 - location)
-    :precondition (and (at ?r ?l1) (connected ?l1 ?l2))
-    :effect (and (not (at ?r ?l1)) (at ?r ?l2)))
+    :parameters (?g - gripper ?r1 - room ?r2 - room)
+    :precondition (and (at "?r1"))
+    :effect (and (not (at "?r1")) (at "?r2"))
+  )
   
-  (:action grab-object
-    :parameters (?r - robot ?o - object ?l - location ?g - gripper_state)
-    :precondition (and (at ?r ?l) (on-table ?o) (clear ?o) (free ?g))
-    :effect (and (held ?g ?o) (not (on-table ?o)) (not (clear ?o))))
+  (:action transfer
+    :parameters (?g1 - gripper ?g2 - gripper ?b1 - ball ?b2 - ball ?r1 - room ?r2 - room)
+    :precondition (and (carrying "?b1" "?g1") (not (carrying "?b2" "?g2")) (at "?r1"))
+    :effect (and (not (carrying "?b1" "?g1")) (carrying "?b2" "?g2") (not (at "?r1")) (at "?r2"))
+  )
+)
+
+```
+**USER** :
+```pddl
+
+(define (domain robots-with-grippers)
+  (:requirements :strips :typing)
   
-  (:action release-object
-    :parameters (?r - robot ?o - object ?l - location ?g - gripper_state)
-    :precondition (and (at ?r ?l) (held ?g ?o))
-    :effect (and (on-table ?o) (clear ?o) (not (held ?g ?o)))))
+  ;; Define types of objects
+  (:types room ball gripper - object)
+  (:constants n - integer)
+  
+  ;; Define predicates
+  ((at ?r - room))
+  ((carrying ?g - gripper ?b - ball))
+  
+  ;; Define actions
+  (:action pickup
+    :parameters (?g - gripper ?b - ball ?r - room)
+    :precondition (and (at "?r") (not (carrying "?b" "?g")))
+    :effect (and (not (at "?r")) (carrying "?b" "?g"))
+  )
+  
+  (:action putdown
+    :parameters (?g - gripper ?b - ball ?r - room)
+    :precondition (and (carrying "?b" "?g"))
+    :effect (and (at "?r") (not (carrying "?b" "?g")))
+  )
+  
+  (:action move
+    :parameters (?g - gripper ?r1 - room ?r2 - room)
+    :precondition (and (at "?r1"))
+    :effect (and (not (at "?r1")) (at "?r2"))
+  )
+  
+  (:action transfer
+    :parameters (?g1 - gripper ?g2 - gripper ?b1 - ball ?b2 - ball ?r1 - room ?r2 - room)
+    :precondition (and (carrying "?b1" "?g1") (not (carrying "?b2" "?g2")) (at "?r1"))
+    :effect (and (not (carrying "?b1" "?g1")) (carrying "?b2" "?g2") (not (at "?r1")) (at "?r2"))
+  )
+)
+
+```
+
+The above code produces the following error -> There was an error in parsing the code for something that is not a word
+
+Instruction 1: Correct the error and give the entire PDDL code in code blocks and please do not give any explanations in the output.
+Instruction 2: Do not create a problem file and do not use conditional expressions.
+**LLM MODEL** (HUGGING_FACE):
+```pddl 
+
+(define (domain robots-with-grippers)
+  (:requirements :strips :typing)
+  
+  ;; Define types of objects
+  (:types room ball gripper - object)
+  (:constants n - integer)
+  
+  ;; Define predicates
+  ((at ?r - room))
+  ((carrying ?g - gripper ?b - ball))
+  
+  ;; Define actions
+  (:action pickup
+    :parameters (?g - gripper ?b - ball ?r - room)
+    :precondition (and (at ?r) (not (carrying ?b ?g)))
+    :effect (and (not (at ?r)) (carrying ?b ?g))
+  )
+  
+  (:action putdown
+    :parameters (?g - gripper ?b - ball ?r - room)
+    :precondition (and (carrying ?b ?g))
+    :effect (and (at ?r) (not (carrying ?b ?g)))
+  )
+  
+  (:action move
+    :parameters (?g - gripper ?r1 - room ?r2 - room)
+    :precondition (and (at ?r1))
+    :effect (and (not (at ?r1)) (at ?r2))
+  )
+  
+  (:action transfer
+    :parameters (?g1 - gripper ?g2 - gripper ?b1 - ball ?b2 - ball ?r1 - room ?r2 - room)
+    :precondition (and (carrying ?b1 ?g1) (not (carrying ?b2 ?g2)) (at ?r1))
+    :effect (and (not (carrying ?b1 ?g1)) (carrying ?b2 ?g2) (not (at ?r1)) (at ?r2))
+  )
+)
+
+```
+**USER** :
+```pddl
+
+(define (domain robots-with-grippers)
+  (:requirements :strips :typing)
+  
+  ;; Define types of objects
+  (:types room ball gripper - object)
+  (:constants n - integer)
+  
+  ;; Define predicates
+  ((at ?r - room))
+  ((carrying ?g - gripper ?b - ball))
+  
+  ;; Define actions
+  (:action pickup
+    :parameters (?g - gripper ?b - ball ?r - room)
+    :precondition (and (at ?r) (not (carrying ?b ?g)))
+    :effect (and (not (at ?r)) (carrying ?b ?g))
+  )
+  
+  (:action putdown
+    :parameters (?g - gripper ?b - ball ?r - room)
+    :precondition (and (carrying ?b ?g))
+    :effect (and (at ?r) (not (carrying ?b ?g)))
+  )
+  
+  (:action move
+    :parameters (?g - gripper ?r1 - room ?r2 - room)
+    :precondition (and (at ?r1))
+    :effect (and (not (at ?r1)) (at ?r2))
+  )
+  
+  (:action transfer
+    :parameters (?g1 - gripper ?g2 - gripper ?b1 - ball ?b2 - ball ?r1 - room ?r2 - room)
+    :precondition (and (carrying ?b1 ?g1) (not (carrying ?b2 ?g2)) (at ?r1))
+    :effect (and (not (carrying ?b1 ?g1)) (carrying ?b2 ?g2) (not (at ?r1)) (at ?r2))
+  )
+)
+
+```
+
+The above code produces the following error -> There was an error in parsing the code for something that is not a word
+
+Instruction 1: Correct the error and give the entire PDDL code in code blocks and please do not give any explanations in the output.
+Instruction 2: Do not create a problem file and do not use conditional expressions.
+**LLM MODEL** (HUGGING_FACE):
+```pddl 
+
+(define (domain robots-with-grippers)
+(:requirements :strips :typing)
+;; Define types of objects
+(::types room ball gripper - object)
+(::constant n - integer)
+;; Define predicates
+((at ?r - room))
+((carrying ?g - gripper ?b - ball))
+;; Define actions
+(:action pickup
+(:parameters (?g - gripper ?b - ball ?r - room))
+(:precondition (and (at ?r) (not (carrying ?b ?g))))
+(:effect (and (not (at ?r)) (carrying ?b ?g)))
+)
+(:action putdown
+(:parameters (?g - gripper ?b - ball ?r - room))
+(:precondition (and (carrying ?b ?g)))
+(:effect (and (at ?r) (not (carrying ?b ?g)))
+)
+)
+(:action move
+(:parameters (?g - gripper ?r1 - room ?r2 - room))
+(:precondition (and (at ?r1)))
+(:effect (and (not (at ?r1)) (at ?r2)))
+)
+(:action transfer
+(:parameters (?g1 - gripper ?g2 - gripper ?b1 - ball ?b2 - ball ?r1 - room ?r2 - room))
+(:precondition (and (carrying ?b1 ?g1) (not (carrying ?b2 ?g2)) (at ?r1)))
+(:effect (and (not (carrying ?b1 ?g1)) (carrying ?b2 ?g2) (not (at ?r1)) (at ?r2)))
+)
+)
+
+```
+**USER** :
+```pddl
+
+(define (domain robots-with-grippers)
+(:requirements :strips :typing)
+;; Define types of objects
+(::types room ball gripper - object)
+(::constant n - integer)
+;; Define predicates
+((at ?r - room))
+((carrying ?g - gripper ?b - ball))
+;; Define actions
+(:action pickup
+(:parameters (?g - gripper ?b - ball ?r - room))
+(:precondition (and (at ?r) (not (carrying ?b ?g))))
+(:effect (and (not (at ?r)) (carrying ?b ?g)))
+)
+(:action putdown
+(:parameters (?g - gripper ?b - ball ?r - room))
+(:precondition (and (carrying ?b ?g)))
+(:effect (and (at ?r) (not (carrying ?b ?g)))
+)
+)
+(:action move
+(:parameters (?g - gripper ?r1 - room ?r2 - room))
+(:precondition (and (at ?r1)))
+(:effect (and (not (at ?r1)) (at ?r2)))
+)
+(:action transfer
+(:parameters (?g1 - gripper ?g2 - gripper ?b1 - ball ?b2 - ball ?r1 - room ?r2 - room))
+(:precondition (and (carrying ?b1 ?g1) (not (carrying ?b2 ?g2)) (at ?r1)))
+(:effect (and (not (carrying ?b1 ?g1)) (carrying ?b2 ?g2) (not (at ?r1)) (at ?r2)))
+)
+)
+
+```
+
+The above code produces the following error -> There is a value error on finding unknown keyword in domain definition: ':types'. Valid keywords in definition are 'requirements', 'types', 'predicates', 'constants' and 'action'. Remove the keyword ':types' from definition, keep the rest of code the same.
+
+Instruction 1: Correct the error and give the entire PDDL code in code blocks and please do not give any explanations in the output.
+Instruction 2: Do not create a problem file and do not use conditional expressions.
+**LLM MODEL** (HUGGING_FACE):
+```pddl 
+
+(define (domain robots-with-grippers)
+(:requirements :strips :typing)
+;; Define types of objects
+(types room ball gripper - object)
+(; Constant defining number of grippers
+:constants n - integer)
+;; Define predicates
+(predicate (at ?r - room))
+(predicate (carrying ?g - gripper ?b - ball))
+;; Define actions
+(:action pickup
+(:parameters (?g - gripper ?b - ball ?r - room))
+(:precondition (and (at ?r) (not (carrying ?b ?g))))
+(:effect (and (not (at ?r)) (carrying ?b ?g)))
+)
+(:action putdown
+(:parameters (?g - gripper ?b - ball ?r - room))
+(:precondition (and (carrying ?b ?g)))
+(:effect (and (at ?r) (not (carrying ?b ?g)))
+)
+)
+(:action move
+(:parameters (?g - gripper ?r1 - room ?r2 - room))
+(:precondition (and (at ?r1)))
+(:effect (and (not (at ?r1)) (at ?r2)))
+)
+(:action transfer
+(:parameters (?g1 - gripper ?g2 - gripper ?b1 - ball ?b2 - ball ?r1 - room ?r2 - room))
+(:precondition (and (carrying ?b1 ?g1) (not (carrying ?b2 ?g2)) (at ?r1)))
+(:effect (and (not (carrying ?b1 ?g1)) (carrying ?b2 ?g2) (not (at ?r1)) (at ?r2)))
+)
+)
+
+```
+**USER** :
+```pddl
+
+(define (domain robots-with-grippers)
+(:requirements :strips :typing)
+;; Define types of objects
+(types room ball gripper - object)
+(; Constant defining number of grippers
+:constants n - integer)
+;; Define predicates
+(predicate (at ?r - room))
+(predicate (carrying ?g - gripper ?b - ball))
+;; Define actions
+(:action pickup
+(:parameters (?g - gripper ?b - ball ?r - room))
+(:precondition (and (at ?r) (not (carrying ?b ?g))))
+(:effect (and (not (at ?r)) (carrying ?b ?g)))
+)
+(:action putdown
+(:parameters (?g - gripper ?b - ball ?r - room))
+(:precondition (and (carrying ?b ?g)))
+(:effect (and (at ?r) (not (carrying ?b ?g)))
+)
+)
+(:action move
+(:parameters (?g - gripper ?r1 - room ?r2 - room))
+(:precondition (and (at ?r1)))
+(:effect (and (not (at ?r1)) (at ?r2)))
+)
+(:action transfer
+(:parameters (?g1 - gripper ?g2 - gripper ?b1 - ball ?b2 - ball ?r1 - room ?r2 - room))
+(:precondition (and (carrying ?b1 ?g1) (not (carrying ?b2 ?g2)) (at ?r1)))
+(:effect (and (not (carrying ?b1 ?g1)) (carrying ?b2 ?g2) (not (at ?r1)) (at ?r2)))
+)
+)
+
+```
+
+The above code produces the following error -> There is a value error where keywords have to start with a colon ":". For example, ":requirements", ":predicates", ":action", ":parameters", ":precondition" and ":effect" are valid keywords.
+
+Instruction 1: Correct the error and give the entire PDDL code in code blocks and please do not give any explanations in the output.
+Instruction 2: Do not create a problem file and do not use conditional expressions.
+**LLM MODEL** (HUGGING_FACE):
+```pddl 
+
+(define (domain robots-with-grippers)
+  (:requirements :strips :typing)
+  ;; Define types of objects
+  (types room ball gripper - object)
+  ;; Define constants
+  (constants n - integer)
+  ;; Define predicates
+  (predicate (at ?r - room))
+  (predicate (carrying ?g - gripper ?b - ball))
+  ;; Define actions
+  (:action pickup
+    :parameters (?g - gripper ?b - ball ?r - room)
+    :precondition (and (at ?r) (not (carrying ?b ?g)))
+    :effect (and (not (at ?r)) (carrying ?b ?g))
+  )
+  (:action putdown
+    :parameters (?g - gripper ?b - ball ?r - room)
+    :precondition (and (carrying ?b ?g))
+    :effect (and (at ?r) (not (carrying ?b ?g)))
+  )
+  (:action move
+    :parameters (?g - gripper ?r1 - room ?r2 - room)
+    :precondition (and (at ?r1))
+    :effect (and (not (at ?r1)) (at ?r2))
+  )
+  (:action transfer
+    :parameters (?g1 - gripper ?g2 - gripper ?b1 - ball ?b2 - ball ?r1 - room ?r2 - room)
+    :precondition (and (carrying ?b1 ?g1) (not (carrying ?b2 ?g2)) (at ?r1))
+    :effect (and (not (carrying ?b1 ?g1)) (carrying ?b2 ?g2) (not (at ?r1)) (at ?r2))
+  )
+)
+
+```
+**USER** :
+```pddl
+
+(define (domain robots-with-grippers)
+  (:requirements :strips :typing)
+  ;; Define types of objects
+  (types room ball gripper - object)
+  ;; Define constants
+  (constants n - integer)
+  ;; Define predicates
+  (predicate (at ?r - room))
+  (predicate (carrying ?g - gripper ?b - ball))
+  ;; Define actions
+  (:action pickup
+    :parameters (?g - gripper ?b - ball ?r - room)
+    :precondition (and (at ?r) (not (carrying ?b ?g)))
+    :effect (and (not (at ?r)) (carrying ?b ?g))
+  )
+  (:action putdown
+    :parameters (?g - gripper ?b - ball ?r - room)
+    :precondition (and (carrying ?b ?g))
+    :effect (and (at ?r) (not (carrying ?b ?g)))
+  )
+  (:action move
+    :parameters (?g - gripper ?r1 - room ?r2 - room)
+    :precondition (and (at ?r1))
+    :effect (and (not (at ?r1)) (at ?r2))
+  )
+  (:action transfer
+    :parameters (?g1 - gripper ?g2 - gripper ?b1 - ball ?b2 - ball ?r1 - room ?r2 - room)
+    :precondition (and (carrying ?b1 ?g1) (not (carrying ?b2 ?g2)) (at ?r1))
+    :effect (and (not (carrying ?b1 ?g1)) (carrying ?b2 ?g2) (not (at ?r1)) (at ?r2))
+  )
+)
+
+```
+
+The above code produces the following error -> There is a value error where keywords have to start with a colon ":". For example, ":requirements", ":predicates", ":action", ":parameters", ":precondition" and ":effect" are valid keywords.
+
+Instruction 1: Correct the error and give the entire PDDL code in code blocks and please do not give any explanations in the output.
+Instruction 2: Do not create a problem file and do not use conditional expressions.
+**LLM MODEL** (HUGGING_FACE):
+```pddl 
+
+(define (domain robots-with-grippers)
+  (:requirements :strips :typing)
+  ;; Define types of objects
+  (:types room ball gripper - object)
+  ;; Define constants
+  (:constants n - integer)
+  ;; Define predicates
+  (:predicate (at ?r - room))
+  (:predicate (carrying ?g - gripper ?b - ball))
+  ;; Define actions
+  (:action pickup
+    :parameters (?g - gripper ?b - ball ?r - room)
+    :precondition (and (at ?r) (not (carrying ?b ?g)))
+    :effect (and (not (at ?r)) (carrying ?b ?g))
+  )
+  (:action putdown
+    :parameters (?g - gripper ?b - ball ?r - room)
+    :precondition (and (carrying ?b ?g))
+    :effect (and (at ?r) (not (carrying ?b ?g)))
+  )
+  (:action move
+    :parameters (?g - gripper ?r1 - room ?r2 - room)
+    :precondition (and (at ?r1))
+    :effect (and (not (at ?r1)) (at ?r2))
+  )
+  (:action transfer
+    :parameters (?g1 - gripper ?g2 - gripper ?b1 - ball ?b2 - ball ?r1 - room ?r2 - room)
+    :precondition (and (carrying ?b1 ?g1) (not (carrying ?b2 ?g2)) (at ?r1))
+    :effect (and (not (carrying ?b1 ?g1)) (carrying ?b2 ?g2) (not (at ?r1)) (at ?r2))
+  )
+)
+
+```
+**USER** :
+```pddl
+
+(define (domain robots-with-grippers)
+  (:requirements :strips :typing)
+  ;; Define types of objects
+  (:types room ball gripper - object)
+  ;; Define constants
+  (:constants n - integer)
+  ;; Define predicates
+  (:predicate (at ?r - room))
+  (:predicate (carrying ?g - gripper ?b - ball))
+  ;; Define actions
+  (:action pickup
+    :parameters (?g - gripper ?b - ball ?r - room)
+    :precondition (and (at ?r) (not (carrying ?b ?g)))
+    :effect (and (not (at ?r)) (carrying ?b ?g))
+  )
+  (:action putdown
+    :parameters (?g - gripper ?b - ball ?r - room)
+    :precondition (and (carrying ?b ?g))
+    :effect (and (at ?r) (not (carrying ?b ?g)))
+  )
+  (:action move
+    :parameters (?g - gripper ?r1 - room ?r2 - room)
+    :precondition (and (at ?r1))
+    :effect (and (not (at ?r1)) (at ?r2))
+  )
+  (:action transfer
+    :parameters (?g1 - gripper ?g2 - gripper ?b1 - ball ?b2 - ball ?r1 - room ?r2 - room)
+    :precondition (and (carrying ?b1 ?g1) (not (carrying ?b2 ?g2)) (at ?r1))
+    :effect (and (not (carrying ?b1 ?g1)) (carrying ?b2 ?g2) (not (at ?r1)) (at ?r2))
+  )
+)
+
+```
+
+The above code produces the following error -> There is a value error on finding unknown keyword in domain definition: 'predicate'. Valid keywords in definition are 'requirements', 'types', 'predicates', 'constants' and 'action'. Remove the keyword 'predicate' from definition, keep the rest of code the same.
+
+Instruction 1: Correct the error and give the entire PDDL code in code blocks and please do not give any explanations in the output.
+Instruction 2: Do not create a problem file and do not use conditional expressions.
+**LLM MODEL** (HUGGING_FACE):
+```pddl 
+
+(define (domain robots-with-grippers)
+  (:requirements :strips :typing)
+  ;; Define types of objects
+  (:types room ball gripper - object)
+  ;; Define constants
+  (:constants n - integer)
+  ;; Define predicates
+  (:predicates (at ?r - room) (carrying ?g - gripper ?b - ball))
+  ;; Define actions
+  (:action pickup
+    :parameters (?g - gripper ?b - ball ?r - room)
+    :precondition (and (at ?r) (not (carrying ?b ?g)))
+    :effect (and (not (at ?r)) (carrying ?b ?g))
+  )
+  (:action putdown
+    :parameters (?g - gripper ?b - ball ?r - room)
+    :precondition (and (carrying ?b ?g))
+    :effect (and (at ?r) (not (carrying ?b ?g)))
+  )
+  (:action move
+    :parameters (?g - gripper ?r1 - room ?r2 - room)
+    :precondition (and (at ?r1))
+    :effect (and (not (at ?r1)) (at ?r2))
+  )
+  (:action transfer
+    :parameters (?g1 - gripper ?g2 - gripper ?b1 - ball ?b2 - ball ?r1 - room ?r2 - room)
+    :precondition (and (carrying ?b1 ?g1) (not (carrying ?b2 ?g2)) (at ?r1))
+    :effect (and (not (carrying ?b1 ?g1)) (carrying ?b2 ?g2) (not (at ?r1)) (at ?r2))
+  )
+)
+
+```
+**USER** :
+```pddl
+
+(define (domain robots-with-grippers)
+  (:requirements :strips :typing)
+  ;; Define types of objects
+  (:types room ball gripper - object)
+  ;; Define constants
+  (:constants n - integer)
+  ;; Define predicates
+  (:predicates (at ?r - room) (carrying ?g - gripper ?b - ball))
+  ;; Define actions
+  (:action pickup
+    :parameters (?g - gripper ?b - ball ?r - room)
+    :precondition (and (at ?r) (not (carrying ?b ?g)))
+    :effect (and (not (at ?r)) (carrying ?b ?g))
+  )
+  (:action putdown
+    :parameters (?g - gripper ?b - ball ?r - room)
+    :precondition (and (carrying ?b ?g))
+    :effect (and (at ?r) (not (carrying ?b ?g)))
+  )
+  (:action move
+    :parameters (?g - gripper ?r1 - room ?r2 - room)
+    :precondition (and (at ?r1))
+    :effect (and (not (at ?r1)) (at ?r2))
+  )
+  (:action transfer
+    :parameters (?g1 - gripper ?g2 - gripper ?b1 - ball ?b2 - ball ?r1 - room ?r2 - room)
+    :precondition (and (carrying ?b1 ?g1) (not (carrying ?b2 ?g2)) (at ?r1))
+    :effect (and (not (carrying ?b1 ?g1)) (carrying ?b2 ?g2) (not (at ?r1)) (at ?r2))
+  )
+)
+
+```
+
+The above code produces the following error -> There is a semantic error where unknown predicate 'not' used in precondition of action name 'pickup'. Remove negative literals from the precondition of the action having it and rewrite that action only.
+
+Instruction 1: Correct the error and give the entire PDDL code in code blocks and please do not give any explanations in the output.
+Instruction 2: Do not create a problem file and do not use conditional expressions.
+**LLM MODEL** (HUGGING_FACE):
+```pddl 
+
+(define (domain robots-with-grippers)
+(:requirements :strips :typing)
+;; Define types of objects
+(::types room ball gripper - object)
+;; Define constants
+(::constants n - integer)
+;; Define predicates
+(::predicates (at ?r - room) (carrying ?g - gripper ?b - ball))
+;; Define actions
+(::action pickup
+	:parameters (?g - gripper ?b - ball ?r - room)
+	:precondition (and (at ?r) (not (carrying ?g any-ball)))
+	:effect (and (not (at ?r)) (carrying ?g ?b))
+)
+(::action putdown
+	:parameters (?g - gripper ?b - ball ?r - room)
+	:precondition (and (carrying ?g ?b))
+	:effect (and (at ?r) (not (carrying ?g ?b)))
+)
+(::action move
+	:parameters (?g - gripper ?r1 - room ?r2 - room)
+	:precondition (and (at ?r1))
+	:effect (and (not (at ?r1)) (at ?r2))
+)
+(::action transfer
+	:parameters (?g1 - gripper ?g2 - gripper ?b1 - ball ?b2 - ball ?r1 - room ?r2 - room)
+	:precondition (and (carrying ?g1 ?b1) (not (carrying ?g2 any-ball)) (at ?r1))
+	:effect (and (not (carrying ?g1 ?b1)) (carrying ?g2 ?b2) (not (at ?r1)) (at ?r2))
+)
+)
+
+```
+**USER** :
+```pddl
+
+(define (domain robots-with-grippers)
+(:requirements :strips :typing)
+;; Define types of objects
+(::types room ball gripper - object)
+;; Define constants
+(::constants n - integer)
+;; Define predicates
+(::predicates (at ?r - room) (carrying ?g - gripper ?b - ball))
+;; Define actions
+(::action pickup
+	:parameters (?g - gripper ?b - ball ?r - room)
+	:precondition (and (at ?r) (not (carrying ?g any-ball)))
+	:effect (and (not (at ?r)) (carrying ?g ?b))
+)
+(::action putdown
+	:parameters (?g - gripper ?b - ball ?r - room)
+	:precondition (and (carrying ?g ?b))
+	:effect (and (at ?r) (not (carrying ?g ?b)))
+)
+(::action move
+	:parameters (?g - gripper ?r1 - room ?r2 - room)
+	:precondition (and (at ?r1))
+	:effect (and (not (at ?r1)) (at ?r2))
+)
+(::action transfer
+	:parameters (?g1 - gripper ?g2 - gripper ?b1 - ball ?b2 - ball ?r1 - room ?r2 - room)
+	:precondition (and (carrying ?g1 ?b1) (not (carrying ?g2 any-ball)) (at ?r1))
+	:effect (and (not (carrying ?g1 ?b1)) (carrying ?g2 ?b2) (not (at ?r1)) (at ?r2))
+)
+)
+
+```
+
+The above code produces the following error -> There is a value error on finding unknown keyword in domain definition: ':types'. Valid keywords in definition are 'requirements', 'types', 'predicates', 'constants' and 'action'. Remove the keyword ':types' from definition, keep the rest of code the same.
+
+Instruction 1: Correct the error and give the entire PDDL code in code blocks and please do not give any explanations in the output.
+Instruction 2: Do not create a problem file and do not use conditional expressions.
+**LLM MODEL** (HUGGING_FACE):
+```pddl 
+
+(define (domain robots-with-grippers)
+(:requirements :strips :typing)
+;; Define types of objects
+(::types room ball gripper - object)
+;; Define constants
+(::constants n - integer)
+;; Define predicates
+(::predicates (at ?r - room) (carrying ?g - gripper ?b - ball))
+;; Define actions
+(::action pickup
+    :parameters (?g - gripper ?b - ball ?r - room)
+    :precondition (and (at ?r) (not (carrying ?g any-ball)))
+    :effect (and (not (at ?r)) (carrying ?g ?b))
+)
+(::action putdown
+    :parameters (?g - gripper ?b - ball ?r - room)
+    :precondition (and (carrying ?g ?b))
+    :effect (and (at ?r) (not (carrying ?g ?b)))
+)
+(::action move
+    :parameters (?g - gripper ?r1 - room ?r2 - room)
+    :precondition (and (at ?r1))
+    :effect (and (not (at ?r1)) (at ?r2))
+)
+(::action transfer
+    :parameters (?g1 - gripper ?g2 - gripper ?b1 - ball ?b2 - ball ?r1 - room ?r2 - room)
+    :precondition (and (carrying ?g1 ?b1) (not (carrying ?g2 any-ball)) (at ?r1))
+    :effect (and (not (carrying ?g1 ?b1)) (carrying ?g2 ?b2) (not (at ?r1)) (at ?r2))
+)
+)
+
+```
+**USER** :
+```pddl
+
+(define (domain robots-with-grippers)
+(:requirements :strips :typing)
+;; Define types of objects
+(::types room ball gripper - object)
+;; Define constants
+(::constants n - integer)
+;; Define predicates
+(::predicates (at ?r - room) (carrying ?g - gripper ?b - ball))
+;; Define actions
+(::action pickup
+    :parameters (?g - gripper ?b - ball ?r - room)
+    :precondition (and (at ?r) (not (carrying ?g any-ball)))
+    :effect (and (not (at ?r)) (carrying ?g ?b))
+)
+(::action putdown
+    :parameters (?g - gripper ?b - ball ?r - room)
+    :precondition (and (carrying ?g ?b))
+    :effect (and (at ?r) (not (carrying ?g ?b)))
+)
+(::action move
+    :parameters (?g - gripper ?r1 - room ?r2 - room)
+    :precondition (and (at ?r1))
+    :effect (and (not (at ?r1)) (at ?r2))
+)
+(::action transfer
+    :parameters (?g1 - gripper ?g2 - gripper ?b1 - ball ?b2 - ball ?r1 - room ?r2 - room)
+    :precondition (and (carrying ?g1 ?b1) (not (carrying ?g2 any-ball)) (at ?r1))
+    :effect (and (not (carrying ?g1 ?b1)) (carrying ?g2 ?b2) (not (at ?r1)) (at ?r2))
+)
+)
+
+```
+
+The above code produces the following error -> There is a value error on finding unknown keyword in domain definition: ':types'. Valid keywords in definition are 'requirements', 'types', 'predicates', 'constants' and 'action'. Remove the keyword ':types' from definition, keep the rest of code the same.
+
+Instruction 1: Correct the error and give the entire PDDL code in code blocks and please do not give any explanations in the output.
+Instruction 2: Do not create a problem file and do not use conditional expressions.
+**LLM MODEL** (HUGGING_FACE):
+```pddl 
+
+(define (domain robots-with-grippers)
+(:requirements :strips :typing)
+; Define types of objects
+(types room ball gripper - object)
+; Define constants
+(constants n - integer)
+; Define predicates
+(predicates (at ?r - room) (carrying ?g - gripper ?b - ball))
+; Define actions
+(action pickup
+    :parameters (?g - gripper ?b - ball ?r - room)
+    :precondition (and (at ?r) (not (carrying ?g any-ball)))
+    :effect (and (not (at ?r)) (carrying ?g ?b))
+)
+(action putdown
+    :parameters (?g - gripper ?b - ball ?r - room)
+    :precondition (and (carrying ?g ?b))
+    :effect (and (at ?r) (not (carrying ?g ?b)))
+)
+(action move
+    :parameters (?g - gripper ?r1 - room ?r2 - room)
+    :precondition (and (at ?r1))
+    :effect (and (not (at ?r1)) (at ?r2))
+)
+(action transfer
+    :parameters (?g1 - gripper ?g2 - gripper ?b1 - ball ?b2 - ball ?r1 - room ?r2 - room)
+    :precondition (and (carrying ?g1 ?b1) (not (carrying ?g2 any-ball)) (at ?r1))
+    :effect (and (not (carrying ?g1 ?b1)) (carrying ?g2 ?b2) (not (at ?r1)) (at ?r2))
+)
+)
+
+```
+**USER** :
+```pddl
+
+(define (domain robots-with-grippers)
+(:requirements :strips :typing)
+; Define types of objects
+(types room ball gripper - object)
+; Define constants
+(constants n - integer)
+; Define predicates
+(predicates (at ?r - room) (carrying ?g - gripper ?b - ball))
+; Define actions
+(action pickup
+    :parameters (?g - gripper ?b - ball ?r - room)
+    :precondition (and (at ?r) (not (carrying ?g any-ball)))
+    :effect (and (not (at ?r)) (carrying ?g ?b))
+)
+(action putdown
+    :parameters (?g - gripper ?b - ball ?r - room)
+    :precondition (and (carrying ?g ?b))
+    :effect (and (at ?r) (not (carrying ?g ?b)))
+)
+(action move
+    :parameters (?g - gripper ?r1 - room ?r2 - room)
+    :precondition (and (at ?r1))
+    :effect (and (not (at ?r1)) (at ?r2))
+)
+(action transfer
+    :parameters (?g1 - gripper ?g2 - gripper ?b1 - ball ?b2 - ball ?r1 - room ?r2 - room)
+    :precondition (and (carrying ?g1 ?b1) (not (carrying ?g2 any-ball)) (at ?r1))
+    :effect (and (not (carrying ?g1 ?b1)) (carrying ?g2 ?b2) (not (at ?r1)) (at ?r2))
+)
+)
+
+```
+
+The above code produces the following error -> There is a value error where keywords have to start with a colon ":". For example, ":requirements", ":predicates", ":action", ":parameters", ":precondition" and ":effect" are valid keywords.
+
+Instruction 1: Correct the error and give the entire PDDL code in code blocks and please do not give any explanations in the output.
+Instruction 2: Do not create a problem file and do not use conditional expressions.
+**LLM MODEL** (HUGGING_FACE):
+```pddl 
+
+(define (domain robots-with-grippers)
+  (:requirements :strips :typing)
+  ; Define types of objects
+  (:types room ball gripper - object)
+  ; Define constants
+  (:constants n - integer)
+  ; Define predicates
+  (:predicate (at ?r - room) (carrying ?g - gripper ?b - ball))
+  ; Define actions
+  (:action pickup
+            :parameters (?g - gripper ?b - ball ?r - room)
+            :precondition (and (at ?r) (not (carrying ?g any-ball)))
+            :effect (and (not (at ?r)) (carrying ?g ?b)))
+  (:action putdown
+           :parameters (?g - gripper ?b - ball ?r - room)
+           :precondition (and (carrying ?g ?b))
+           :effect (and (at ?r) (not (carrying ?g ?b))))
+  (:action move
+           :parameters (?g - gripper ?r1 - room ?r2 - room)
+           :precondition (and (at ?r1))
+           :effect (and (not (at ?r1)) (at ?r2)))
+  (:action transfer
+           :parameters (?g1 - gripper ?g2 - gripper ?b1 - ball ?b2 - ball ?r1 - room ?r2 - room)
+           :precondition (and (carrying ?g1 ?b1) (not (carrying ?g2 any-ball)) (at ?r1))
+           :effect (and (not (carrying ?g1 ?b1)) (carrying ?g2 ?b2) (not (at ?r1)) (at ?r2))))
+
+```
+**USER** :
+```pddl
+
+(define (domain robots-with-grippers)
+  (:requirements :strips :typing)
+  ; Define types of objects
+  (:types room ball gripper - object)
+  ; Define constants
+  (:constants n - integer)
+  ; Define predicates
+  (:predicate (at ?r - room) (carrying ?g - gripper ?b - ball))
+  ; Define actions
+  (:action pickup
+            :parameters (?g - gripper ?b - ball ?r - room)
+            :precondition (and (at ?r) (not (carrying ?g any-ball)))
+            :effect (and (not (at ?r)) (carrying ?g ?b)))
+  (:action putdown
+           :parameters (?g - gripper ?b - ball ?r - room)
+           :precondition (and (carrying ?g ?b))
+           :effect (and (at ?r) (not (carrying ?g ?b))))
+  (:action move
+           :parameters (?g - gripper ?r1 - room ?r2 - room)
+           :precondition (and (at ?r1))
+           :effect (and (not (at ?r1)) (at ?r2)))
+  (:action transfer
+           :parameters (?g1 - gripper ?g2 - gripper ?b1 - ball ?b2 - ball ?r1 - room ?r2 - room)
+           :precondition (and (carrying ?g1 ?b1) (not (carrying ?g2 any-ball)) (at ?r1))
+           :effect (and (not (carrying ?g1 ?b1)) (carrying ?g2 ?b2) (not (at ?r1)) (at ?r2))))
+
+```
+
+The above code produces the following error -> There is a value error on finding unknown keyword in domain definition: 'predicate'. Valid keywords in definition are 'requirements', 'types', 'predicates', 'constants' and 'action'. Remove the keyword 'predicate' from definition, keep the rest of code the same.
+
+Instruction 1: Correct the error and give the entire PDDL code in code blocks and please do not give any explanations in the output.
+Instruction 2: Do not create a problem file and do not use conditional expressions.
+**LLM MODEL** (HUGGING_FACE):
+```pddl 
+
+(define (domain robots-with-grippers)
+(:requirements :strips :typing)
+; Define types of objects
+(:types room ball gripper - object)
+; Define constants
+(:constants n - integer)
+; Define predicates
+(:predicates (at ?r - room) (carrying ?g - gripper ?b - ball))
+; Define actions
+(:action pickup
+          :parameters (?g - gripper ?b - ball ?r - room)
+          :precondition (and (at ?r) (not (carrying ?g any-ball)))
+          :effect (and (not (at ?r)) (carrying ?g ?b)))
+(:action putdown
+         :parameters (?g - gripper ?b - ball ?r - room)
+         :precondition (and (carrying ?g ?b))
+         :effect (and (at ?r) (not (carrying ?g ?b))))
+(:action move
+         :parameters (?g - gripper ?r1 - room ?r2 - room)
+         :precondition (and (at ?r1))
+         :effect (and (not (at ?r1)) (at ?r2)))
+(:action transfer
+         :parameters (?g1 - gripper ?g2 - gripper ?b1 - ball ?b2 - ball ?r1 - room ?r2 - room)
+         :precondition (and (carrying ?g1 ?b1) (not (carrying ?g2 any-ball)) (at ?r1))
+         :effect (and (not (carrying ?g1 ?b1)) (carrying ?g2 ?b2) (not (at ?r1)) (at ?r2))))
+
+```
+**USER** :
+```pddl
+
+(define (domain robots-with-grippers)
+(:requirements :strips :typing)
+; Define types of objects
+(:types room ball gripper - object)
+; Define constants
+(:constants n - integer)
+; Define predicates
+(:predicates (at ?r - room) (carrying ?g - gripper ?b - ball))
+; Define actions
+(:action pickup
+          :parameters (?g - gripper ?b - ball ?r - room)
+          :precondition (and (at ?r) (not (carrying ?g any-ball)))
+          :effect (and (not (at ?r)) (carrying ?g ?b)))
+(:action putdown
+         :parameters (?g - gripper ?b - ball ?r - room)
+         :precondition (and (carrying ?g ?b))
+         :effect (and (at ?r) (not (carrying ?g ?b))))
+(:action move
+         :parameters (?g - gripper ?r1 - room ?r2 - room)
+         :precondition (and (at ?r1))
+         :effect (and (not (at ?r1)) (at ?r2)))
+(:action transfer
+         :parameters (?g1 - gripper ?g2 - gripper ?b1 - ball ?b2 - ball ?r1 - room ?r2 - room)
+         :precondition (and (carrying ?g1 ?b1) (not (carrying ?g2 any-ball)) (at ?r1))
+         :effect (and (not (carrying ?g1 ?b1)) (carrying ?g2 ?b2) (not (at ?r1)) (at ?r2))))
+
+```
+
+The above code produces the following error -> There is a semantic error where unknown predicate 'not' used in precondition of action name 'pickup'. Remove negative literals from the precondition of the action having it and rewrite that action only.
+
+Instruction 1: Correct the error and give the entire PDDL code in code blocks and please do not give any explanations in the output.
+Instruction 2: Do not create a problem file and do not use conditional expressions.
+**LLM MODEL** (HUGGING_FACE):
+```pddl 
+
+(define (domain robots-with-grippers)
+(:requirements :strips :typing)
+; Define types of objects
+(:types room ball gripper - object)
+; Define constants
+(:constants n - integer)
+; Define predicates
+(:predicates (at ?r - room) (carrying ?g - gripper ?b - ball))
+; Define actions
+(:action pickup
+          :parameters (?g - gripper ?b - ball ?r - room)
+          :precondition (and (at ?r) (not (carrying ?g any-ball)))
+          :effect (and (not (at ?r)) (carrying ?g ?b) (not (at ?r))))
+(:action putdown
+         :parameters (?g - gripper ?b - ball ?r - room)
+         :precondition (carrying ?g ?b)
+         :effect (and (at ?r) (not (carrying ?g ?b))))
+(:action move
+         :parameters (?g - gripper ?r1 - room ?r2 - room)
+         :precondition (at ?r1)
+         :effect (and (not (at ?r1)) (at ?r2)))
+(:action transfer
+         :parameters (?g1 - gripper ?g2 - gripper ?b1 - ball ?b2 - ball ?r1 - room ?r2 - room)
+         :precondition (and (carrying ?g1 ?b1) (not (carrying ?g2 any-ball)) (at ?r1))
+         :effect (and (not (carrying ?g1 ?b1)) (carrying ?g2 ?b2) (not (at ?r1)) (at ?r2))))
+
+```
+**USER** :
+```pddl
+
+(define (domain robots-with-grippers)
+(:requirements :strips :typing)
+; Define types of objects
+(:types room ball gripper - object)
+; Define constants
+(:constants n - integer)
+; Define predicates
+(:predicates (at ?r - room) (carrying ?g - gripper ?b - ball))
+; Define actions
+(:action pickup
+          :parameters (?g - gripper ?b - ball ?r - room)
+          :precondition (and (at ?r) (not (carrying ?g any-ball)))
+          :effect (and (not (at ?r)) (carrying ?g ?b) (not (at ?r))))
+(:action putdown
+         :parameters (?g - gripper ?b - ball ?r - room)
+         :precondition (carrying ?g ?b)
+         :effect (and (at ?r) (not (carrying ?g ?b))))
+(:action move
+         :parameters (?g - gripper ?r1 - room ?r2 - room)
+         :precondition (at ?r1)
+         :effect (and (not (at ?r1)) (at ?r2)))
+(:action transfer
+         :parameters (?g1 - gripper ?g2 - gripper ?b1 - ball ?b2 - ball ?r1 - room ?r2 - room)
+         :precondition (and (carrying ?g1 ?b1) (not (carrying ?g2 any-ball)) (at ?r1))
+         :effect (and (not (carrying ?g1 ?b1)) (carrying ?g2 ?b2) (not (at ?r1)) (at ?r2))))
+
+```
+
+The above code produces the following error -> There is a semantic error where unknown predicate 'not' used in precondition of action name 'pickup'. Remove negative literals from the precondition of the action having it and rewrite that action only.
+
+Instruction 1: Correct the error and give the entire PDDL code in code blocks and please do not give any explanations in the output.
+Instruction 2: Do not create a problem file and do not use conditional expressions.
+**LLM MODEL** (HUGGING_FACE):
+```pddl 
+
+(define (domain robots-with-grippers)
+  (:requirements :strips :typing)
+  ; Define types of objects
+  (:types room ball gripper - object)
+  ; Define constants
+  (:constants n - integer)
+  ; Define predicates
+  (:predicates (at ?r - room) (carrying ?g - gripper ?b - ball))
+  ; Define actions
+  (:action pickup
+            :parameters (?g - gripper ?b - ball ?r - room)
+            :precondition (and (at ?r) (not (carrying ?g any-ball)))
+            :effect (and (not (at ?r)) (carrying ?g ?b))))
+  (:action putdown
+           :parameters (?g - gripper ?b - ball ?r - room)
+           :precondition (carrying ?g ?b)
+           :effect (and (at ?r) (not (carrying ?g ?b))))
+  (:action move
+           :parameters (?g - gripper ?r1 - room ?r2 - room)
+           :precondition (at ?r1)
+           :effect (and (not (at ?r1)) (at ?r2)))
+  (:action transfer
+           :parameters (?g1 - gripper ?g2 - gripper ?b1 - ball ?b2 - ball ?r1 - room ?r2 - room)
+           :precondition (and (carrying ?g1 ?b1) (not (carrying ?g2 any-ball)) (at ?r1))
+           :effect (and (not (carrying ?g1 ?b1)) (carrying ?g2 ?b2) (not (at ?r1)) (at ?r2))))
+
+```
+**USER** :
+```pddl
+
+(define (domain robots-with-grippers)
+  (:requirements :strips :typing)
+  ; Define types of objects
+  (:types room ball gripper - object)
+  ; Define constants
+  (:constants n - integer)
+  ; Define predicates
+  (:predicates (at ?r - room) (carrying ?g - gripper ?b - ball))
+  ; Define actions
+  (:action pickup
+            :parameters (?g - gripper ?b - ball ?r - room)
+            :precondition (and (at ?r) (not (carrying ?g any-ball)))
+            :effect (and (not (at ?r)) (carrying ?g ?b))))
+  (:action putdown
+           :parameters (?g - gripper ?b - ball ?r - room)
+           :precondition (carrying ?g ?b)
+           :effect (and (at ?r) (not (carrying ?g ?b))))
+  (:action move
+           :parameters (?g - gripper ?r1 - room ?r2 - room)
+           :precondition (at ?r1)
+           :effect (and (not (at ?r1)) (at ?r2)))
+  (:action transfer
+           :parameters (?g1 - gripper ?g2 - gripper ?b1 - ball ?b2 - ball ?r1 - room ?r2 - room)
+           :precondition (and (carrying ?g1 ?b1) (not (carrying ?g2 any-ball)) (at ?r1))
+           :effect (and (not (carrying ?g1 ?b1)) (carrying ?g2 ?b2) (not (at ?r1)) (at ?r2))))
+
+```
+
+The above code produces the following error -> There was an error in parsing the code. Got unexpected token: (. The parenthesis is opened in the wrong position in the code. Please check the parenthesis.
+
+Instruction 1: Correct the error and give the entire PDDL code in code blocks and please do not give any explanations in the output.
+Instruction 2: Do not create a problem file and do not use conditional expressions.
+**LLM MODEL** (HUGGING_FACE):
+```pddl 
+
+(define (domain robots-with-grippers)
+(:requirements :strips :typing)
+; Define types of objects
+(:types room ball gripper - object)
+; Define constants
+(:constants n - integer)
+; Define predicates
+(:predicates (at ?r - room) (carrying ?g - gripper ?b - ball))
+; Define actions
+(:action pickup
+          :parameters (?g - gripper ?b - ball ?r - room)
+          :precondition (and (at ?r) (not (carrying ?g any-ball)))
+          :effect (and (not (at ?r)) (carrying ?g ?b)))
+(:action putdown
+         :parameters (?g - gripper ?b - ball ?r - room)
+         :precondition (carrying ?g ?b)
+         :effect (and (at ?r) (not (carrying ?g ?b))))
+(:action move
+         :parameters (?g - gripper ?r1 - room ?r2 - room)
+         :precondition (at ?r1)
+         :effect (and (not (at ?r1)) (at ?r2)))
+(:action transfer
+         :parameters (?g1 - gripper ?g2 - gripper ?b1 - ball ?b2 - ball ?r1 - room ?r2 - room)
+         :precondition (and (carrying ?g1 ?b1) (not (carrying ?g2 any-ball)) (at ?r1))
+         :effect (and (not (carrying ?g1 ?b1)) (carrying ?g2 ?b2) (not (at ?r1)) (at ?r2))))
+
+```
+**USER** :
+```pddl
+
+(define (domain robots-with-grippers)
+(:requirements :strips :typing)
+; Define types of objects
+(:types room ball gripper - object)
+; Define constants
+(:constants n - integer)
+; Define predicates
+(:predicates (at ?r - room) (carrying ?g - gripper ?b - ball))
+; Define actions
+(:action pickup
+          :parameters (?g - gripper ?b - ball ?r - room)
+          :precondition (and (at ?r) (not (carrying ?g any-ball)))
+          :effect (and (not (at ?r)) (carrying ?g ?b)))
+(:action putdown
+         :parameters (?g - gripper ?b - ball ?r - room)
+         :precondition (carrying ?g ?b)
+         :effect (and (at ?r) (not (carrying ?g ?b))))
+(:action move
+         :parameters (?g - gripper ?r1 - room ?r2 - room)
+         :precondition (at ?r1)
+         :effect (and (not (at ?r1)) (at ?r2)))
+(:action transfer
+         :parameters (?g1 - gripper ?g2 - gripper ?b1 - ball ?b2 - ball ?r1 - room ?r2 - room)
+         :precondition (and (carrying ?g1 ?b1) (not (carrying ?g2 any-ball)) (at ?r1))
+         :effect (and (not (carrying ?g1 ?b1)) (carrying ?g2 ?b2) (not (at ?r1)) (at ?r2))))
+
+```
+
+The above code produces the following error -> There is a semantic error where unknown predicate 'not' used in precondition of action name 'pickup'. Remove negative literals from the precondition of the action having it and rewrite that action only.
+
+Instruction 1: Correct the error and give the entire PDDL code in code blocks and please do not give any explanations in the output.
+Instruction 2: Do not create a problem file and do not use conditional expressions.
+**LLM MODEL** (HUGGING_FACE):
+```pddl 
+
+(define (domain robots-with-grippers)
+(:requirements :strips :typing)
+; Define types of objects
+(:types room ball gripper - object)
+; Define constants
+(:constants n - integer)
+; Define predicates
+(:predicates (at ?r - room) (carrying ?g - gripper ?b - ball))
+; Define actions
+(:action pickup
+          :parameters (?g - gripper ?b - ball ?r - room)
+          :precondition (and (at ?r) (not (carrying ?g ?b)))
+          :effect (and (not (at ?r)) (carrying ?g ?b)))
+(:action putdown
+         :parameters (?g - gripper ?b - ball ?r - room)
+         :precondition (carrying ?g ?b)
+         :effect (and (at ?r) (not (carrying ?g ?b))))
+(:action move
+         :parameters (?g - gripper ?r1 - room ?r2 - room)
+         :precondition (at ?r1)
+         :effect (and (not (at ?r1)) (at ?r2)))
+(:action transfer
+         :parameters (?g1 - gripper ?g2 - gripper ?b1 - ball ?b2 - ball ?r1 - room ?r2 - room)
+         :precondition (and (carrying ?g1 ?b1) (not (carrying ?g2 any-ball)) (at ?r1))
+         :effect (and (not (carrying ?g1 ?b1)) (carrying ?g2 ?b2) (not (at ?r1)) (at ?r2))))
+
+```
+**USER** :
+```pddl
+
+(define (domain robots-with-grippers)
+(:requirements :strips :typing)
+; Define types of objects
+(:types room ball gripper - object)
+; Define constants
+(:constants n - integer)
+; Define predicates
+(:predicates (at ?r - room) (carrying ?g - gripper ?b - ball))
+; Define actions
+(:action pickup
+          :parameters (?g - gripper ?b - ball ?r - room)
+          :precondition (and (at ?r) (not (carrying ?g ?b)))
+          :effect (and (not (at ?r)) (carrying ?g ?b)))
+(:action putdown
+         :parameters (?g - gripper ?b - ball ?r - room)
+         :precondition (carrying ?g ?b)
+         :effect (and (at ?r) (not (carrying ?g ?b))))
+(:action move
+         :parameters (?g - gripper ?r1 - room ?r2 - room)
+         :precondition (at ?r1)
+         :effect (and (not (at ?r1)) (at ?r2)))
+(:action transfer
+         :parameters (?g1 - gripper ?g2 - gripper ?b1 - ball ?b2 - ball ?r1 - room ?r2 - room)
+         :precondition (and (carrying ?g1 ?b1) (not (carrying ?g2 any-ball)) (at ?r1))
+         :effect (and (not (carrying ?g1 ?b1)) (carrying ?g2 ?b2) (not (at ?r1)) (at ?r2))))
+
+```
+
+The above code produces the following error -> There is a semantic error where unknown predicate 'not' used in precondition of action name 'pickup'. Remove negative literals from the precondition of the action having it and rewrite that action only.
+
+Instruction 1: Correct the error and give the entire PDDL code in code blocks and please do not give any explanations in the output.
+Instruction 2: Do not create a problem file and do not use conditional expressions.
+**LLM MODEL** (HUGGING_FACE):
+```pddl 
+
+(define (domain robots-with-grippers)
+(:requirements :strips :typing)
+; Define types of objects
+(:types room ball gripper - object)
+; Define constants
+(:constants n - integer)
+; Define predicates
+(:predicates (at ?r - room) (carrying ?g - gripper ?b - ball))
+; Define actions
+(:action pickup
+          :parameters (?g - gripper ?b - ball ?r - room)
+          :precondition (and (at ?r) (not (carrying ?g any-ball)))
+          :effect (and (not (at ?r)) (carrying ?g ?b)))
+(:action putdown
+         :parameters (?g - gripper ?b - ball ?r - room)
+         :precondition (carrying ?g ?b)
+         :effect (and (at ?r) (not (carrying ?g ?b))))
+(:action move
+         :parameters (?g - gripper ?r1 - room ?r2 - room)
+         :precondition (at ?r1)
+         :effect (and (not (at ?r1)) (at ?r2)))
+(:action transfer
+         :parameters (?g1 - gripper ?g2 - gripper ?b1 - ball ?b2 - ball ?r1 - room ?r2 - room)
+         :precondition (and (carrying ?g1 ?b1) (not (carrying ?g2 any-ball)) (at ?r1))
+         :effect (and (not (carrying ?g1 ?b1)) (carrying ?g2 ?b2) (not (at ?r1)) (at ?r2))))
+
+```
+**USER** :
+```pddl
+
+(define (domain robots-with-grippers)
+(:requirements :strips :typing)
+; Define types of objects
+(:types room ball gripper - object)
+; Define constants
+(:constants n - integer)
+; Define predicates
+(:predicates (at ?r - room) (carrying ?g - gripper ?b - ball))
+; Define actions
+(:action pickup
+          :parameters (?g - gripper ?b - ball ?r - room)
+          :precondition (and (at ?r) (not (carrying ?g any-ball)))
+          :effect (and (not (at ?r)) (carrying ?g ?b)))
+(:action putdown
+         :parameters (?g - gripper ?b - ball ?r - room)
+         :precondition (carrying ?g ?b)
+         :effect (and (at ?r) (not (carrying ?g ?b))))
+(:action move
+         :parameters (?g - gripper ?r1 - room ?r2 - room)
+         :precondition (at ?r1)
+         :effect (and (not (at ?r1)) (at ?r2)))
+(:action transfer
+         :parameters (?g1 - gripper ?g2 - gripper ?b1 - ball ?b2 - ball ?r1 - room ?r2 - room)
+         :precondition (and (carrying ?g1 ?b1) (not (carrying ?g2 any-ball)) (at ?r1))
+         :effect (and (not (carrying ?g1 ?b1)) (carrying ?g2 ?b2) (not (at ?r1)) (at ?r2))))
+
+```
+
+The above code produces the following error -> There is a semantic error where unknown predicate 'not' used in precondition of action name 'pickup'. Remove negative literals from the precondition of the action having it and rewrite that action only.
+
+Instruction 1: Correct the error and give the entire PDDL code in code blocks and please do not give any explanations in the output.
+Instruction 2: Do not create a problem file and do not use conditional expressions.
+**LLM MODEL** (HUGGING_FACE):
+```pddl 
+
+(define (domain robots-with-grippers)
+(:requirements :strips :typing)
+; Define types of objects
+(:types room ball gripper - object)
+; Define constants
+(:constants n - integer)
+; Define predicates
+(:predicates (at ?r - room) (carrying ?g - gripper ?b - ball))
+; Define actions
+(:action pickup
+          :parameters (?g - gripper ?b - ball ?r - room)
+          :precondition (and (at ?r) (not (carrying ?g ?b)))
+          :effect (and (not (at ?r)) (carrying ?g ?b)))
+(:action putdown
+         :parameters (?g - gripper ?b - ball ?r - room)
+         :precondition (carrying ?g ?b)
+         :effect (and (at ?r) (not (carrying ?g ?b))))
+(:action move
+         :parameters (?g - gripper ?r1 - room ?r2 - room)
+         :precondition (at ?g ?r1)
+         :effect (and (not (at ?g ?r1)) (at ?g ?r2)))
+(:action transfer
+         :parameters (?g1 - gripper ?g2 - gripper ?b1 - ball ?b2 - ball ?r1 - room ?r2 - room)
+         :precondition (and (carrying ?g1 ?b1) (not (carrying ?g2 any-ball)) (at ?g1 ?r1))
+         :effect (and (not (carrying ?g1 ?b1)) (carrying ?g2 ?b2) (not (at ?g1 ?r1)) (at ?g2 ?r2))))
+
+```
+**USER** :
+```pddl
+
+(define (domain robots-with-grippers)
+(:requirements :strips :typing)
+; Define types of objects
+(:types room ball gripper - object)
+; Define constants
+(:constants n - integer)
+; Define predicates
+(:predicates (at ?r - room) (carrying ?g - gripper ?b - ball))
+; Define actions
+(:action pickup
+          :parameters (?g - gripper ?b - ball ?r - room)
+          :precondition (and (at ?r) (not (carrying ?g ?b)))
+          :effect (and (not (at ?r)) (carrying ?g ?b)))
+(:action putdown
+         :parameters (?g - gripper ?b - ball ?r - room)
+         :precondition (carrying ?g ?b)
+         :effect (and (at ?r) (not (carrying ?g ?b))))
+(:action move
+         :parameters (?g - gripper ?r1 - room ?r2 - room)
+         :precondition (at ?g ?r1)
+         :effect (and (not (at ?g ?r1)) (at ?g ?r2)))
+(:action transfer
+         :parameters (?g1 - gripper ?g2 - gripper ?b1 - ball ?b2 - ball ?r1 - room ?r2 - room)
+         :precondition (and (carrying ?g1 ?b1) (not (carrying ?g2 any-ball)) (at ?g1 ?r1))
+         :effect (and (not (carrying ?g1 ?b1)) (carrying ?g2 ?b2) (not (at ?g1 ?r1)) (at ?g2 ?r2))))
+
+```
+
+The above code produces the following error -> There is a semantic error where unknown predicate 'not' used in precondition of action name 'pickup'. Remove negative literals from the precondition of the action having it and rewrite that action only.
+
+Instruction 1: Correct the error and give the entire PDDL code in code blocks and please do not give any explanations in the output.
+Instruction 2: Do not create a problem file and do not use conditional expressions.
+**LLM MODEL** (HUGGING_FACE):
+```pddl 
+
+(define (domain robots-with-grippers)
+(:requirements :strips :typing)
+; Define types of objects
+(:types room ball gripper - object)
+; Define constants
+(:constants n - integer)
+; Define predicates
+(:predicates (at ?r - room) (carrying ?g - gripper ?b - ball))
+; Define actions
+(:action pickup
+          :parameters (?g - gripper ?b - ball ?r - room)
+          :precondition (and (at ?r) (not (carrying ?g any-ball)))
+          :effect (and (not (at ?r)) (carrying ?g ?b)))
+(:action putdown
+         :parameters (?g - gripper ?b - ball ?r - room)
+         :precondition (carrying ?g ?b)
+         :effect (and (at ?r) (not (carrying ?g ?b))))
+(:action move
+         :parameters (?g - gripper ?r1 - room ?r2 - room)
+         :precondition (at ?g ?r1)
+         :effect (and (not (at ?g ?r1)) (at ?g ?r2)))
+(:action transfer
+         :parameters (?g1 - gripper ?g2 - gripper ?b1 - ball ?b2 - ball ?r1 - room ?r2 - room)
+         :precondition (and (carrying ?g1 ?b1) (not (carrying ?g2 any-ball)) (at ?g1 ?r1))
+         :effect (and (not (carrying ?g1 ?b1)) (carrying ?g2 ?b2) (not (at ?g1 ?r1)) (at ?g2 ?r2))))
+
+```
+**USER** :
+```pddl
+
+(define (domain robots-with-grippers)
+(:requirements :strips :typing)
+; Define types of objects
+(:types room ball gripper - object)
+; Define constants
+(:constants n - integer)
+; Define predicates
+(:predicates (at ?r - room) (carrying ?g - gripper ?b - ball))
+; Define actions
+(:action pickup
+          :parameters (?g - gripper ?b - ball ?r - room)
+          :precondition (and (at ?r) (not (carrying ?g any-ball)))
+          :effect (and (not (at ?r)) (carrying ?g ?b)))
+(:action putdown
+         :parameters (?g - gripper ?b - ball ?r - room)
+         :precondition (carrying ?g ?b)
+         :effect (and (at ?r) (not (carrying ?g ?b))))
+(:action move
+         :parameters (?g - gripper ?r1 - room ?r2 - room)
+         :precondition (at ?g ?r1)
+         :effect (and (not (at ?g ?r1)) (at ?g ?r2)))
+(:action transfer
+         :parameters (?g1 - gripper ?g2 - gripper ?b1 - ball ?b2 - ball ?r1 - room ?r2 - room)
+         :precondition (and (carrying ?g1 ?b1) (not (carrying ?g2 any-ball)) (at ?g1 ?r1))
+         :effect (and (not (carrying ?g1 ?b1)) (carrying ?g2 ?b2) (not (at ?g1 ?r1)) (at ?g2 ?r2))))
+
+```
+
+The above code produces the following error -> There is a semantic error where unknown predicate 'not' used in precondition of action name 'pickup'. Remove negative literals from the precondition of the action having it and rewrite that action only.
+
+Instruction 1: Correct the error and give the entire PDDL code in code blocks and please do not give any explanations in the output.
+Instruction 2: Do not create a problem file and do not use conditional expressions.
+**LLM MODEL** (HUGGING_FACE):
+```pddl 
+
+(define (domain robots-with-grippers)
+(:requirements :strips :typing)
+; Define types of objects
+(:types room ball gripper - object)
+; Define constants
+(:constants n - integer)
+; Define predicates
+(:predicates (at ?r - room) (carrying ?g - gripper ?b - ball) (holding-empty ?g - gripper))
+; Define actions
+(:action pickup
+          :parameters (?g - gripper ?b - ball ?r - room)
+          :precondition (and (at ?r) (holding-empty ?g))
+          :effect (and (not (at ?r)) (not (holding-empty ?g)) (carrying ?g ?b)))
+(:action putdown
+         :parameters (?g - gripper ?b - ball ?r - room)
+         :precondition (carrying ?g ?b)
+         :effect (and (at ?r) (not (carrying ?g ?b))))
+(:action move
+         :parameters (?g - gripper ?r1 - room ?r2 - room)
+         :precondition (at ?g ?r1)
+         :effect (and (not (at ?g ?r1)) (at ?g ?r2)))
+(:action transfer
+         :parameters (?g1 - gripper ?g2 - gripper ?b1 - ball ?b2 - ball ?r1 - room ?r2 - room)
+         :precondition (and (carrying ?g1 ?b1) (not (carrying ?g2 any-ball)) (at ?g1 ?r1))
+         :effect (and (not (carrying ?g1 ?b1)) (carrying ?g2 ?b2) (not (at ?g1 ?r1)) (at ?g2 ?r2)))
+(:action release-empty
+         :parameters (?g - gripper ?r - room)
+         :precondition (holding-empty ?g)
+         :effect (and (at ?g ?r) (not (holding-empty ?g)))))
+
+```
+**USER** :
+```pddl
+
+(define (domain robots-with-grippers)
+(:requirements :strips :typing)
+; Define types of objects
+(:types room ball gripper - object)
+; Define constants
+(:constants n - integer)
+; Define predicates
+(:predicates (at ?r - room) (carrying ?g - gripper ?b - ball) (holding-empty ?g - gripper))
+; Define actions
+(:action pickup
+          :parameters (?g - gripper ?b - ball ?r - room)
+          :precondition (and (at ?r) (holding-empty ?g))
+          :effect (and (not (at ?r)) (not (holding-empty ?g)) (carrying ?g ?b)))
+(:action putdown
+         :parameters (?g - gripper ?b - ball ?r - room)
+         :precondition (carrying ?g ?b)
+         :effect (and (at ?r) (not (carrying ?g ?b))))
+(:action move
+         :parameters (?g - gripper ?r1 - room ?r2 - room)
+         :precondition (at ?g ?r1)
+         :effect (and (not (at ?g ?r1)) (at ?g ?r2)))
+(:action transfer
+         :parameters (?g1 - gripper ?g2 - gripper ?b1 - ball ?b2 - ball ?r1 - room ?r2 - room)
+         :precondition (and (carrying ?g1 ?b1) (not (carrying ?g2 any-ball)) (at ?g1 ?r1))
+         :effect (and (not (carrying ?g1 ?b1)) (carrying ?g2 ?b2) (not (at ?g1 ?r1)) (at ?g2 ?r2)))
+(:action release-empty
+         :parameters (?g - gripper ?r - room)
+         :precondition (holding-empty ?g)
+         :effect (and (at ?g ?r) (not (holding-empty ?g)))))
+
+```
+
+The above code produces the following error -> There is a semantic error where there are wrong number of arguments for predicate 'at' in precondition of action 'move'.
+
+Instruction 1: Correct the error and give the entire PDDL code in code blocks and please do not give any explanations in the output.
+Instruction 2: Do not create a problem file and do not use conditional expressions.
+**LLM MODEL** (HUGGING_FACE):
+```pddl 
+
+(define (domain robots-with-grippers)
+  (:requirements :strips :typing)
+  ; Define types of objects
+  (:types room ball gripper - object)
+  ; Define constants
+  (:constants n - integer)
+  ; Define predicates
+  (:predicates (at ?r - room) (carrying ?g - gripper ?b - ball) (holding-empty ?g - gripper))
+  ; Define actions
+  (:action pickup
+            :parameters (?g - gripper ?b - ball ?r - room)
+            :precondition (and (at ?r) (holding-empty ?g))
+            :effect (and (not (at ?r)) (not (holding-empty ?g)) (carrying ?g ?b)))
+  (:action putdown
+           :parameters (?g - gripper ?b - ball ?r - room)
+           :precondition (carrying ?g ?b)
+           :effect (and (at ?r) (not (carrying ?g ?b))))
+  (:action move
+           :parameters (?g - gripper ?r1 ?r2 - room)
+           :precondition (at ?g ?r1)
+           :effect (and (not (at ?g ?r1)) (at ?g ?r2)))
+  (:action transfer
+           :parameters (?g1 - gripper ?g2 - gripper ?b1 - ball ?b2 - ball ?r1 - room ?r2 - room)
+           :precondition (and (carrying ?g1 ?b1) (not (carrying ?g2 any-ball)) (at ?g1 ?r1))
+           :effect (and (not (carrying ?g1 ?b1)) (carrying ?g2 ?b2) (not (at ?g1 ?r1)) (at ?g2 ?r2)))
+  (:action release-empty
+           :parameters (?g - gripper ?r - room)
+           :precondition (holding-empty ?g)
+           :effect (and (at ?g ?r) (not (holding-empty ?g)))))
+
+```
+**USER** :
+```pddl
+
+(define (domain robots-with-grippers)
+  (:requirements :strips :typing)
+  ; Define types of objects
+  (:types room ball gripper - object)
+  ; Define constants
+  (:constants n - integer)
+  ; Define predicates
+  (:predicates (at ?r - room) (carrying ?g - gripper ?b - ball) (holding-empty ?g - gripper))
+  ; Define actions
+  (:action pickup
+            :parameters (?g - gripper ?b - ball ?r - room)
+            :precondition (and (at ?r) (holding-empty ?g))
+            :effect (and (not (at ?r)) (not (holding-empty ?g)) (carrying ?g ?b)))
+  (:action putdown
+           :parameters (?g - gripper ?b - ball ?r - room)
+           :precondition (carrying ?g ?b)
+           :effect (and (at ?r) (not (carrying ?g ?b))))
+  (:action move
+           :parameters (?g - gripper ?r1 ?r2 - room)
+           :precondition (at ?g ?r1)
+           :effect (and (not (at ?g ?r1)) (at ?g ?r2)))
+  (:action transfer
+           :parameters (?g1 - gripper ?g2 - gripper ?b1 - ball ?b2 - ball ?r1 - room ?r2 - room)
+           :precondition (and (carrying ?g1 ?b1) (not (carrying ?g2 any-ball)) (at ?g1 ?r1))
+           :effect (and (not (carrying ?g1 ?b1)) (carrying ?g2 ?b2) (not (at ?g1 ?r1)) (at ?g2 ?r2)))
+  (:action release-empty
+           :parameters (?g - gripper ?r - room)
+           :precondition (holding-empty ?g)
+           :effect (and (at ?g ?r) (not (holding-empty ?g)))))
+
+```
+
+The above code produces the following error -> There is a semantic error where there are wrong number of arguments for predicate 'at' in precondition of action 'move'.
+
+Instruction 1: Correct the error and give the entire PDDL code in code blocks and please do not give any explanations in the output.
+Instruction 2: Do not create a problem file and do not use conditional expressions.
+**LLM MODEL** (HUGGING_FACE):
+```pddl 
+
+(define (domain robots-with-grippers)
+  (:requirements :strips :typing)
+  ; Define types of objects
+  (:types room ball gripper - object)
+  ; Define constants
+  (:constants n - integer)
+  ; Define predicates
+  (:predicates (at ?r - room) (carrying ?g - gripper ?b - ball) (holding-empty ?g - gripper) (any-ball))
+  ; Define actions
+  (:action pickup
+            :parameters (?g - gripper ?b - ball ?r - room)
+            :precondition (and (at ?r) (holding-empty ?g))
+            :effect (and (not (at ?r)) (not (holding-empty ?g)) (carrying ?g ?b)))
+  (:action putdown
+           :parameters (?g - gripper ?b - ball ?r - room)
+           :precondition (carrying ?g ?b)
+           :effect (and (at ?r) (not (carrying ?g ?b))))
+  (:action move
+           :parameters (?g - gripper ?r1 ?r2 - room)
+           :precondition (at ?g ?r1)
+           :effect (and (not (at ?g ?r1)) (at ?g ?r2)))
+  (:action transfer
+           :parameters (?g1 - gripper ?g2 - gripper ?b1 - ball ?b2 - ball ?r1 - room ?r2 - room)
+           :precondition (and (carrying ?g1 ?b1) (not (carrying ?g2 any-ball)) (at ?g1 ?r1))
+           :effect (and (not (carrying ?g1 ?b1)) (carrying ?g2 ?b2) (not (at ?g1 ?r1)) (at ?g2 ?r2)))
+  (:action release-empty
+           :parameters (?g - gripper ?r - room)
+           :precondition (holding-empty ?g)
+           :effect (and (at ?g ?r) (not (holding-empty ?g)))))
+
+```
+**USER** :
+```pddl
+
+(define (domain robots-with-grippers)
+  (:requirements :strips :typing)
+  ; Define types of objects
+  (:types room ball gripper - object)
+  ; Define constants
+  (:constants n - integer)
+  ; Define predicates
+  (:predicates (at ?r - room) (carrying ?g - gripper ?b - ball) (holding-empty ?g - gripper) (any-ball))
+  ; Define actions
+  (:action pickup
+            :parameters (?g - gripper ?b - ball ?r - room)
+            :precondition (and (at ?r) (holding-empty ?g))
+            :effect (and (not (at ?r)) (not (holding-empty ?g)) (carrying ?g ?b)))
+  (:action putdown
+           :parameters (?g - gripper ?b - ball ?r - room)
+           :precondition (carrying ?g ?b)
+           :effect (and (at ?r) (not (carrying ?g ?b))))
+  (:action move
+           :parameters (?g - gripper ?r1 ?r2 - room)
+           :precondition (at ?g ?r1)
+           :effect (and (not (at ?g ?r1)) (at ?g ?r2)))
+  (:action transfer
+           :parameters (?g1 - gripper ?g2 - gripper ?b1 - ball ?b2 - ball ?r1 - room ?r2 - room)
+           :precondition (and (carrying ?g1 ?b1) (not (carrying ?g2 any-ball)) (at ?g1 ?r1))
+           :effect (and (not (carrying ?g1 ?b1)) (carrying ?g2 ?b2) (not (at ?g1 ?r1)) (at ?g2 ?r2)))
+  (:action release-empty
+           :parameters (?g - gripper ?r - room)
+           :precondition (holding-empty ?g)
+           :effect (and (at ?g ?r) (not (holding-empty ?g)))))
+
+```
+
+The above code produces the following error -> There is a semantic error where there are wrong number of arguments for predicate 'at' in precondition of action 'move'.
+
+Instruction 1: Correct the error and give the entire PDDL code in code blocks and please do not give any explanations in the output.
+Instruction 2: Do not create a problem file and do not use conditional expressions.
+**LLM MODEL** (HUGGING_FACE):
+```pddl 
+
+(:action move
+         :parameters (?g - gripper ?r1 ?r2 - room)
+         :precondition (and (at ?g ?r1))
+         :effect (and (not (at ?g ?r1)) (at ?g ?r2)))
+
+```
+**USER** :
+```pddl
+
+(:action move
+         :parameters (?g - gripper ?r1 ?r2 - room)
+         :precondition (and (at ?g ?r1))
+         :effect (and (not (at ?g ?r1)) (at ?g ?r2)))
+
+```
+
+The above code produces the following error -> There is a value error where there is invalid domain definition. Domain definition must start with 'define'.
+
+Instruction 1: Correct the error and give the entire PDDL code in code blocks and please do not give any explanations in the output.
+Instruction 2: Do not create a problem file and do not use conditional expressions.
+**LLM MODEL** (HUGGING_FACE):
+```pddl 
+
+(define (domain my_domain)
+   (:requirements :strips)
+   
+   (:types gripper room)
+   
+   (:constants
+      r0 - room
+      r1 - room
+      g0 - gripper
+   )
+   
+   (:predicates
+       (at ?g - gripper ?r - room)
+   )
+   
+   (:action move
+     :parameters (?g - gripper ?r1 ?r2 - room)
+     :precondition (and (at ?g ?r1))
+     :effect (and (not (at ?g ?r1)) (at ?g ?r2))
+   )
+)
 
 ```

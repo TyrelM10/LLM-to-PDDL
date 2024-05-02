@@ -1,29 +1,45 @@
- (define (domain delivery)
-(:requirements :strips)
-(:types location package person vehicle)
-(:predicates
-	(at ?x - object ?y - location)
-	(holding ?x - package ?y - person)
-	(carrying ?x - package ?y - vehicle)
-)
-(:action pick-up
-	:parameters (?p - package ?l - location ?p2 - person)
-	:precondition (and (at ?p ?l) (at ?p2 ?l))
-	:effect (and (not (at ?p ?l)) (holding ?p ?p2))
-)
-(:action put-down
-	:parameters (?p - package ?l - location ?p2 - person)
-	:precondition (holding ?p ?p2)
-	:effect (and (at ?p ?l) (not (holding ?p ?p2)))
-)
-(:action load
-	:parameters (?p - package ?v - vehicle ?l - location ?p2 - person)
-	:precondition (and (at ?v ?l) (at ?p ?l) (holding ?p ?p2))
-	:effect (and (not (holding ?p ?p2)) (carrying ?p ?v))
-)
-(:action unload
-	:parameters (?p - package ?v - vehicle ?l - location ?p2 - person)
-	:precondition (carrying ?p ?v)
-	:effect (and (at ?p ?l) (holding ?p ?p2) (not (carrying ?p ?v)))
-)
-)
+
+(define (domain delivery-domain)
+  ;; types
+  (:types location truck package airport plane)
+  (:constants
+    home-location - location
+    home-airport - airport
+  )
+  (:predicates
+    (at ?x - object ?l - location)
+    (located-in ?x - object ?l - location)
+    (connected ?from - location ?to - location)
+    (carrying ?t - truck ?p - package)
+    (holding ?p - plane ?pp - package)
+    (at-airport ?x - object ?a - airport)
+  )
+  (:action move-truck
+    :parameters (?t - truck ?f - location ?t2 - location ?p - package)
+    :precondition (and (at ?t ?f) (connected ?f ?t2) (carrying ?t ?p))
+    :effect (and (not (at ?t ?f)) (at ?t ?t2)))
+  
+  (:action pickup-package
+    :parameters (?t - truck ?l - location ?p - package)
+    :precondition (and (at ?t ?l) (located-in ?p ?l))
+    :effect (carrying ?t ?p))
+  
+  (:action drop-package
+    :parameters (?t - truck ?l - location ?p - package)
+    :precondition (and (at ?t ?l) (carrying ?t ?p))
+    :effect (and (not (carrying ?t ?p)) (located-in ?p ?l)))
+  
+  (:action load-plane
+    :parameters (?p - plane ?a - airport ?p - package)
+    :precondition (and (at-airport ?p ?a))
+    :effect (holding ?p ?p))
+  
+  (:action unload-plane
+    :parameters (?p - plane ?a - airport ?p - package)
+    :precondition (and (at-airport ?p ?a) (holding ?p ?p))
+    :effect (not (holding ?p ?p)) (located-in ?p ?a))
+  
+  (:action fly-plane
+    :parameters (?p - plane ?a1 - airport ?a2 - airport ?p - package)
+    :precondition (and (at-airport ?p ?a1) (holding ?p ?p))
+    :effect (and (not (at-airport ?p ?a1)) (at-airport ?p ?a2) (not (holding ?p ?p)) (located-in ?p ?a2))))

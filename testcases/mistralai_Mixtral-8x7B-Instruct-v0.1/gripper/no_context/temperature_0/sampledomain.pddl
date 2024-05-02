@@ -1,38 +1,29 @@
 
-(define (domain robotic-grippers)
+(define (domain robots-with-grippers)
 (:requirements :strips :typing)
-
-(:types robot ball room - object)
-(:constants g1 g2 - robot)
-
+(:types robot gripper location)
+(:constants
+    - empty-robot - robot
+    left-gripper right-gripper - gripper)
 (:predicates
-(carrying ?r - robot ?b - ball)
-(in ?b - ball ?r - room)
-(two-balls-in-room ?r - room)
-(all-balls-transported)
-)
+    (carrying ?r - robot ?o - object)
+    (inroom ?o - object ?l - location)
+    (at ?r - robot ?l - location)
+    (same-room ?l1 - location ?l2 - location)
+    (location-of ?o - object ?l - location))
 
 (:action pick-up
-:parameters (?r - robot ?b - ball ?from_room - room)
-:precondition (and (not (carrying ?r ?b)) (in ?b ?from_room))
-:effect (and (not (in ?b ?from_room)) (carrying ?r ?b))
-)
+    :parameters (?r - robot ?g - gripper ?o - object)
+    :precondition (and (carrying empty-robot nil) (inroom ?o (location-of ?o)) (at ?r (location-of ?o)) (at ?r ?g))
+    :effect (and (not (inroom ?o (location-of ?o))) (not (at ?r (location-of ?o))) (carrying ?r ?o)))
 
 (:action put-down
-:parameters (?r - robot ?b - ball ?to_room - room)
-:precondition (carrying ?r ?b)
-:effect (and (in ?b ?to_room) (not (carrying ?r ?b)))
-)
+    :parameters (?r - robot ?g - gripper ?o - object ?l - location)
+    :precondition (and (carrying ?r ?o) (at ?r ?l) (location-of ?o ?l2) (same-room ?l ?l2))
+    :effect (and (inroom ?o ?l) (at ?r ?l)
+            (not (carrying ?r ?o))))
 
 (:action move
-:parameters (?r1 ?r2 - robot ?b1 ?b2 - ball ?from_room ?to_room - room)
-:precondition (and (or (and (carrying ?r1 ?b1) (not (carrying ?r2 ?b2))) (and (carrying ?r2 ?b2) (not (carrying ?r1 ?b1)))) (not (two-balls-in-room ?to_room)) (not (all-balls-transported)))
-:effect (and (in ?b1 ?to_room) (in ?b2 ?to_room) (not (two-balls-in-room ?from_room)) (two-balls-in-room ?to_room) (not (all-balls-transported)) (not (carrying ?r1 ?b1)) (not (carrying ?r2 ?b2)))
-)
-
-(:action check-goal
-:parameters ()
-:precondition (and (two-balls-in-room "room1") (two-balls-in-room "room2"))
-:effect (all-balls-transported)
-)
-)
+    :parameters (?r - robot ?l - location)
+    :precondition (and (at ?r (location-of ?r)) (same-room (location-of ?r) ?l))
+    :effect (at ?r ?l)))

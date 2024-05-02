@@ -1,299 +1,154 @@
 **USER** :
 The blocks world is one of the most famous planning domains in artificial intelligence. Imagine a set of cubes (blocks) sitting on a table. The goal is to build one or more vertical stacks of blocks. The catch is that only one block may be moved at a time: it may either be placed on the table or placed atop another block. Because of this, any blocks that are, at a given time, under another block cannot be moved.
  
- Requirement: Generate PDDL domain code for the above text description in code blocks delimited only between ```pddl <CODE></CODE> ```. This code should be solved in a STRIPS Planner. Do not give any explanations.
+ Instruction: Generate PDDL domain code for the above text description in code blocks delimited only between ```pddl <CODE></CODE> ```. This code should be solved in a STRIPS Planner. Do not give any explanations in the output.
 **LLM MODEL** (HUGGING_FACE):
-```pddl domain code for the Blocks World problem as described in your question:
+```pddl 
 
-```
-**USER** :
-```pddl
- domain code for the Blocks World problem as described in your question:
-
-```
- The above code produces the following error: There was an error in parsing the code. Expected '(', got domain.
-
- Requirement 1: Correct the error and give the entire PDDL code for a STRIPS Planner. 
- Requirement 2: Do not create a problem file. Do not use conditional expressions. 
- Requirement 3: Generate PDDL domain code in code blocks delimited only between ```pddl <CODE></CODE> ```for a STRIPS Planner. Do not give any explanations.
-**LLM MODEL** (HUGGING_FACE):
-```pddl
-(define (domain blocks)
-  (:requirements :strips)
-  
-  (**constants**
-    clear ?x - block
-    on ?x ?y - block
-   ontable ?x - block
-    handempty - predicate
-    holding ?x - block)
-  
-  (**types**
-    block)
-  
-  (**predicates**
-    (clear ?x)
-    (on ?x ?y)
-    (ontable ?x)
-    (handempty)
-    (holding ?x))
-  
-  (**action**
-    (pick-up
-      **precondition**
-        (and (clear ?x) (ontable ?x) (arm-empty))
-      **effect**
-        (not (ontable ?x))
-        (not (clear ?x))
-        (not (handempty))
-        (holding ?x))
-    
-    (put-down
-      **precondition**
-        (holding ?x)
-      **effect**
-        (not (holding ?x))
-        (clear ?x)
-        (ontable ?x)
-        (handempty))
-    
-    (stack
-      **precondition**
-        (and (holding ?x) (clear ?y))
-      **effect**
-        (not (holding ?x))
-        (not (clear ?y))
-        (on ?x ?y)
-        (clear ?x)
-        (handempty))
-    
-    (unstack
-      **precondition**
-        (and (on ?x ?y) (clear ?x) (handempty))
-      **effect**
-        (not (on ?x ?y))
-        (not (clear ?y))
-        (holding ?x))))
-
-```
-**USER** :
-```pddl
-
-(define (domain blocks)
-  (:requirements :strips)
-  
-  (**constants**
-    clear ?x - block
-    on ?x ?y - block
-   ontable ?x - block
-    handempty - predicate
-    holding ?x - block)
-  
-  (**types**
-    block)
-  
-  (**predicates**
-    (clear ?x)
-    (on ?x ?y)
-    (ontable ?x)
-    (handempty)
-    (holding ?x))
-  
-  (**action**
-    (pick-up
-      **precondition**
-        (and (clear ?x) (ontable ?x) (arm-empty))
-      **effect**
-        (not (ontable ?x))
-        (not (clear ?x))
-        (not (handempty))
-        (holding ?x))
-    
-    (put-down
-      **precondition**
-        (holding ?x)
-      **effect**
-        (not (holding ?x))
-        (clear ?x)
-        (ontable ?x)
-        (handempty))
-    
-    (stack
-      **precondition**
-        (and (holding ?x) (clear ?y))
-      **effect**
-        (not (holding ?x))
-        (not (clear ?y))
-        (on ?x ?y)
-        (clear ?x)
-        (handempty))
-    
-    (unstack
-      **precondition**
-        (and (on ?x ?y) (clear ?x) (handempty))
-      **effect**
-        (not (on ?x ?y))
-        (not (clear ?y))
-        (holding ?x))))
-
-```
- The above code produces the following error: There is a value error where keywords have to start with a colon ":"
-
- Requirement 1: Correct the error and give the entire PDDL code for a STRIPS Planner. 
- Requirement 2: Do not create a problem file. Do not use conditional expressions. 
- Requirement 3: Generate PDDL domain code in code blocks delimited only between ```pddl <CODE></CODE> ```for a STRIPS Planner. Do not give any explanations.
-**LLM MODEL** (HUGGING_FACE):
-```pddl
-(define (domain blocks)
-  (:requirements :strips)
-  
-  (:constants
-    clear - object-property
-    on - relational-role
-   ontable - object-property
-    handempty - fluent
-    holding - relational-role)
-  
+(define (domain blocks-world)
+  ;; Define types of objects
   (:types block)
-  
-  (:predicates
-    (clear ?x)
-    (on ?x ?y)
-    (ontable ?x)
-    (handempty)
-    (holding ?x))
-  
+  ;; Define predicates
+  (:predicates (on ?x - block ?y - block) ; x is on top of y
+               (clear ?x - block))        ; nothing is on top of x
+  ;; Define actions
   (:action pick-up
-    :parameters (?x - block)
-    :precondition (and (clear ?x) (ontable ?x) (not (holding ?x)))
-    :effect (and (not (clear ?x)) (not (ontable ?x)) (not (handempty)) (holding ?x)))
+    :parameters (?b - block)
+    :precondition (and (clear ?b) (on-table ?b))
+    :effect (and (not (clear ?b)) (not (on-table ?b)) (on ?b nil)))
   
   (:action put-down
-    :parameters (?x - block)
-    :precondition (holding ?x)
-    :effect (and (clear ?x) (ontable ?x) (handempty) (not (holding ?x))))
+    :parameters (?b - block)
+    :precondition (clear ?b)
+    :effect (and (clear nil) (on-table ?b) (not (clear ?b))))
   
   (:action stack
-    :parameters (?x - block ?y - block)
-    :precondition (and (holding ?x) (clear ?y))
-    :effect (and (not (holding ?x)) (not (clear ?y)) (on ?x ?y) (clear ?x) (handempty)))
+    :parameters (?b1 - block ?b2 - block)
+    :precondition (and (clear ?b1) (on-table ?b2))
+    :effect (and (not (clear ?b1)) (not (on-table ?b2)) (not (clear ?b2)) (on ?b1 ?b2)))
   
   (:action unstack
-    :parameters (?x - block ?y - block)
-    :precondition (and (on ?x ?y) (clear ?x) (handempty))
-    :effect (and (not (on ?x ?y)) (not (clear ?y)) (holding ?x) (clear ?x))))
+    :parameters (?b1 - block ?b2 - block)
+    :precondition (and (on ?b1 ?b2) (clear ?b1))
+    :effect (and (clear ?b2) (on-table ?b1) (not (on ?b1 ?b2)) (not (clear ?b1)))))
 
 ```
 **USER** :
 ```pddl
 
-(define (domain blocks)
-  (:requirements :strips)
-  
-  (:constants
-    clear - object-property
-    on - relational-role
-   ontable - object-property
-    handempty - fluent
-    holding - relational-role)
-  
+(define (domain blocks-world)
+  ;; Define types of objects
   (:types block)
-  
-  (:predicates
-    (clear ?x)
-    (on ?x ?y)
-    (ontable ?x)
-    (handempty)
-    (holding ?x))
-  
+  ;; Define predicates
+  (:predicates (on ?x - block ?y - block) ; x is on top of y
+               (clear ?x - block))        ; nothing is on top of x
+  ;; Define actions
   (:action pick-up
-    :parameters (?x - block)
-    :precondition (and (clear ?x) (ontable ?x) (not (holding ?x)))
-    :effect (and (not (clear ?x)) (not (ontable ?x)) (not (handempty)) (holding ?x)))
+    :parameters (?b - block)
+    :precondition (and (clear ?b) (on-table ?b))
+    :effect (and (not (clear ?b)) (not (on-table ?b)) (on ?b nil)))
   
   (:action put-down
-    :parameters (?x - block)
-    :precondition (holding ?x)
-    :effect (and (clear ?x) (ontable ?x) (handempty) (not (holding ?x))))
+    :parameters (?b - block)
+    :precondition (clear ?b)
+    :effect (and (clear nil) (on-table ?b) (not (clear ?b))))
   
   (:action stack
-    :parameters (?x - block ?y - block)
-    :precondition (and (holding ?x) (clear ?y))
-    :effect (and (not (holding ?x)) (not (clear ?y)) (on ?x ?y) (clear ?x) (handempty)))
+    :parameters (?b1 - block ?b2 - block)
+    :precondition (and (clear ?b1) (on-table ?b2))
+    :effect (and (not (clear ?b1)) (not (on-table ?b2)) (not (clear ?b2)) (on ?b1 ?b2)))
   
   (:action unstack
-    :parameters (?x - block ?y - block)
-    :precondition (and (on ?x ?y) (clear ?x) (handempty))
-    :effect (and (not (on ?x ?y)) (not (clear ?y)) (holding ?x) (clear ?x))))
+    :parameters (?b1 - block ?b2 - block)
+    :precondition (and (on ?b1 ?b2) (clear ?b1))
+    :effect (and (clear ?b2) (on-table ?b1) (not (on ?b1 ?b2)) (not (clear ?b1)))))
 
 ```
- The above code produces the following error: There is a semantic error where unknown predicate 'not' used in precondition of action. Remove 'not' from the precondition of all actions having it.
 
- Requirement 1: Correct the error and give the entire PDDL code for a STRIPS Planner. 
- Requirement 2: Do not create a problem file. Do not use conditional expressions. 
- Requirement 3: Generate PDDL domain code in code blocks delimited only between ```pddl <CODE></CODE> ```for a STRIPS Planner. Do not give any explanations.
+The above code produces the following error -> There is a semantic error where unknown predicate 'on-table' used in precondition of action name 'pick-up'. Remove 'on-table' from the precondition of all actions having it.
+
+Instruction 1: Correct the error and give the entire PDDL code in code blocks and please do not give any explanations in the output.
+Instruction 2: Do not create a problem file and do not use conditional expressions.
 **LLM MODEL** (HUGGING_FACE):
-```pddl
-(define (domain blocks)
-  (:requirements :strips)
-  
-  (:constants
-    clear - object-property
-    on - relational-role
-   ontable - object-property
-    handempty - fluent
-    holding - relational-role)
+```pddl 
+
+(define (domain blocks-world)
+  (:types block)
+  (:predicates (on ?x - block ?y - block)     ; x is on top of y
+               (clear ?x - block))            ; nothing is on top of x
+  (:action pick-up
+    :parameters (?b - block)
+    :precondition (and (clear ?b))
+    :effect (and (not (clear ?b)) (not (on ?b nil)))
+              (on-table ?b))
+  (:action put-down
+    :parameters (?b - block)
+    :precondition (clear ?b)
+    :effect (and (clear nil) (on-table ?b) (not (clear ?b))))
+  (:action stack
+    :parameters (?b1 - block ?b2 - block)
+    :precondition (and (clear ?b1) (on-table ?b2))
+    :effect (and (not (clear ?b1)) (not (on-table ?b2)) (not (clear ?b2)) (on ?b1 ?b2)))
+  (:action unstack
+    :parameters (?b1 - block ?b2 - block)
+    :precondition (and (on ?b1 ?b2) (clear ?b1))
+    :effect (and (clear ?b2) (on-table ?b1) (not (on ?b1 ?b2)) (not (clear ?b1)))))
+
 ```
 **USER** :
 ```pddl
 
-(define (domain blocks)
-  (:requirements :strips)
-  
-  (:constants
-    clear - object-property
-    on - relational-role
-   ontable - object-property
-    handempty - fluent
-    holding - relational-role)
-```
- The above code produces the following error: There was an error in parsing the code. Missing closing parenthesis
-
- Requirement 1: Correct the error and give the entire PDDL code for a STRIPS Planner. 
- Requirement 2: Do not create a problem file. Do not use conditional expressions. 
- Requirement 3: Generate PDDL domain code in code blocks delimited only between ```pddl <CODE></CODE> ```for a STRIPS Planner. Do not give any explanations.
-**LLM MODEL** (HUGGING_FACE):
-```pddl
-(define (domain blocks)
-  (:requirements :strips)
-  
+(define (domain blocks-world)
   (:types block)
-  
-  (:predicates
-    (clear ?x - block)
-    (on ?x ?y - block)
-    (ontable ?x - block)
-    (handempty)
-    (holding ?x - block))
-  
+  (:predicates (on ?x - block ?y - block)     ; x is on top of y
+               (clear ?x - block))            ; nothing is on top of x
   (:action pick-up
-    :parameters (?x - block)
-    :precondition (and (clear ?x) (ontable ?x) (handempty))
-    :effect (and (not (ontable ?x)) (not (clear ?x)) (not (handempty)) (holding ?x)))
-  
+    :parameters (?b - block)
+    :precondition (and (clear ?b))
+    :effect (and (not (clear ?b)) (not (on ?b nil)))
+              (on-table ?b))
   (:action put-down
-    :parameters (?x - block)
-    :precondition (holding ?x)
-    :effect (and (ontable ?x) (clear ?x) (handempty) (not (holding ?x))))
-  
+    :parameters (?b - block)
+    :precondition (clear ?b)
+    :effect (and (clear nil) (on-table ?b) (not (clear ?b))))
   (:action stack
-    :parameters (?x ?y - block)
-    :precondition (and (holding ?x) (clear ?y))
-    :effect (and (not (holding ?x)) (clear ?y) (on ?x ?y) (handempty)))
-  
+    :parameters (?b1 - block ?b2 - block)
+    :precondition (and (clear ?b1) (on-table ?b2))
+    :effect (and (not (clear ?b1)) (not (on-table ?b2)) (not (clear ?b2)) (on ?b1 ?b2)))
   (:action unstack
-    :parameters (?x ?y - block)
-    :precondition (and (on ?x ?y) (clear ?x) (handempty))
-    :effect (and (holding ?x) (not (on ?x ?y)) (not (clear ?y)) (clear ?x))))
+    :parameters (?b1 - block ?b2 - block)
+    :precondition (and (on ?b1 ?b2) (clear ?b1))
+    :effect (and (clear ?b2) (on-table ?b1) (not (on ?b1 ?b2)) (not (clear ?b1)))))
+
+```
+
+The above code produces the following error -> There is a semantic error where unknown predicate 'on-table' used in effect of action put-down. Please do not use 'on-table' and use existing predicates from the above code only. Please do not use any conditional expression in the code to remove this error.
+
+Instruction 1: Correct the error and give the entire PDDL code in code blocks and please do not give any explanations in the output.
+Instruction 2: Do not create a problem file and do not use conditional expressions.
+**LLM MODEL** (HUGGING_FACE):
+```pddl 
+
+(define (domain blocks-world)
+  (:types block)
+  (:predicates (on ?x - block ?y - block)   ; x is on top of y
+               (clear ?x - block))          ; nothing is on top of x
+  (:action pick-up
+    :parameters (?b - block)
+    :precondition (and (clear ?b))
+    :effect (and (not (clear ?b)) (not (on ?b nil)))
+              (and (not (on ?x ?b)) (not (on ?b ?x)) (not (on ?b ?b)) (not (on nil ?b)) ) )
+  (:action put-down
+    :parameters (?b - block)
+    :precondition (clear ?b)
+    :effect (and (clear nil) (on ?b nil) (not (clear ?b)) (on nil ?b) ))
+  (:action stack
+    :parameters (?b1 - block ?b2 - block)
+    :precondition (and (clear ?b1) (on ?b2 nil))
+    :effect (and (not (clear ?b1)) (not (on ?b2 nil)) (not (on nil ?b2)) (on ?b1 ?b2) (not (on ?b1 ?b1)) (not (on ?b1 nil)) ) )
+  (:action unstack
+    :parameters (?b1 - block ?b2 - block)
+    :precondition (and (on ?b1 ?b2) (clear ?b1))
+    :effect (and (clear ?b2) (on ?b1 nil) (not (on ?b1 ?b2)) (not (on ?b2 ?b1)) (not (on ?b2 nil)) (not (on ?b2 ?b2)) ) ))
 
 ```

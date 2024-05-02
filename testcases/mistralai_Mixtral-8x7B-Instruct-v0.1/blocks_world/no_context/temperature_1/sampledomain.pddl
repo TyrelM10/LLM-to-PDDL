@@ -1,15 +1,24 @@
 
-(define (domain blocks-strips)
-  (:requirements :strips :typing)
-  
-  (!declare (types block))
-  (!declare (predicates (on ?x - block ?y - block)
-                         (ontable ?x - block)
-                         (clear ?x - block)))
-
-  (:action move
-    :parameters (?x ?y - block)
-    :precondition (and (clear ?x) (ontable ?y) (distinct ?x ?y))
-    :effect (and (not (clear ?x)) (not (ontable ?x))
-                 (not (clear ?y)) (not (ontable ?y))
-                 (on ?x ?y) (clear ?x))))
+(define (domain blocks-world)
+(:types block)
+(:predicates
+	(on ?x - block ?y - block)
+        (clear ?x - block)
+        (handempty)
+        (holding ?x - block))
+(:action pick-up
+    :parameters (?x - block)
+    :precondition (and (clear ?x) (handempty))
+    :effect (and (not (clear ?x)) (holding ?x) (not (handempty))))
+(:action put-down
+    :parameters (?x - block)
+    :precondition (and (holding ?x))
+    :effect (and (clear ?x) (on ?x nil) (handempty) (not (holding ?x)))) ; changed on-table to on x nil
+(:action stack
+    :parameters (?x - block ?y - block)
+    :precondition (and (clear ?x) (holding ?x) (clear ?y) (handempty))
+    :effect (and (not (clear ?y)) (not (holding ?x)) (on ?x ?y) (clear z) (handempty)))
+(:action unstack
+    :parameters (?x - block ?y - block)
+    :precondition (and (on ?x ?y) (clear ?x) (handempty))
+    :effect (and (clear ?y) (holding ?x) (not (on ?x ?y)) (clear z))))

@@ -1,30 +1,32 @@
- (define (domain delivery)
+
+(define (domain delivery-robot)
 (:requirements :strips :typing)
-(:types location vehicle package - object)
-(:constants +home+ +cityA+ +cityB+ +airportA+ +airportB+ - location)
+(:types robot location package - object)
+(:constants
+    home - location
+    office - location
+    warehouse - location
+    r1 - robot
+    pkg1 pkg2 pkg3 - package)
 (:predicates
-(at ?v - vehicle ?l - location)
-(location-city ?l1 - location ?l2 - location)
-(airport ?a - location)
-(loaded ?v - vehicle ?p - package)
-(unloaded ?p - package))
-
-(:action load-truck
-:parameters (?t - vehicle ?p - package ?l1 - location ?l2 - location)
-:precondition (and (at ?t ?l1) (unloaded ?p) (at ?p ?l1) (location-city ?l1 ?l2))
-:effect (and (not (at ?p ?l1)) (loaded ?t ?p) (not (at ?t ?l1)) (at ?t ?l2) (unloaded ?p)))
-
-(:action unload-truck
-:parameters (?t - vehicle ?p - package ?l1 - location ?l2 - location)
-:precondition (and (at ?t ?l1) (loaded ?t ?p) (location-city ?l1 ?l2))
-:effect (and (at ?p ?l2) (not (loaded ?t ?p)) (at ?t ?l2) (unloaded ?p)))
-
-(:action load-plane
-:parameters (?p - vehicle ?ap1 - location ?pac - package ?ap2 - location)
-:precondition (and (at ?p ?ap1) (unloaded ?pac) (at ?pac ?ap1) (airport ?ap1) (airport ?ap2))
-:effect (and (not (at ?pac ?ap1)) (loaded ?p ?pac) (not (at ?p ?ap1)) (at ?p ?ap2) (unloaded ?pac)))
-
-(:action unload-plane
-:parameters (?p - vehicle ?ap1 - location ?pac - package ?ap2 - location)
-:precondition (and (at ?p ?ap1) (loaded ?p ?pac) (at ?pac ?ap1) (airport ?ap1) (airport ?ap2))
-:effect (and (at ?pac ?ap2) (not (loaded ?p ?pac)) (at ?p ?ap2) (unloaded ?pac))))
+    (at ?r - robot ?l - location)
+    (carrying ?r - robot ?p - package)
+    (full ?r - robot)
+    (free ?r - robot)
+    (at-destination ?package - package))
+(:action pickup
+    :parameters (?r - robot ?p - package ?l - location)
+    :precondition (and (at ?r ?l) (not (full ?r)) (at-destination ?p) (not (carrying ?r ?p)))
+    :effect (and (at-destination ?p) (not (at-destination ?p)) (carrying ?r ?p) (full ?r)))
+(:action move
+    :parameters (?r - robot ?from - location ?to - location)
+    :precondition (and (at ?r ?from) (free ?r))
+    :effect (and (not (at ?r ?from)) (at ?r ?to) (not (free ?r)) (free ?r) (not (at ?r ?to)) (at ?r ?to)))
+(:action dropoff
+    :parameters (?r - robot ?p - package ?l - location)
+    :precondition (and (at ?r ?l) (carrying ?r ?p) (at-destination ?p))
+    :effect (and (at-destination nil) (not (carrying ?r ?p)) (not (full ?r)) (free ?r)))
+(:action load
+    :parameters (?r - robot ?p - package ?l - location)
+    :precondition (and (at ?r ?l) (free ?r) (or (eq ?p pkg1) (eq ?p pkg2) (eq ?p pkg3)))
+    :effect (and (carrying ?r ?p) (full ?r) (not (free ?r)))))

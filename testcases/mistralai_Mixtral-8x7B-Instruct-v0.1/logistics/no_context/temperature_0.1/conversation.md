@@ -1,2154 +1,968 @@
 **USER** :
 There are several cities, each containing several locations, some of which are airports. There are also trucks, which can drive within a single city, and airplanes, which can fly between airports. The goal is to get some packages from various locations to various new locations. This domain was created by Bart Selman and Henry Kautz, based on an earlier domain by Manuela Veloso.
  
- Requirement: Generate PDDL domain code for the above text description in code blocks delimited only between ```pddl <CODE></CODE> ```. This code should be solved in a STRIPS Planner. Do not give any explanations.
+ Instruction: Generate PDDL domain code for the above text description in code blocks delimited only between ```pddl <CODE></CODE> ```. This code should be solved in a STRIPS Planner. Do not give any explanations in the output.
 **LLM MODEL** (HUGGING_FACE):
-```pddl
-(define (domain delivery)
-  (:requirements :strips :typing)
-  
-  ;; Types
-  (:types location truck plane package - object)
-  (:predicates
-    (city ?l - location)
-    (airport ?a - airport)
-    (location-in-city ?l - location ?c - city)
-    (truck-at ?t - truck ?loc - location)
-    (plane-at ?p - plane ?ap - airport)
-    (has-package ?x - vehicle ?pkg - package)
-    (destination ?pkg - package ?dest - location))
+```pddl 
 
-  ;; Constants
-  (:constants
-    homeCity Airport1 City2 City3 Truck1 Plane1 Package1 Package2)
-
-  ;; Domain functions
-  (:functions
-    (capacity-of ?v - vehicle)
-    (load-on ?v - vehicle))
-
-  ;; Action schemas
-  ((:action load-truck
-    :parameters (?t - truck ?loc - location ?pkg - package)
-    :precondition (and (truck-at ?t ?loc) (not (has-package ?t ?pkg)) (< (load-on ?t) (capacity-of ?t)))
-    :effect (and (not (truck-at ?t ?loc)) (not (location-in-city ?pkg ?loc))
-                (not (destination ?pkg ?loc)) (has-package ?t ?pkg)
-                (= (load-on (+ (load-on ?t) 1)) (capacity-of ?t))))
-
-  ((:action unload-truck
-    :parameters (?t - truck ?loc - location ?pkg - package)
-    :precondition (and (truck-at ?t ?loc) (has-package ?t ?pkg))
-    :effect (and (truck-at ?t ?loc) (location-in-city ?pkg ?loc)
-                (destination ?pkg ?loc) (not (has-package ?t ?pkg))
-                (= (load-on (- (load-on ?t) 1)) (capacity-of ?t))))
-
-  ((:action move-truck
-    :parameters (?t - truck ?fromLoc - location ?toLoc - location)
-    :precondition (and (truck-at ?t ?fromLoc) (connected ?fromLoc ?toLoc))
-    :effect (and (not (truck-at ?t ?fromLoc)) (truck-at ?t ?toLoc)))
-
-  ((:action pickup-package
-    :parameters (?t - truck ?pkg - package)
-    :precondition (and (truck-at ?t (location-of ?pkg)) (has-package nil ?pkg))
-    :effect (and (not (has-package nil ?pkg)) (has-package ?t ?pkg)))
-
-  ((:action deliver-package
-    :parameters (?t - truck ?pkg - package)
-    :precondition (and (truck-at ?t (location-of ?pkg)) (has-package ?t ?pkg) (arrived-at ?pkg))
-    :effect (and (not (has-package ?t ?pkg)) (not (has-package nil ?pkg))))
-
-  ((:action enter-vehicle
-    :parameters (?p - package ?v - vehicle)
-    :precondition (and (not (has-package ?v ?p)) (free-space-in ?v))
-    :effect (and (has-package ?v ?p) (not (has-package nil ?p))))
-
-  ((:action leave-vehicle
-    :parameters (?p - package ?v - vehicle)
-    :precondition (has-package ?v ?p)
-    :effect (and (not (has-package ?v ?p)) (has-package nil ?p)))
-
-  ((:action board-plane
-    :parameters (?p - plane ?apFrom - airport ?apTo - airport ?pkgs - packages)
-    :precondition (and (plane-at ?p ?apFrom) (forall (?pkg - package) (member ?pkg
-
-```
-**USER** :
-```pddl
-
-(define (domain delivery)
-  (:requirements :strips :typing)
-  
-  ;; Types
-  (:types location truck plane package - object)
-  (:predicates
-    (city ?l - location)
-    (airport ?a - airport)
-    (location-in-city ?l - location ?c - city)
-    (truck-at ?t - truck ?loc - location)
-    (plane-at ?p - plane ?ap - airport)
-    (has-package ?x - vehicle ?pkg - package)
-    (destination ?pkg - package ?dest - location))
-
-  ;; Constants
-  (:constants
-    homeCity Airport1 City2 City3 Truck1 Plane1 Package1 Package2)
-
-  ;; Domain functions
-  (:functions
-    (capacity-of ?v - vehicle)
-    (load-on ?v - vehicle))
-
-  ;; Action schemas
-  ((:action load-truck
-    :parameters (?t - truck ?loc - location ?pkg - package)
-    :precondition (and (truck-at ?t ?loc) (not (has-package ?t ?pkg)) (< (load-on ?t) (capacity-of ?t)))
-    :effect (and (not (truck-at ?t ?loc)) (not (location-in-city ?pkg ?loc))
-                (not (destination ?pkg ?loc)) (has-package ?t ?pkg)
-                (= (load-on (+ (load-on ?t) 1)) (capacity-of ?t))))
-
-  ((:action unload-truck
-    :parameters (?t - truck ?loc - location ?pkg - package)
-    :precondition (and (truck-at ?t ?loc) (has-package ?t ?pkg))
-    :effect (and (truck-at ?t ?loc) (location-in-city ?pkg ?loc)
-                (destination ?pkg ?loc) (not (has-package ?t ?pkg))
-                (= (load-on (- (load-on ?t) 1)) (capacity-of ?t))))
-
-  ((:action move-truck
-    :parameters (?t - truck ?fromLoc - location ?toLoc - location)
-    :precondition (and (truck-at ?t ?fromLoc) (connected ?fromLoc ?toLoc))
-    :effect (and (not (truck-at ?t ?fromLoc)) (truck-at ?t ?toLoc)))
-
-  ((:action pickup-package
-    :parameters (?t - truck ?pkg - package)
-    :precondition (and (truck-at ?t (location-of ?pkg)) (has-package nil ?pkg))
-    :effect (and (not (has-package nil ?pkg)) (has-package ?t ?pkg)))
-
-  ((:action deliver-package
-    :parameters (?t - truck ?pkg - package)
-    :precondition (and (truck-at ?t (location-of ?pkg)) (has-package ?t ?pkg) (arrived-at ?pkg))
-    :effect (and (not (has-package ?t ?pkg)) (not (has-package nil ?pkg))))
-
-  ((:action enter-vehicle
-    :parameters (?p - package ?v - vehicle)
-    :precondition (and (not (has-package ?v ?p)) (free-space-in ?v))
-    :effect (and (has-package ?v ?p) (not (has-package nil ?p))))
-
-  ((:action leave-vehicle
-    :parameters (?p - package ?v - vehicle)
-    :precondition (has-package ?v ?p)
-    :effect (and (not (has-package ?v ?p)) (has-package nil ?p)))
-
-  ((:action board-plane
-    :parameters (?p - plane ?apFrom - airport ?apTo - airport ?pkgs - packages)
-    :precondition (and (plane-at ?p ?apFrom) (forall (?pkg - package) (member ?pkg
-
-```
- The above code produces the following error: There was an error in parsing the code. Missing closing parenthesis
-
- Requirement 1: Correct the error and give the entire PDDL code for a STRIPS Planner. 
- Requirement 2: Do not create a problem file. Do not use conditional expressions. 
- Requirement 3: Generate PDDL domain code in code blocks for a STRIPS Planner. Do not give any explanations.
-**LLM MODEL** (HUGGING_FACE):
-```pddl
-(define (domain delivery)
+(define (domain delivery-domain)
 (:requirements :strips :typing)
-
-;; Types
-( :types location truck plane package - object)
-( :predicates
-	(city ?l - location)
-	(airport ?a - airport)
-	(location-in-city ?l - location ?c - city)
-	(truck-at ?t - truck ?loc - location)
-	(plane-at ?p - plane ?ap - airport)
-	(has-package ?x - vehicle ?pkg - package)
-	(destination ?pkg - package ?dest - location))
-
-;; Constants
-( :constants
-	homeCity Airport1 City2 City3 Truck1 Plane1 Package1 Package2)
-
-;; Domain functions
-( :functions
-	(capacity-of ?v - vehicle)
-	(load-on ?v - vehicle))
-
-;; Action schemas
-((:action load-truck
-	:parameters (?t - truck ?loc - location ?pkg - package)
-	:precondition (and (truck-at ?t ?loc) (not (has-package ?t ?pkg)) (< (load-on ?t) (capacity-of ?t)))
-	:effect (and (not (truck-at ?t ?loc)) (not (location-in-city ?pkg ?loc))
-                        (not (destination ?pkg ?loc)) (has-package ?t ?pkg)
-                        (= (load-on (+ (load-on ?t) 1)) (capacity-of ?t))))
-
-(:action unload-truck
-	:parameters (?t - truck ?loc - location ?pkg - package)
-	:precondition (and (truck-at ?t ?loc) (has-package ?t ?pkg))
-	:effect (and (truck-at ?t ?loc) (location-in-city ?pkg ?loc)
-                        (destination ?pkg ?loc) (not (has-package ?t ?pkg))
-                        (= (load-on (- (load-on ?t) 1)) (capacity-of ?t))))
-
-(:action move-truck
-	:parameters (?t - truck ?fromLoc - location ?toLoc - location)
-	:precondition (and (truck-at ?t ?fromLoc) (connected ?fromLoc ?toLoc))
-	:effect (and (not (truck-at ?t ?fromLoc)) (truck-at ?t ?toLoc)))
-
-(:action pickup-package
-	:parameters (?t - truck ?pkg - package)
-	:precondition (and (truck-at ?t (location-of ?pkg)) (has-package nil ?pkg))
-	:effect (and (not (has-package nil ?pkg)) (has-package ?t ?pkg)))
-
-(:action deliver-package
-	:parameters (?t - truck ?pkg - package)
-	:precondition (and (truck-at ?t (location-of ?pkg)) (has-package ?t ?pkg) (arrived-at ?pkg))
-	:effect (and (not (has-package ?t ?pkg)) (not (has-package nil ?pkg))))
-
-(:action enter-vehicle
-	:parameters (?p - package ?v - vehicle)
-	:precondition (and (not (has-package ?v ?p)) (free-space-in ?v))
-	:effect (and (has-package ?v ?p) (not (has-package nil ?p))))
-
-(:action leave-vehicle
-	:parameters (?p - package ?v - vehicle)
-	:precondition (has-package ?v ?p)
-	:effect (and (not (has-package ?v ?p)) (has-package nil ?p)))
-
-(:action board-plane
-	:parameters (?p - plane ?apFrom - airport ?apTo - airport ?pkgs - packages)
-	:precondition (and (plane-at ?p ?apFrom) (for
-
-```
-**USER** :
-```pddl
-
-(define (domain delivery)
-(:requirements :strips :typing)
-
-;; Types
-( :types location truck plane package - object)
-( :predicates
-	(city ?l - location)
-	(airport ?a - airport)
-	(location-in-city ?l - location ?c - city)
-	(truck-at ?t - truck ?loc - location)
-	(plane-at ?p - plane ?ap - airport)
-	(has-package ?x - vehicle ?pkg - package)
-	(destination ?pkg - package ?dest - location))
-
-;; Constants
-( :constants
-	homeCity Airport1 City2 City3 Truck1 Plane1 Package1 Package2)
-
-;; Domain functions
-( :functions
-	(capacity-of ?v - vehicle)
-	(load-on ?v - vehicle))
-
-;; Action schemas
-((:action load-truck
-	:parameters (?t - truck ?loc - location ?pkg - package)
-	:precondition (and (truck-at ?t ?loc) (not (has-package ?t ?pkg)) (< (load-on ?t) (capacity-of ?t)))
-	:effect (and (not (truck-at ?t ?loc)) (not (location-in-city ?pkg ?loc))
-                        (not (destination ?pkg ?loc)) (has-package ?t ?pkg)
-                        (= (load-on (+ (load-on ?t) 1)) (capacity-of ?t))))
-
-(:action unload-truck
-	:parameters (?t - truck ?loc - location ?pkg - package)
-	:precondition (and (truck-at ?t ?loc) (has-package ?t ?pkg))
-	:effect (and (truck-at ?t ?loc) (location-in-city ?pkg ?loc)
-                        (destination ?pkg ?loc) (not (has-package ?t ?pkg))
-                        (= (load-on (- (load-on ?t) 1)) (capacity-of ?t))))
-
-(:action move-truck
-	:parameters (?t - truck ?fromLoc - location ?toLoc - location)
-	:precondition (and (truck-at ?t ?fromLoc) (connected ?fromLoc ?toLoc))
-	:effect (and (not (truck-at ?t ?fromLoc)) (truck-at ?t ?toLoc)))
-
-(:action pickup-package
-	:parameters (?t - truck ?pkg - package)
-	:precondition (and (truck-at ?t (location-of ?pkg)) (has-package nil ?pkg))
-	:effect (and (not (has-package nil ?pkg)) (has-package ?t ?pkg)))
-
-(:action deliver-package
-	:parameters (?t - truck ?pkg - package)
-	:precondition (and (truck-at ?t (location-of ?pkg)) (has-package ?t ?pkg) (arrived-at ?pkg))
-	:effect (and (not (has-package ?t ?pkg)) (not (has-package nil ?pkg))))
-
-(:action enter-vehicle
-	:parameters (?p - package ?v - vehicle)
-	:precondition (and (not (has-package ?v ?p)) (free-space-in ?v))
-	:effect (and (has-package ?v ?p) (not (has-package nil ?p))))
-
-(:action leave-vehicle
-	:parameters (?p - package ?v - vehicle)
-	:precondition (has-package ?v ?p)
-	:effect (and (not (has-package ?v ?p)) (has-package nil ?p)))
-
-(:action board-plane
-	:parameters (?p - plane ?apFrom - airport ?apTo - airport ?pkgs - packages)
-	:precondition (and (plane-at ?p ?apFrom) (for
-
-```
- The above code produces the following error: There was an error in parsing the code. Missing closing parenthesis
-
- Requirement 1: Correct the error and give the entire PDDL code for a STRIPS Planner. 
- Requirement 2: Do not create a problem file. Do not use conditional expressions. 
- Requirement 3: Generate PDDL domain code in code blocks for a STRIPS Planner. Do not give any explanations.
-**LLM MODEL** (HUGGING_FACE):
-```pddl
-(define (domain delivery)
-(:requirements :strips :typing)
-
-;; Types
-( :types location truck plane package - object)
-( :predicates
-	(city ?l - location)
-	(airport ?a - airport)
-	(location-in-city ?l - location ?c - city)
-	(truck-at ?t - truck ?loc - location)
-	(plane-at ?p - plane ?ap - airport)
-	(has-package ?x - vehicle ?pkg - package)
-	(destination ?pkg - package ?dest - location))
-
-;; Constants
-( :constants
-	homeCity Airport1 City2 City3 Truck1 Plane1 Package1 Package2)
-
-;; Domain functions
-( :functions
-	(capacity-of ?v - vehicle)
-	(load-on ?v - vehicle))
-
-;; Action schemas
-((:action load-truck
-	:parameters (?t - truck ?loc - location ?pkg - package)
-	:precondition (and (truck-at ?t ?loc) (not (has-package ?t ?pkg)) (< (load-on ?t) (capacity-of ?t)))
-	:effect (and (not (truck-at ?t ?loc)) (not (location-in-city ?pkg ?loc))
-                        (not (destination ?pkg ?loc)) (has-package ?t ?pkg)
-                        (= (load-on (+ (load-on ?t) 1)) (capacity-of ?t)))))
-
-(:action unload-truck
-	:parameters (?t - truck ?loc - location ?pkg - package)
-	:precondition (and (truck-at ?t ?loc) (has-package ?t ?pkg))
-	:effect (and (truck-at ?t ?loc) (location-in-city ?pkg ?loc)
-                        (destination ?pkg ?loc) (not (has-package ?t ?pkg))
-                        (= (load-on (- (load-on ?t) 1)) (capacity-of ?t))))
-
-(:action move-truck
-	:parameters (?t - truck ?fromLoc - location ?toLoc - location)
-	:precondition (and (truck-at ?t ?fromLoc) (connected ?fromLoc ?toLoc))
-	:effect (and (not (truck-at ?t ?fromLoc)) (truck-at ?t ?toLoc)))
-
-(:action pickup-package
-	:parameters (?t - truck ?pkg - package)
-	:precondition (and (truck-at ?t (location-of ?pkg)) (has-package nil ?pkg))
-	:effect (and (not (has-package nil ?pkg)) (has-package ?t ?pkg)))
-
-(:action deliver-package
-	:parameters (?t - truck ?pkg - package)
-	:precondition (and (truck-at ?t (location-of ?pkg)) (has-package ?t ?pkg) (arrived-at ?pkg))
-	:effect (and (not (has-package ?t ?pkg)) (not (has-package nil ?pkg))))
-
-(:action enter-vehicle
-	:parameters (?p - package ?v - vehicle)
-	:precondition (and (not (has-package ?v ?p)) (free-space-in ?v))
-	:effect (and (has-package ?v ?p) (not (has-package nil ?p))))
-
-(:action leave-vehicle
-	:parameters (?p - package ?v - vehicle)
-	:precondition (has-package ?v ?p)
-	:effect (and (not (has-package ?v ?p)) (has-package nil ?p)))
-
-(:action board-plane
-	:parameters (?p - plane ?apFrom - airport ?apTo - airport ?pkgs - packages)
-	:precondition (and (plane-at ?p ?apFrom))
-	:effect (and (not (plane-at ?p ?apFrom)) (plane-at ?p ?apTo)))
-
-```
-**USER** :
-```pddl
-
-(define (domain delivery)
-(:requirements :strips :typing)
-
-;; Types
-( :types location truck plane package - object)
-( :predicates
-	(city ?l - location)
-	(airport ?a - airport)
-	(location-in-city ?l - location ?c - city)
-	(truck-at ?t - truck ?loc - location)
-	(plane-at ?p - plane ?ap - airport)
-	(has-package ?x - vehicle ?pkg - package)
-	(destination ?pkg - package ?dest - location))
-
-;; Constants
-( :constants
-	homeCity Airport1 City2 City3 Truck1 Plane1 Package1 Package2)
-
-;; Domain functions
-( :functions
-	(capacity-of ?v - vehicle)
-	(load-on ?v - vehicle))
-
-;; Action schemas
-((:action load-truck
-	:parameters (?t - truck ?loc - location ?pkg - package)
-	:precondition (and (truck-at ?t ?loc) (not (has-package ?t ?pkg)) (< (load-on ?t) (capacity-of ?t)))
-	:effect (and (not (truck-at ?t ?loc)) (not (location-in-city ?pkg ?loc))
-                        (not (destination ?pkg ?loc)) (has-package ?t ?pkg)
-                        (= (load-on (+ (load-on ?t) 1)) (capacity-of ?t)))))
-
-(:action unload-truck
-	:parameters (?t - truck ?loc - location ?pkg - package)
-	:precondition (and (truck-at ?t ?loc) (has-package ?t ?pkg))
-	:effect (and (truck-at ?t ?loc) (location-in-city ?pkg ?loc)
-                        (destination ?pkg ?loc) (not (has-package ?t ?pkg))
-                        (= (load-on (- (load-on ?t) 1)) (capacity-of ?t))))
-
-(:action move-truck
-	:parameters (?t - truck ?fromLoc - location ?toLoc - location)
-	:precondition (and (truck-at ?t ?fromLoc) (connected ?fromLoc ?toLoc))
-	:effect (and (not (truck-at ?t ?fromLoc)) (truck-at ?t ?toLoc)))
-
-(:action pickup-package
-	:parameters (?t - truck ?pkg - package)
-	:precondition (and (truck-at ?t (location-of ?pkg)) (has-package nil ?pkg))
-	:effect (and (not (has-package nil ?pkg)) (has-package ?t ?pkg)))
-
-(:action deliver-package
-	:parameters (?t - truck ?pkg - package)
-	:precondition (and (truck-at ?t (location-of ?pkg)) (has-package ?t ?pkg) (arrived-at ?pkg))
-	:effect (and (not (has-package ?t ?pkg)) (not (has-package nil ?pkg))))
-
-(:action enter-vehicle
-	:parameters (?p - package ?v - vehicle)
-	:precondition (and (not (has-package ?v ?p)) (free-space-in ?v))
-	:effect (and (has-package ?v ?p) (not (has-package nil ?p))))
-
-(:action leave-vehicle
-	:parameters (?p - package ?v - vehicle)
-	:precondition (has-package ?v ?p)
-	:effect (and (not (has-package ?v ?p)) (has-package nil ?p)))
-
-(:action board-plane
-	:parameters (?p - plane ?apFrom - airport ?apTo - airport ?pkgs - packages)
-	:precondition (and (plane-at ?p ?apFrom))
-	:effect (and (not (plane-at ?p ?apFrom)) (plane-at ?p ?apTo)))
-
-```
- The above code produces the following error: There was an error in parsing the code. Missing closing parenthesis
-
- Requirement 1: Correct the error and give the entire PDDL code for a STRIPS Planner. 
- Requirement 2: Do not create a problem file. Do not use conditional expressions. 
- Requirement 3: Generate PDDL domain code in code blocks for a STRIPS Planner. Do not give any explanations.
-**LLM MODEL** (HUGGING_FACE):
-```pddl
-(define (domain delivery)
-(:requirements :strips :typing)
-
-;; Types
-( :types location truck plane package - object)
-( :predicates
-	(city ?l - location)
-	(airport ?a - airport)
-	(location-in-city ?l - location ?c - city)
-	(truck-at ?t - truck ?loc - location)
-	(plane-at ?p - plane ?ap - airport)
-	(has-package ?x - vehicle ?pkg - package)
-	(destination ?pkg - package ?dest - location))
-
-;; Constants
-( :constants
-	homeCity Airport1 City2 City3 Truck1 Plane1 Package1 Package2)
-
-;; Domain functions
-( :functions
-	(capacity-of ?v - vehicle)
-	(load-on ?v - vehicle))
-
-;; Action schemas
-(:action load-truck
-	:parameters (?t - truck ?loc - location ?pkg - package)
-	:precondition (and (truck-at ?t ?loc) (not (has-package ?t ?pkg)) (< (load-on ?t) (capacity-of ?t)))
-	:effect (and (not (truck-at ?t ?loc)) (not (location-in-city ?pkg ?loc))
-                        (not (destination ?pkg ?loc)) (has-package ?t ?pkg)
-                        (= (load-on (+ (load-on ?t) 1)) (capacity-of ?t))))
-
-(:action unload-truck
-	:parameters (?t - truck ?loc - location ?pkg - package)
-	:precondition (and (truck-at ?t ?loc) (has-package ?t ?pkg))
-	:effect (and (truck-at ?t ?loc) (location-in-city ?pkg ?loc)
-                        (destination ?pkg ?loc) (not (has-package ?t ?pkg))
-                        (= (load-on (- (load-on ?t) 1)) (capacity-of ?t))))
-
-(:action move-truck
-	:parameters (?t - truck ?fromLoc - location ?toLoc - location)
-	:precondition (and (truck-at ?t ?fromLoc) (connected ?fromLoc ?toLoc))
-	:effect (and (not (truck-at ?t ?fromLoc)) (truck-at ?t ?toLoc)))
-
-(:action pickup-package
-	:parameters (?t - truck ?pkg - package)
-	:precondition (and (truck-at ?t (location-of ?pkg)) (has-package nil ?pkg))
-	:effect (and (not (has-package nil ?pkg)) (has-package ?t ?pkg)))
-
-(:action deliver-package
-	:parameters (?t - truck ?pkg - package)
-	:precondition (and (truck-at ?t (location-of ?pkg)) (has-package ?t ?pkg) (arrived-at ?pkg))
-	:effect (and (not (has-package ?t ?pkg)) (not (has-package nil ?pkg))))
-
-(:action enter-vehicle
-	:parameters (?p - package ?v - vehicle)
-	:precondition (and (not (has-package ?v ?p)) (free-space-in ?v))
-	:effect (and (has-package ?v ?p) (not (has-package nil ?p))))
-
-(:action leave-vehicle
-	:parameters (?p - package ?v - vehicle)
-	:precondition (has-package ?v ?p)
-	:effect (and (not (has-package ?v ?p)) (has-package nil ?p)))
-
-(:action board-plane
-	:parameters (?p - plane ?apFrom - airport ?apTo - airport ?pkgs - packages)
-	:precondition (and (plane-at ?p ?apFrom))
-	:effect (and (not (plane-at ?p ?apFrom)) (plane-at ?p ?apTo)))
-end code
-
-```
-**USER** :
-```pddl
-
-(define (domain delivery)
-(:requirements :strips :typing)
-
-;; Types
-( :types location truck plane package - object)
-( :predicates
-	(city ?l - location)
-	(airport ?a - airport)
-	(location-in-city ?l - location ?c - city)
-	(truck-at ?t - truck ?loc - location)
-	(plane-at ?p - plane ?ap - airport)
-	(has-package ?x - vehicle ?pkg - package)
-	(destination ?pkg - package ?dest - location))
-
-;; Constants
-( :constants
-	homeCity Airport1 City2 City3 Truck1 Plane1 Package1 Package2)
-
-;; Domain functions
-( :functions
-	(capacity-of ?v - vehicle)
-	(load-on ?v - vehicle))
-
-;; Action schemas
-(:action load-truck
-	:parameters (?t - truck ?loc - location ?pkg - package)
-	:precondition (and (truck-at ?t ?loc) (not (has-package ?t ?pkg)) (< (load-on ?t) (capacity-of ?t)))
-	:effect (and (not (truck-at ?t ?loc)) (not (location-in-city ?pkg ?loc))
-                        (not (destination ?pkg ?loc)) (has-package ?t ?pkg)
-                        (= (load-on (+ (load-on ?t) 1)) (capacity-of ?t))))
-
-(:action unload-truck
-	:parameters (?t - truck ?loc - location ?pkg - package)
-	:precondition (and (truck-at ?t ?loc) (has-package ?t ?pkg))
-	:effect (and (truck-at ?t ?loc) (location-in-city ?pkg ?loc)
-                        (destination ?pkg ?loc) (not (has-package ?t ?pkg))
-                        (= (load-on (- (load-on ?t) 1)) (capacity-of ?t))))
-
-(:action move-truck
-	:parameters (?t - truck ?fromLoc - location ?toLoc - location)
-	:precondition (and (truck-at ?t ?fromLoc) (connected ?fromLoc ?toLoc))
-	:effect (and (not (truck-at ?t ?fromLoc)) (truck-at ?t ?toLoc)))
-
-(:action pickup-package
-	:parameters (?t - truck ?pkg - package)
-	:precondition (and (truck-at ?t (location-of ?pkg)) (has-package nil ?pkg))
-	:effect (and (not (has-package nil ?pkg)) (has-package ?t ?pkg)))
-
-(:action deliver-package
-	:parameters (?t - truck ?pkg - package)
-	:precondition (and (truck-at ?t (location-of ?pkg)) (has-package ?t ?pkg) (arrived-at ?pkg))
-	:effect (and (not (has-package ?t ?pkg)) (not (has-package nil ?pkg))))
-
-(:action enter-vehicle
-	:parameters (?p - package ?v - vehicle)
-	:precondition (and (not (has-package ?v ?p)) (free-space-in ?v))
-	:effect (and (has-package ?v ?p) (not (has-package nil ?p))))
-
-(:action leave-vehicle
-	:parameters (?p - package ?v - vehicle)
-	:precondition (has-package ?v ?p)
-	:effect (and (not (has-package ?v ?p)) (has-package nil ?p)))
-
-(:action board-plane
-	:parameters (?p - plane ?apFrom - airport ?apTo - airport ?pkgs - packages)
-	:precondition (and (plane-at ?p ?apFrom))
-	:effect (and (not (plane-at ?p ?apFrom)) (plane-at ?p ?apTo)))
-end code
-
-```
- The above code produces the following error: There was an error in parsing the code. Missing closing parenthesis
-
- Requirement 1: Correct the error and give the entire PDDL code for a STRIPS Planner. 
- Requirement 2: Do not create a problem file. Do not use conditional expressions. 
- Requirement 3: Generate PDDL domain code in code blocks for a STRIPS Planner. Do not give any explanations.
-**LLM MODEL** (HUGGING_FACE):
-```pddl
-(define (domain delivery)
-  (:requirements :strips :typing)
-  
-  ;; Types
-  (:types location truck plane package - object)
-  (:predicates
-    (city ?l - location)
-    (airport ?a - airport)
-    (location-in-city ?l - location ?c - city)
-    (truck-at ?t - truck ?loc - location)
-    (plane-at ?p - plane ?ap - airport)
-    (has-package ?x - vehicle ?pkg - package)
-    (destination ?pkg - package ?dest - location))
-  
-  ;; Constants
-  (:constants
-    homeCity Airport1 City2 City3 Truck1 Plane1 Package1 Package2)
-  
-  ;; Domain functions
-  (:functions
-    (capacity-of ?v - vehicle)
-    (load-on ?v - vehicle))
-  
-  ;; Action schemas
-  (:action load-truck
-    :parameters (?t - truck ?loc - location ?pkg - package)
-    :precondition (and (truck-at ?t ?loc) (not (has-package ?t ?pkg)) (< (load-on ?t) (capacity-of ?t)))
-    :effect (and (not (truck-at ?t ?loc)) (not (location-in-city ?pkg ?loc))
-                (not (destination ?pkg ?loc)) (has-package ?t ?pkg)
-                (= (load-on (+ (load-on ?t) 1)) (capacity-of ?t))))
-  
-  (:action unload-truck
-    :parameters (?t - truck ?loc - location ?pkg - package)
-    :precondition (and (truck-at ?t ?loc) (has-package ?t ?pkg))
-    :effect (and (truck-at ?t ?loc) (location-in-city ?pkg ?loc)
-                (destination ?pkg ?loc) (not (has-package ?t ?pkg))
-                (= (load-on (- (load-on ?t) 1)) (capacity-of ?t))))
-  
-  (:action move-truck
-    :parameters (?t - truck ?fromLoc - location ?toLoc - location)
-    :precondition (and (truck-at ?t ?fromLoc) (connected ?fromLoc ?toLoc))
-    :effect (and (not (truck-at ?t ?fromLoc)) (truck-at ?t ?toLoc)))
-  
-  (:action pickup-package
-    :parameters (?t - truck ?pkg - package)
-    :precondition (and (truck-at ?t (location-of ?pkg)) (has-package nil ?pkg))
-    :effect (and (not (has-package nil ?pkg)) (has-package ?t ?pkg)))
-  
-  (:action deliver-package
-    :parameters (?t - truck ?pkg - package)
-    :precondition (and (truck-at ?t (location-of ?pkg)) (has-package ?t ?pkg) (arrived-at ?pkg))
-    :effect (and (not (has-package ?t ?pkg)) (not (has-package nil ?pkg))))
-  
-  (:action enter-vehicle
-    :parameters (?p - package ?v - vehicle)
-    :precondition (and (not (has-package ?v ?p)) (free-space-in ?v))
-    :effect (and (has-package ?v ?p) (not (has-package nil ?p))))
-  
-  (:action leave-vehicle
-    :parameters (?p - package ?v - vehicle)
-    :precondition (has-package ?v ?p)
-    :effect (and (not (has-package ?v ?p)) (has-package nil ?p)))
-  
-  (:action board-plane
-    :parameters (?p - plane ?apFrom - airport ?apTo - airport ?pkgs - packages)
-    :precondition (and (plane-at ?p ?apFrom))
-    :effect (and (not (plane-at ?p ?apFrom)) (plane-at ?p ?apTo)))
-)
-
-```
-**USER** :
-```pddl
-
-(define (domain delivery)
-  (:requirements :strips :typing)
-  
-  ;; Types
-  (:types location truck plane package - object)
-  (:predicates
-    (city ?l - location)
-    (airport ?a - airport)
-    (location-in-city ?l - location ?c - city)
-    (truck-at ?t - truck ?loc - location)
-    (plane-at ?p - plane ?ap - airport)
-    (has-package ?x - vehicle ?pkg - package)
-    (destination ?pkg - package ?dest - location))
-  
-  ;; Constants
-  (:constants
-    homeCity Airport1 City2 City3 Truck1 Plane1 Package1 Package2)
-  
-  ;; Domain functions
-  (:functions
-    (capacity-of ?v - vehicle)
-    (load-on ?v - vehicle))
-  
-  ;; Action schemas
-  (:action load-truck
-    :parameters (?t - truck ?loc - location ?pkg - package)
-    :precondition (and (truck-at ?t ?loc) (not (has-package ?t ?pkg)) (< (load-on ?t) (capacity-of ?t)))
-    :effect (and (not (truck-at ?t ?loc)) (not (location-in-city ?pkg ?loc))
-                (not (destination ?pkg ?loc)) (has-package ?t ?pkg)
-                (= (load-on (+ (load-on ?t) 1)) (capacity-of ?t))))
-  
-  (:action unload-truck
-    :parameters (?t - truck ?loc - location ?pkg - package)
-    :precondition (and (truck-at ?t ?loc) (has-package ?t ?pkg))
-    :effect (and (truck-at ?t ?loc) (location-in-city ?pkg ?loc)
-                (destination ?pkg ?loc) (not (has-package ?t ?pkg))
-                (= (load-on (- (load-on ?t) 1)) (capacity-of ?t))))
-  
-  (:action move-truck
-    :parameters (?t - truck ?fromLoc - location ?toLoc - location)
-    :precondition (and (truck-at ?t ?fromLoc) (connected ?fromLoc ?toLoc))
-    :effect (and (not (truck-at ?t ?fromLoc)) (truck-at ?t ?toLoc)))
-  
-  (:action pickup-package
-    :parameters (?t - truck ?pkg - package)
-    :precondition (and (truck-at ?t (location-of ?pkg)) (has-package nil ?pkg))
-    :effect (and (not (has-package nil ?pkg)) (has-package ?t ?pkg)))
-  
-  (:action deliver-package
-    :parameters (?t - truck ?pkg - package)
-    :precondition (and (truck-at ?t (location-of ?pkg)) (has-package ?t ?pkg) (arrived-at ?pkg))
-    :effect (and (not (has-package ?t ?pkg)) (not (has-package nil ?pkg))))
-  
-  (:action enter-vehicle
-    :parameters (?p - package ?v - vehicle)
-    :precondition (and (not (has-package ?v ?p)) (free-space-in ?v))
-    :effect (and (has-package ?v ?p) (not (has-package nil ?p))))
-  
-  (:action leave-vehicle
-    :parameters (?p - package ?v - vehicle)
-    :precondition (has-package ?v ?p)
-    :effect (and (not (has-package ?v ?p)) (has-package nil ?p)))
-  
-  (:action board-plane
-    :parameters (?p - plane ?apFrom - airport ?apTo - airport ?pkgs - packages)
-    :precondition (and (plane-at ?p ?apFrom))
-    :effect (and (not (plane-at ?p ?apFrom)) (plane-at ?p ?apTo)))
-)
-
-```
- The above code produces the following error: There is a value error on finding unknown keyword in domain definition: 'functions'. Remove the keyword 'functions' from definition, keep the rest of code the same.
-
- Requirement 1: Correct the error and give the entire PDDL code for a STRIPS Planner. 
- Requirement 2: Do not create a problem file. Do not use conditional expressions. 
- Requirement 3: Generate PDDL domain code in code blocks for a STRIPS Planner. Do not give any explanations.
-**LLM MODEL** (HUGGING_FACE):
-```pddl (define (domain delivery)
-(:requirements :strips :typing)
-
-;; Types
-(:: types location truck plane package - object)
-(:: predicates
-(city ?l - location)
-(airport ?a - airport)
-(location-in-city ?l - location ?c - city)
-(truck-at ?t - truck ?loc - location)
-(plane-at ?p - plane ?ap - airport)
-(has-package ?x - vehicle ?pkg - package)
-(destination ?pkg - package ?dest - location))
-
-;; Constants
-(:: constants
-HomeCity Airport1 City2 City3 Truck1 Plane1 Package1 Package2)
-
-;; Actions
-(:: action load-truck
-:parameters (?t - truck ?loc - location ?pkg - package)
-:precondition (and (truck-at ?t ?loc) (not (has-package ?t ?pkg)))
-:effect (and (not (truck-at ?t ?loc)) (not (location-in-city ?pkg ?loc))
-(not (destination ?pkg ?loc)) (has-package ?t ?pkg)))
-
-(:: action unload-truck
-:parameters (?t - truck ?loc - location ?pkg - package)
-:precondition (and (truck-at ?t ?loc) (has-package ?t ?pkg))
-:effect (and (truck-at ?t ?loc) (location-in-city ?pkg ?loc)
-(destination ?pkg ?loc) (not (has-package ?t ?pkg))))
-
-(:: action move-truck
-:parameters (?t - truck ?fromLoc - location ?toLoc - location)
-:precondition (and (truck-at ?t ?fromLoc) (connected ?fromLoc ?toLoc))
-:effect (and (not (truck-at ?t ?fromLoc)) (truck-at ?t ?toLoc)))
-
-(:: action pickup-package
-:parameters (?t - truck ?pkg - package)
-:precondition (and (truck-at (location-of ?pkg) ?loc) (has-package nil ?pkg))
-:effect (and (not (has-package nil ?pkg)) (has-package ?t ?pkg)))
-
-(:: action deliver-package
-:parameters (?t - truck ?pkg - package)
-:precondition (and (truck-at (location-of ?pkg) ?loc) (has-package ?t ?pkg) (arrived-at ?pkg))
-:effect (and (not (has-package ?t ?pkg)) (not (has-package nil ?pkg))))
-
-(:: action enter-vehicle
-:parameters (?p - package ?v - vehicle)
-:precondition (and (not (has-package ?v ?p)) (free-space-in ?v))
-:effect (and (has-package ?v ?p) (not (has-package nil ?p))))
-
-(:: action leave-vehicle
-:parameters (?p - package ?v - vehicle)
-:precondition (has-package ?v ?p)
-:effect (and (not (has-package ?v ?p)) (has-package nil ?p)))
-
-(:: action board-plane
-:parameters (?p - plane ?apFrom - airport ?apTo - airport ?pkgs - packages)
-:precondition (and (plane-at ?p ?apFrom))
-:effect (and (not (plane-at ?p ?apFrom)) (plane-at ?p ?apTo)))
-)
-```
-**USER** :
-```pddl
- (define (domain delivery)
-(:requirements :strips :typing)
-
-;; Types
-(:: types location truck plane package - object)
-(:: predicates
-(city ?l - location)
-(airport ?a - airport)
-(location-in-city ?l - location ?c - city)
-(truck-at ?t - truck ?loc - location)
-(plane-at ?p - plane ?ap - airport)
-(has-package ?x - vehicle ?pkg - package)
-(destination ?pkg - package ?dest - location))
-
-;; Constants
-(:: constants
-HomeCity Airport1 City2 City3 Truck1 Plane1 Package1 Package2)
-
-;; Actions
-(:: action load-truck
-:parameters (?t - truck ?loc - location ?pkg - package)
-:precondition (and (truck-at ?t ?loc) (not (has-package ?t ?pkg)))
-:effect (and (not (truck-at ?t ?loc)) (not (location-in-city ?pkg ?loc))
-(not (destination ?pkg ?loc)) (has-package ?t ?pkg)))
-
-(:: action unload-truck
-:parameters (?t - truck ?loc - location ?pkg - package)
-:precondition (and (truck-at ?t ?loc) (has-package ?t ?pkg))
-:effect (and (truck-at ?t ?loc) (location-in-city ?pkg ?loc)
-(destination ?pkg ?loc) (not (has-package ?t ?pkg))))
-
-(:: action move-truck
-:parameters (?t - truck ?fromLoc - location ?toLoc - location)
-:precondition (and (truck-at ?t ?fromLoc) (connected ?fromLoc ?toLoc))
-:effect (and (not (truck-at ?t ?fromLoc)) (truck-at ?t ?toLoc)))
-
-(:: action pickup-package
-:parameters (?t - truck ?pkg - package)
-:precondition (and (truck-at (location-of ?pkg) ?loc) (has-package nil ?pkg))
-:effect (and (not (has-package nil ?pkg)) (has-package ?t ?pkg)))
-
-(:: action deliver-package
-:parameters (?t - truck ?pkg - package)
-:precondition (and (truck-at (location-of ?pkg) ?loc) (has-package ?t ?pkg) (arrived-at ?pkg))
-:effect (and (not (has-package ?t ?pkg)) (not (has-package nil ?pkg))))
-
-(:: action enter-vehicle
-:parameters (?p - package ?v - vehicle)
-:precondition (and (not (has-package ?v ?p)) (free-space-in ?v))
-:effect (and (has-package ?v ?p) (not (has-package nil ?p))))
-
-(:: action leave-vehicle
-:parameters (?p - package ?v - vehicle)
-:precondition (has-package ?v ?p)
-:effect (and (not (has-package ?v ?p)) (has-package nil ?p)))
-
-(:: action board-plane
-:parameters (?p - plane ?apFrom - airport ?apTo - airport ?pkgs - packages)
-:precondition (and (plane-at ?p ?apFrom))
-:effect (and (not (plane-at ?p ?apFrom)) (plane-at ?p ?apTo)))
-)
-```
- The above code produces the following error: There is a value error on finding unknown keyword in domain definition: ':'. Remove the keyword ':' from definition, keep the rest of code the same.
-
- Requirement 1: Correct the error and give the entire PDDL code for a STRIPS Planner. 
- Requirement 2: Do not create a problem file. Do not use conditional expressions. 
- Requirement 3: Generate PDDL domain code in code blocks for a STRIPS Planner. Do not give any explanations.
-**LLM MODEL** (HUGGING_FACE):
-```pddl
-(define (domain delivery)
-(:requirements :strips :typing)
-
-;; Types
-(:: types location truck plane package - object)
-(:: predicates
-(city ?l - location)
-(airport ?a - airport)
-(location-in-city ?l - location ?c - city)
-(truck-at ?t - truck ?loc - location)
-(plane-at ?p - plane ?ap - airport)
-(has-package ?x - vehicle ?pkg - package)
-(destination ?pkg - package ?dest - location))
-
-;; Constants
-(:: constants
-HomeCity Airport1 City2 City3 Truck1 Plane1 Package1 Package2)
-
-;; Actions
-(:: action load-truck
-:parameters (?t - truck ?loc - location ?pkg - package)
-:precondition (and (truck-at ?t ?loc) (not (has-package ?t ?pkg)))
-:effect (and (not (truck-at ?t ?loc)) (not (location-in-city ?pkg ?loc))
-(not (destination ?pkg ?loc)) (has-package ?t ?pkg)))
-
-(:: action unload-truck
-:parameters (?t - truck ?loc - location ?pkg - package)
-:precondition (and (truck-at ?t ?loc) (has-package ?t ?pkg))
-:effect (and (truck-at ?t ?loc) (location-in-city ?pkg ?loc)
-(destination ?pkg ?loc) (not (has-package ?t ?pkg))))
-
-(:: action move-truck
-:parameters (?t - truck ?fromLoc - location ?toLoc - location)
-:precondition (and (truck-at ?t ?fromLoc) (connected ?fromLoc ?toLoc))
-:effect (and (not (truck-at ?t ?fromLoc)) (truck-at ?t ?toLoc)))
-
-(:: action pickup-package
-:parameters (?t - truck ?pkg - package)
-:precondition (and (truck-at (location-of ?pkg) ?loc) (has-package nil ?pkg))
-:effect (and (not (has-package nil ?pkg)) (has-package ?t ?pkg)))
-
-(:: action deliver-package
-:parameters (?t - truck ?pkg - package)
-:precondition (and (truck-at (location-of ?pkg) ?loc) (has-package ?t ?pkg) (arrived-at ?pkg))
-:effect (and (not (has-package ?t ?pkg)) (not (has-package nil ?pkg))))
-
-(:: action enter-vehicle
-:parameters (?p - package ?v - vehicle)
-:precondition (and (not (has-package ?v ?p)) (free-space-in ?v))
-:effect (and (has-package ?v ?p) (not (has-package nil ?p))))
-
-(:: action leave-vehicle
-:parameters (?p - package ?v - vehicle)
-:precondition (has-package ?v ?p)
-:effect (and (not (has-package ?v ?p)) (has-package nil ?p)))
-
-(:: action board-plane
-:parameters (?p - plane ?apFrom - airport ?apTo - airport ?pkgs - packages)
-:precondition (and (plane-at ?p ?apFrom))
-:effect (and (not (plane-at ?p ?apFrom)) (plane-at ?p ?apTo)))
-)
-
-```
-**USER** :
-```pddl
-
-(define (domain delivery)
-(:requirements :strips :typing)
-
-;; Types
-(:: types location truck plane package - object)
-(:: predicates
-(city ?l - location)
-(airport ?a - airport)
-(location-in-city ?l - location ?c - city)
-(truck-at ?t - truck ?loc - location)
-(plane-at ?p - plane ?ap - airport)
-(has-package ?x - vehicle ?pkg - package)
-(destination ?pkg - package ?dest - location))
-
-;; Constants
-(:: constants
-HomeCity Airport1 City2 City3 Truck1 Plane1 Package1 Package2)
-
-;; Actions
-(:: action load-truck
-:parameters (?t - truck ?loc - location ?pkg - package)
-:precondition (and (truck-at ?t ?loc) (not (has-package ?t ?pkg)))
-:effect (and (not (truck-at ?t ?loc)) (not (location-in-city ?pkg ?loc))
-(not (destination ?pkg ?loc)) (has-package ?t ?pkg)))
-
-(:: action unload-truck
-:parameters (?t - truck ?loc - location ?pkg - package)
-:precondition (and (truck-at ?t ?loc) (has-package ?t ?pkg))
-:effect (and (truck-at ?t ?loc) (location-in-city ?pkg ?loc)
-(destination ?pkg ?loc) (not (has-package ?t ?pkg))))
-
-(:: action move-truck
-:parameters (?t - truck ?fromLoc - location ?toLoc - location)
-:precondition (and (truck-at ?t ?fromLoc) (connected ?fromLoc ?toLoc))
-:effect (and (not (truck-at ?t ?fromLoc)) (truck-at ?t ?toLoc)))
-
-(:: action pickup-package
-:parameters (?t - truck ?pkg - package)
-:precondition (and (truck-at (location-of ?pkg) ?loc) (has-package nil ?pkg))
-:effect (and (not (has-package nil ?pkg)) (has-package ?t ?pkg)))
-
-(:: action deliver-package
-:parameters (?t - truck ?pkg - package)
-:precondition (and (truck-at (location-of ?pkg) ?loc) (has-package ?t ?pkg) (arrived-at ?pkg))
-:effect (and (not (has-package ?t ?pkg)) (not (has-package nil ?pkg))))
-
-(:: action enter-vehicle
-:parameters (?p - package ?v - vehicle)
-:precondition (and (not (has-package ?v ?p)) (free-space-in ?v))
-:effect (and (has-package ?v ?p) (not (has-package nil ?p))))
-
-(:: action leave-vehicle
-:parameters (?p - package ?v - vehicle)
-:precondition (has-package ?v ?p)
-:effect (and (not (has-package ?v ?p)) (has-package nil ?p)))
-
-(:: action board-plane
-:parameters (?p - plane ?apFrom - airport ?apTo - airport ?pkgs - packages)
-:precondition (and (plane-at ?p ?apFrom))
-:effect (and (not (plane-at ?p ?apFrom)) (plane-at ?p ?apTo)))
-)
-
-```
- The above code produces the following error: There is a value error on finding unknown keyword in domain definition: ':'. Remove the keyword ':' from definition, keep the rest of code the same.
-
- Requirement 1: Correct the error and give the entire PDDL code for a STRIPS Planner. 
- Requirement 2: Do not create a problem file. Do not use conditional expressions. 
- Requirement 3: Generate PDDL domain code in code blocks for a STRIPS Planner. Do not give any explanations.
-**LLM MODEL** (HUGGING_FACE):
-```pddl
-(define (domain delivery)
-(:requirements :strips :typing)
-
-;; Types
-(:: types location truck plane package - object)
-(:: predicates
-(city ?l - location)
-(airport ?a - airport)
-(location-in-city ?l - location ?c - city)
-(truck-at ?t - truck ?loc - location)
-(plane-at ?p - plane ?ap - airport)
-(has-package ?x - vehicle ?pkg - package)
-(destination ?pkg - package ?dest - location))
-
-;; Constants
-(:: constants
-HomeCity Airport1 City2 City3 Truck1 Plane1 Package1 Package2)
-
-;; Actions
-(:: action load-truck
-:parameters (?t - truck ?loc - location ?pkg - package)
-:precondition (and (truck-at ?t ?loc) (not (has-package ?t ?pkg)))
-:effect (and (not (truck-at ?t ?loc)) (not (location-in-city ?pkg ?loc))
-(not (destination ?pkg ?loc)) (has-package ?t ?pkg)))
-
-(:: action unload-truck
-:parameters (?t - truck ?loc - location ?pkg - package)
-:precondition (and (truck-at ?t ?loc) (has-package ?t ?pkg))
-:effect (and (truck-at ?t ?loc) (location-in-city ?pkg ?loc)
-(destination ?pkg ?loc) (not (has-package ?t ?pkg))))
-
-(:: action move-truck
-:parameters (?t - truck ?fromLoc - location ?toLoc - location)
-:precondition (and (truck-at ?t ?fromLoc) (connected ?fromLoc ?toLoc))
-:effect (and (not (truck-at ?t ?fromLoc)) (truck-at ?t ?toLoc)))
-
-(:: action pickup-package
-:parameters (?t - truck ?pkg - package)
-:precondition (and (truck-at (location-of ?pkg) ?loc) (has-package nil ?pkg))
-:effect (and (not (has-package nil ?pkg)) (has-package ?t ?pkg)))
-
-(:: action deliver-package
-:parameters (?t - truck ?pkg - package)
-:precondition (and (truck-at (location-of ?pkg) ?loc) (has-package ?t ?pkg) (arrived-at ?pkg))
-:effect (and (not (has-package ?t ?pkg)) (not (has-package nil ?pkg))))
-
-(:: action enter-vehicle
-:parameters (?p - package ?v - vehicle)
-:precondition (and (not (has-package ?v ?p)) (free-space-in ?v))
-:effect (and (has-package ?v ?p) (not (has-package nil ?p))))
-
-(:: action leave-vehicle
-:parameters (?p - package ?v - vehicle)
-:precondition (has-package ?v ?p)
-:effect (and (not (has-package ?v ?p)) (has-package nil ?p)))
-
-(:: action board-plane
-:parameters (?p - plane ?apFrom - airport ?apTo - airport ?pkgs - packages)
-:precondition (and (plane-at ?p ?apFrom))
-:effect (and (not (plane-at ?p ?apFrom)) (plane-at ?p ?apTo)))
-)
-
-```
-**USER** :
-```pddl
-
-(define (domain delivery)
-(:requirements :strips :typing)
-
-;; Types
-(:: types location truck plane package - object)
-(:: predicates
-(city ?l - location)
-(airport ?a - airport)
-(location-in-city ?l - location ?c - city)
-(truck-at ?t - truck ?loc - location)
-(plane-at ?p - plane ?ap - airport)
-(has-package ?x - vehicle ?pkg - package)
-(destination ?pkg - package ?dest - location))
-
-;; Constants
-(:: constants
-HomeCity Airport1 City2 City3 Truck1 Plane1 Package1 Package2)
-
-;; Actions
-(:: action load-truck
-:parameters (?t - truck ?loc - location ?pkg - package)
-:precondition (and (truck-at ?t ?loc) (not (has-package ?t ?pkg)))
-:effect (and (not (truck-at ?t ?loc)) (not (location-in-city ?pkg ?loc))
-(not (destination ?pkg ?loc)) (has-package ?t ?pkg)))
-
-(:: action unload-truck
-:parameters (?t - truck ?loc - location ?pkg - package)
-:precondition (and (truck-at ?t ?loc) (has-package ?t ?pkg))
-:effect (and (truck-at ?t ?loc) (location-in-city ?pkg ?loc)
-(destination ?pkg ?loc) (not (has-package ?t ?pkg))))
-
-(:: action move-truck
-:parameters (?t - truck ?fromLoc - location ?toLoc - location)
-:precondition (and (truck-at ?t ?fromLoc) (connected ?fromLoc ?toLoc))
-:effect (and (not (truck-at ?t ?fromLoc)) (truck-at ?t ?toLoc)))
-
-(:: action pickup-package
-:parameters (?t - truck ?pkg - package)
-:precondition (and (truck-at (location-of ?pkg) ?loc) (has-package nil ?pkg))
-:effect (and (not (has-package nil ?pkg)) (has-package ?t ?pkg)))
-
-(:: action deliver-package
-:parameters (?t - truck ?pkg - package)
-:precondition (and (truck-at (location-of ?pkg) ?loc) (has-package ?t ?pkg) (arrived-at ?pkg))
-:effect (and (not (has-package ?t ?pkg)) (not (has-package nil ?pkg))))
-
-(:: action enter-vehicle
-:parameters (?p - package ?v - vehicle)
-:precondition (and (not (has-package ?v ?p)) (free-space-in ?v))
-:effect (and (has-package ?v ?p) (not (has-package nil ?p))))
-
-(:: action leave-vehicle
-:parameters (?p - package ?v - vehicle)
-:precondition (has-package ?v ?p)
-:effect (and (not (has-package ?v ?p)) (has-package nil ?p)))
-
-(:: action board-plane
-:parameters (?p - plane ?apFrom - airport ?apTo - airport ?pkgs - packages)
-:precondition (and (plane-at ?p ?apFrom))
-:effect (and (not (plane-at ?p ?apFrom)) (plane-at ?p ?apTo)))
-)
-
-```
- The above code produces the following error: There is a value error on finding unknown keyword in domain definition: ':'. Remove the keyword ':' from definition, keep the rest of code the same.
-
- Requirement 1: Correct the error and give the entire PDDL code for a STRIPS Planner. 
- Requirement 2: Do not create a problem file. Do not use conditional expressions. 
- Requirement 3: Generate PDDL domain code in code blocks for a STRIPS Planner. Do not give any explanations.
-**LLM MODEL** (HUGGING_FACE):
-```pddl
-(define (domain delivery)
-  (:requirements :strips :typing)
-  
-  ;; Types
-  (:types location truck plane package - object)
-  (:predicates
-    (city ?l - location)
-    (airport ?a - airport)
-    (location-in-city ?l - location ?c - city)
-    (truck-at ?t - truck ?loc - location)
-    (plane-at ?p - plane ?ap - airport)
-    (has-package ?x - vehicle ?pkg - package)
-    (destination ?pkg - package ?dest - location))
-  
-  ;; Constants
-  (:constants HomeCity Airport1 City2 City3 Truck1 Plane1 Package1 Package2)
-  
-  ;; Actions
-  (:action load-truck
-    :parameters (?t - truck ?loc - location ?pkg - package)
-    :precondition (and (truck-at ?t ?loc) (not (has-package ?t ?pkg)))
-    :effect (and (not (truck-at ?t ?loc)) (not (location-in-city ?pkg ?loc))
-                (not (destination ?pkg ?loc)) (has-package ?t ?pkg)))
-  
-  (:action unload-truck
-    :parameters (?t - truck ?loc - location ?pkg - package)
-    :precondition (and (truck-at ?t ?loc) (has-package ?t ?pkg))
-    :effect (and (truck-at ?t ?loc) (location-in-city ?pkg ?loc)
-                (destination ?pkg ?loc) (not (has-package ?t ?pkg))))
-  
-  (:action move-truck
-    :parameters (?t - truck ?fromLoc - location ?toLoc - location)
-    :precondition (and (truck-at ?t ?fromLoc) (connected ?fromLoc ?toLoc))
-    :effect (and (not (truck-at ?t ?fromLoc)) (truck-at ?t ?toLoc)))
-  
-  (:action pickup-package
-    :parameters (?t - truck ?pkg - package)
-    :precondition (and (truck-at (location-of ?pkg) ?loc) (has-package nil ?pkg))
-    :effect (and (not (has-package nil ?pkg)) (has-package ?t ?pkg)))
-  
-  (:action deliver-package
-    :parameters (?t - truck ?pkg - package)
-    :precondition (and (truck-at (location-of ?pkg) ?loc) (has-package ?t ?pkg) (arrived-at ?pkg))
-    :effect (and (not (has-package ?t ?pkg)) (not (has-package nil ?pkg))))
-  
-  (:action enter-vehicle
-    :parameters (?p - package ?v - vehicle)
-    :precondition (and (not (has-package ?v ?p)) (free-space-in ?v))
-    :effect (and (has-package ?v ?p) (not (has-package nil ?p))))
-  
-  (:action leave-vehicle
-    :parameters (?p - package ?v - vehicle)
-    :precondition (has-package ?v ?p)
-    :effect (and (not (has-package ?v ?p)) (has-package nil ?p)))
-  
-  (:action board-plane
-    :parameters (?p - plane ?apFrom - airport ?apTo - airport ?pkgs - packages)
-    :precondition (and (plane-at ?p ?apFrom))
-    :effect (and (not (plane-at ?p ?apFrom)) (plane-at ?p ?apTo)))
-)
-
-```
-**USER** :
-```pddl
-
-(define (domain delivery)
-  (:requirements :strips :typing)
-  
-  ;; Types
-  (:types location truck plane package - object)
-  (:predicates
-    (city ?l - location)
-    (airport ?a - airport)
-    (location-in-city ?l - location ?c - city)
-    (truck-at ?t - truck ?loc - location)
-    (plane-at ?p - plane ?ap - airport)
-    (has-package ?x - vehicle ?pkg - package)
-    (destination ?pkg - package ?dest - location))
-  
-  ;; Constants
-  (:constants HomeCity Airport1 City2 City3 Truck1 Plane1 Package1 Package2)
-  
-  ;; Actions
-  (:action load-truck
-    :parameters (?t - truck ?loc - location ?pkg - package)
-    :precondition (and (truck-at ?t ?loc) (not (has-package ?t ?pkg)))
-    :effect (and (not (truck-at ?t ?loc)) (not (location-in-city ?pkg ?loc))
-                (not (destination ?pkg ?loc)) (has-package ?t ?pkg)))
-  
-  (:action unload-truck
-    :parameters (?t - truck ?loc - location ?pkg - package)
-    :precondition (and (truck-at ?t ?loc) (has-package ?t ?pkg))
-    :effect (and (truck-at ?t ?loc) (location-in-city ?pkg ?loc)
-                (destination ?pkg ?loc) (not (has-package ?t ?pkg))))
-  
-  (:action move-truck
-    :parameters (?t - truck ?fromLoc - location ?toLoc - location)
-    :precondition (and (truck-at ?t ?fromLoc) (connected ?fromLoc ?toLoc))
-    :effect (and (not (truck-at ?t ?fromLoc)) (truck-at ?t ?toLoc)))
-  
-  (:action pickup-package
-    :parameters (?t - truck ?pkg - package)
-    :precondition (and (truck-at (location-of ?pkg) ?loc) (has-package nil ?pkg))
-    :effect (and (not (has-package nil ?pkg)) (has-package ?t ?pkg)))
-  
-  (:action deliver-package
-    :parameters (?t - truck ?pkg - package)
-    :precondition (and (truck-at (location-of ?pkg) ?loc) (has-package ?t ?pkg) (arrived-at ?pkg))
-    :effect (and (not (has-package ?t ?pkg)) (not (has-package nil ?pkg))))
-  
-  (:action enter-vehicle
-    :parameters (?p - package ?v - vehicle)
-    :precondition (and (not (has-package ?v ?p)) (free-space-in ?v))
-    :effect (and (has-package ?v ?p) (not (has-package nil ?p))))
-  
-  (:action leave-vehicle
-    :parameters (?p - package ?v - vehicle)
-    :precondition (has-package ?v ?p)
-    :effect (and (not (has-package ?v ?p)) (has-package nil ?p)))
-  
-  (:action board-plane
-    :parameters (?p - plane ?apFrom - airport ?apTo - airport ?pkgs - packages)
-    :precondition (and (plane-at ?p ?apFrom))
-    :effect (and (not (plane-at ?p ?apFrom)) (plane-at ?p ?apTo)))
-)
-
-```
- The above code produces the following error: There is a semantic error where unknown type airport is used in predicate definition.
-
- Requirement 1: Correct the error and give the entire PDDL code for a STRIPS Planner. 
- Requirement 2: Do not create a problem file. Do not use conditional expressions. 
- Requirement 3: Generate PDDL domain code in code blocks for a STRIPS Planner. Do not give any explanations.
-**LLM MODEL** (HUGGING_FACE):
-```pddl
-(define (domain delivery)
-(:requirements :strips :typing)
-
-;; Types
-(:: types location truck package - object)
-(:: types airport - unique)
-
-;; Predicates
-(:: (city ?l - location) )
-(:: (location-in-city ?l - location ?c - city) )
-(:: (truck-at ?t - truck ?loc - location) )
-(:: (plane-at ?p - package ?ap - airport) )
-(:: (has-package ?x - vehicle ?pkg - package) )
-(:: (destination ?pkg - package ?dest - location))
-(:: (connected ?fromLoc - location ?toLoc - location))
-(:: (free-space-in ?v - vehicle))
-(:: (at-airport ?p - package ?ap - airport))
-(:: (arrived-at ?pkg - package))
-
-;; Constant Definitions
-(:: constants HomeCity Airport1 Airport2 Airport3 Truck1 Plane1 Package1 Package2)
-
-;; Action Schemes
-(:: action load-truck
-	:parameters (?t - truck ?loc - location ?pkg - package)
-	:precondition (and (truck-at ?t ?loc) (not (has-package ?t ?pkg)))
-	:effect (and (not (truck-at ?t ?loc)) (not (location-in-city ?pkg ?loc))
-            (not (destination ?pkg ?loc)) (has-package ?t ?pkg)))
-
-(:: action unload-truck
-	:parameters (?t - truck ?loc - location ?pkg - package)
-	:precondition (and (truck-at ?t ?loc) (has-package ?t ?pkg))
-	:effect (and (truck-at ?t ?loc) (location-in-city ?pkg ?loc)
-            (destination ?pkg ?loc) (not (has-package ?t ?pkg))))
-
-(:: action move-truck
-	:parameters (?t - truck ?fromLoc - location ?toLoc - location)
-	:precondition (and (truck-at ?t ?fromLoc) (connected ?fromLoc ?toLoc))
-	:effect (and (not (truck-at ?t ?fromLoc)) (truck-at ?t ?toLoc)))
-
-(:: action pickup-package
-	:parameters (?t - truck ?pkg - package)
-	:precondition (and (truck-at (location-of ?pkg) ?loc) (has-package nil ?pkg))
-	:effect (and (not (has-package nil ?pkg)) (has-package ?t ?pkg)))
-
-(:: action deliver-package
-	:parameters (?t - truck ?pkg - package)
-	:precondition (and (truck-at (location-of ?pkg) ?loc) (has-package ?t ?pkg) (arrived-at ?pkg))
-	:effect (and (not (has-package ?t ?pkg)) (not (has-package nil ?pkg))))
-
-(:: action enter-vehicle
-	:parameters (?p - package ?v - vehicle)
-	:precondition (and (not (has-package ?v ?p)) (free-space-in ?v))
-	:effect (and (has-package ?v ?p) (not (has-package nil ?p))))
-
-(:: action leave-vehicle
-	:parameters (?p - package ?v - vehicle)
-	:precondition (has-package ?v ?p)
-	:effect (and (not (has-package ?v ?p)) (has-package nil ?p)))
-
-(:: action fly-plane
-	:parameters (?p - package ?apFrom - airport ?apTo - airport)
-	:precondition (and (at-airport ?p ?apFrom))
-	:effect (and (not (at-airport ?p ?apFrom)) (at-airport ?p ?apTo)))
-)
-
-```
-**USER** :
-```pddl
-
-(define (domain delivery)
-(:requirements :strips :typing)
-
-;; Types
-(:: types location truck package - object)
-(:: types airport - unique)
-
-;; Predicates
-(:: (city ?l - location) )
-(:: (location-in-city ?l - location ?c - city) )
-(:: (truck-at ?t - truck ?loc - location) )
-(:: (plane-at ?p - package ?ap - airport) )
-(:: (has-package ?x - vehicle ?pkg - package) )
-(:: (destination ?pkg - package ?dest - location))
-(:: (connected ?fromLoc - location ?toLoc - location))
-(:: (free-space-in ?v - vehicle))
-(:: (at-airport ?p - package ?ap - airport))
-(:: (arrived-at ?pkg - package))
-
-;; Constant Definitions
-(:: constants HomeCity Airport1 Airport2 Airport3 Truck1 Plane1 Package1 Package2)
-
-;; Action Schemes
-(:: action load-truck
-	:parameters (?t - truck ?loc - location ?pkg - package)
-	:precondition (and (truck-at ?t ?loc) (not (has-package ?t ?pkg)))
-	:effect (and (not (truck-at ?t ?loc)) (not (location-in-city ?pkg ?loc))
-            (not (destination ?pkg ?loc)) (has-package ?t ?pkg)))
-
-(:: action unload-truck
-	:parameters (?t - truck ?loc - location ?pkg - package)
-	:precondition (and (truck-at ?t ?loc) (has-package ?t ?pkg))
-	:effect (and (truck-at ?t ?loc) (location-in-city ?pkg ?loc)
-            (destination ?pkg ?loc) (not (has-package ?t ?pkg))))
-
-(:: action move-truck
-	:parameters (?t - truck ?fromLoc - location ?toLoc - location)
-	:precondition (and (truck-at ?t ?fromLoc) (connected ?fromLoc ?toLoc))
-	:effect (and (not (truck-at ?t ?fromLoc)) (truck-at ?t ?toLoc)))
-
-(:: action pickup-package
-	:parameters (?t - truck ?pkg - package)
-	:precondition (and (truck-at (location-of ?pkg) ?loc) (has-package nil ?pkg))
-	:effect (and (not (has-package nil ?pkg)) (has-package ?t ?pkg)))
-
-(:: action deliver-package
-	:parameters (?t - truck ?pkg - package)
-	:precondition (and (truck-at (location-of ?pkg) ?loc) (has-package ?t ?pkg) (arrived-at ?pkg))
-	:effect (and (not (has-package ?t ?pkg)) (not (has-package nil ?pkg))))
-
-(:: action enter-vehicle
-	:parameters (?p - package ?v - vehicle)
-	:precondition (and (not (has-package ?v ?p)) (free-space-in ?v))
-	:effect (and (has-package ?v ?p) (not (has-package nil ?p))))
-
-(:: action leave-vehicle
-	:parameters (?p - package ?v - vehicle)
-	:precondition (has-package ?v ?p)
-	:effect (and (not (has-package ?v ?p)) (has-package nil ?p)))
-
-(:: action fly-plane
-	:parameters (?p - package ?apFrom - airport ?apTo - airport)
-	:precondition (and (at-airport ?p ?apFrom))
-	:effect (and (not (at-airport ?p ?apFrom)) (at-airport ?p ?apTo)))
-)
-
-```
- The above code produces the following error: There is a value error on finding unknown keyword in domain definition: ':'. Remove the keyword ':' from definition, keep the rest of code the same.
-
- Requirement 1: Correct the error and give the entire PDDL code for a STRIPS Planner. 
- Requirement 2: Do not create a problem file. Do not use conditional expressions. 
- Requirement 3: Generate PDDL domain code in code blocks for a STRIPS Planner. Do not give any explanations.
-**LLM MODEL** (HUGGING_FACE):
-```pddl
-(define (domain delivery)
-(:requirements :strips :typing)
-
-;; Types
-(:: types location truck package - object)
-(:: types airport - unique)
-
-;; Predicates
-(:: (city ?l - location) )
-(:: (location-in-city ?l - location ?c - city) )
-(:: (truck-at ?t - truck ?loc - location) )
-(:: (plane-at ?p - package ?ap - airport) )
-(:: (has-package ?x - vehicle ?pkg - package) )
-(:: (destination ?pkg - package ?dest - location))
-(:: (connected ?fromLoc - location ?toLoc - location))
-(:: (free-space-in ?v - vehicle))
-(:: (at-airport ?p - package ?ap - airport))
-(:: (arrived-at ?pkg - package))
-
-;; Constant Definitions
-(constants HomeCity Airport1 Airport2 Airport3 Truck1 Plane1 Package1 Package2)
-
-;; Action Schemes
-(action load-truck
-	:parameters (?t - truck ?loc - location ?pkg - package)
-	:precondition (and (truck-at ?t ?loc) (not (has-package ?t ?pkg)))
-	:effect (and (not (truck-at ?t ?loc)) (not (location-in-city ?pkg ?loc))
-            (not (destination ?pkg ?loc)) (has-package ?t ?pkg)))
-
-(action unload-truck
-	:parameters (?t - truck ?loc - location ?pkg - package)
-	:precondition (and (truck-at ?t ?loc) (has-package ?t ?pkg))
-	:effect (and (truck-at ?t ?loc) (location-in-city ?pkg ?loc)
-            (destination ?pkg ?loc) (not (has-package ?t ?pkg))))
-
-(action move-truck
-	:parameters (?t - truck ?fromLoc - location ?toLoc - location)
-	:precondition (and (truck-at ?t ?fromLoc) (connected ?fromLoc ?toLoc))
-	:effect (and (not (truck-at ?t ?fromLoc)) (truck-at ?t ?toLoc)))
-
-(action pickup-package
-	:parameters (?t - truck ?pkg - package)
-	:precondition (and (truck-at (location-of ?pkg) ?loc) (has-package nil ?pkg))
-	:effect (and (not (has-package nil ?pkg)) (has-package ?t ?pkg)))
-
-(action deliver-package
-	:parameters (?t - truck ?pkg - package)
-	:precondition (and (truck-at (location-of ?pkg) ?loc) (has-package ?t ?pkg) (arrived-at ?pkg))
-	:effect (and (not (has-package ?t ?pkg)) (not (has-package nil ?pkg))))
-
-(action enter-vehicle
-	:parameters (?p - package ?v - vehicle)
-	:precondition (and (not (has-package ?v ?p)) (free-space-in ?v))
-	:effect (and (has-package ?v ?p) (not (has-package nil ?p))))
-
-(action leave-vehicle
-	:parameters (?p - package ?v - vehicle)
-	:precondition (has-package ?v ?p)
-	:effect (and (not (has-package ?v ?p)) (has-package nil ?p)))
-
-(action fly-plane
-	:parameters (?p - package ?apFrom - airport ?apTo - airport)
-	:precondition (and (at-airport ?p ?apFrom))
-	:effect (and (not (at-airport ?p ?apFrom)) (at-airport ?p ?apTo)))
-)
-
-```
-**USER** :
-```pddl
-
-(define (domain delivery)
-(:requirements :strips :typing)
-
-;; Types
-(:: types location truck package - object)
-(:: types airport - unique)
-
-;; Predicates
-(:: (city ?l - location) )
-(:: (location-in-city ?l - location ?c - city) )
-(:: (truck-at ?t - truck ?loc - location) )
-(:: (plane-at ?p - package ?ap - airport) )
-(:: (has-package ?x - vehicle ?pkg - package) )
-(:: (destination ?pkg - package ?dest - location))
-(:: (connected ?fromLoc - location ?toLoc - location))
-(:: (free-space-in ?v - vehicle))
-(:: (at-airport ?p - package ?ap - airport))
-(:: (arrived-at ?pkg - package))
-
-;; Constant Definitions
-(constants HomeCity Airport1 Airport2 Airport3 Truck1 Plane1 Package1 Package2)
-
-;; Action Schemes
-(action load-truck
-	:parameters (?t - truck ?loc - location ?pkg - package)
-	:precondition (and (truck-at ?t ?loc) (not (has-package ?t ?pkg)))
-	:effect (and (not (truck-at ?t ?loc)) (not (location-in-city ?pkg ?loc))
-            (not (destination ?pkg ?loc)) (has-package ?t ?pkg)))
-
-(action unload-truck
-	:parameters (?t - truck ?loc - location ?pkg - package)
-	:precondition (and (truck-at ?t ?loc) (has-package ?t ?pkg))
-	:effect (and (truck-at ?t ?loc) (location-in-city ?pkg ?loc)
-            (destination ?pkg ?loc) (not (has-package ?t ?pkg))))
-
-(action move-truck
-	:parameters (?t - truck ?fromLoc - location ?toLoc - location)
-	:precondition (and (truck-at ?t ?fromLoc) (connected ?fromLoc ?toLoc))
-	:effect (and (not (truck-at ?t ?fromLoc)) (truck-at ?t ?toLoc)))
-
-(action pickup-package
-	:parameters (?t - truck ?pkg - package)
-	:precondition (and (truck-at (location-of ?pkg) ?loc) (has-package nil ?pkg))
-	:effect (and (not (has-package nil ?pkg)) (has-package ?t ?pkg)))
-
-(action deliver-package
-	:parameters (?t - truck ?pkg - package)
-	:precondition (and (truck-at (location-of ?pkg) ?loc) (has-package ?t ?pkg) (arrived-at ?pkg))
-	:effect (and (not (has-package ?t ?pkg)) (not (has-package nil ?pkg))))
-
-(action enter-vehicle
-	:parameters (?p - package ?v - vehicle)
-	:precondition (and (not (has-package ?v ?p)) (free-space-in ?v))
-	:effect (and (has-package ?v ?p) (not (has-package nil ?p))))
-
-(action leave-vehicle
-	:parameters (?p - package ?v - vehicle)
-	:precondition (has-package ?v ?p)
-	:effect (and (not (has-package ?v ?p)) (has-package nil ?p)))
-
-(action fly-plane
-	:parameters (?p - package ?apFrom - airport ?apTo - airport)
-	:precondition (and (at-airport ?p ?apFrom))
-	:effect (and (not (at-airport ?p ?apFrom)) (at-airport ?p ?apTo)))
-)
-
-```
- The above code produces the following error: There is a value error on finding unknown keyword in domain definition: ':'. Remove the keyword ':' from definition, keep the rest of code the same.
-
- Requirement 1: Correct the error and give the entire PDDL code for a STRIPS Planner. 
- Requirement 2: Do not create a problem file. Do not use conditional expressions. 
- Requirement 3: Generate PDDL domain code in code blocks for a STRIPS Planner. Do not give any explanations.
-**LLM MODEL** (HUGGING_FACE):
-```pddl
-(define (domain delivery)
-  (:requires strips typing)
-  
-  ;; Types
-  (:types location truck package - object)
-  (:types airport - unique)
-  
-  ;; Predicates
-  (:predicate (city ?l - location))
-  (:predicate (location-in-city ?l - location ?c - city))
-  (:predicate (truck-at ?t - truck ?loc - location))
-  (:predicate (plane-at ?p - package ?ap - airport))
-  (:predicate (has-package ?x - vehicle ?pkg - package))
-  (:predicate (destination ?pkg - package ?dest - location))
-  (:predicate (connected ?fromLoc - location ?toLoc - location))
-  (:predicate (free-space-in ?v - vehicle))
-  (:predicate (at-airport ?p - package ?ap - airport))
-  (:predicate (arrived-at ?pkg - package))
-  
-  ;; Constant Definitions
-  (:constants HomeCity Airport1 Airport2 Airport3 Truck1 Plane1 Package1 Package2)
-  
-  ;; Action Schemes
-  (:action load-truck
-    :parameters (?t - truck ?loc - location ?pkg - package)
-    :precondition (and (truck-at ?t ?loc) (not (has-package ?t ?pkg)))
-    :effect (and (not (truck-at ?t ?loc)) (not (location-in-city ?pkg ?loc))
-              (not (destination ?pkg ?loc)) (has-package ?t ?pkg)))
-    
-  (:action unload-truck
-    :parameters (?t - truck ?loc - location ?pkg - package)
-    :precondition (and (truck-at ?t ?loc) (has-package ?t ?pkg))
-    :effect (and (truck-at ?t ?loc) (location-in-city ?pkg ?loc)
-              (destination ?pkg ?loc) (not (has-package ?t ?pkg))))
-      
-  (:action move-truck
-    :parameters (?t - truck ?fromLoc - location ?toLoc - location)
-    :precondition (and (truck-at ?t ?fromLoc) (connected ?fromLoc ?toLoc))
-    :effect (and (not (truck-at ?t ?fromLoc)) (truck-at ?t ?toLoc)))
-        
-  (:action pickup-package
-    :parameters (?t - truck ?pkg - package)
-    :precondition (and (truck-at (location-of ?pkg) ?loc) (has-package nil ?pkg))
-    :effect (and (not (has-package nil ?pkg)) (has-package ?t ?pkg)))
-          
-  (:action deliver-package
-    :parameters (?t - truck ?pkg - package)
-    :precondition (and (truck-at (location-of ?pkg) ?loc) (has-package ?t ?pkg) (arrived-at ?pkg))
-    :effect (and (not (has-package ?t ?pkg)) (not (has-package nil ?pkg))))
-              
-  (:action enter-vehicle
-    :parameters (?p - package ?v - vehicle)
-    :precondition (and (not (has-package ?v ?p)) (free-space-in ?v))
-    :effect (and (has-package ?v ?p) (not (has-package nil ?p))))
-                
-  (:action leave-vehicle
-    :parameters (?p - package ?v - vehicle)
-    :precondition (has-package ?v ?p)
-    :effect (and (not (has-package ?v ?p)) (has-package nil ?p)))
-                     
-  (:action fly-plane
-    :parameters (?p - package ?apFrom - airport ?apTo - airport)
-    :precondition (and (at-airport ?p ?apFrom))
-    :effect (and (not (at-airport ?p ?apFrom)) (at-airport ?p ?apTo))))
-
-```
-**USER** :
-```pddl
-
-(define (domain delivery)
-  (:requires strips typing)
-  
-  ;; Types
-  (:types location truck package - object)
-  (:types airport - unique)
-  
-  ;; Predicates
-  (:predicate (city ?l - location))
-  (:predicate (location-in-city ?l - location ?c - city))
-  (:predicate (truck-at ?t - truck ?loc - location))
-  (:predicate (plane-at ?p - package ?ap - airport))
-  (:predicate (has-package ?x - vehicle ?pkg - package))
-  (:predicate (destination ?pkg - package ?dest - location))
-  (:predicate (connected ?fromLoc - location ?toLoc - location))
-  (:predicate (free-space-in ?v - vehicle))
-  (:predicate (at-airport ?p - package ?ap - airport))
-  (:predicate (arrived-at ?pkg - package))
-  
-  ;; Constant Definitions
-  (:constants HomeCity Airport1 Airport2 Airport3 Truck1 Plane1 Package1 Package2)
-  
-  ;; Action Schemes
-  (:action load-truck
-    :parameters (?t - truck ?loc - location ?pkg - package)
-    :precondition (and (truck-at ?t ?loc) (not (has-package ?t ?pkg)))
-    :effect (and (not (truck-at ?t ?loc)) (not (location-in-city ?pkg ?loc))
-              (not (destination ?pkg ?loc)) (has-package ?t ?pkg)))
-    
-  (:action unload-truck
-    :parameters (?t - truck ?loc - location ?pkg - package)
-    :precondition (and (truck-at ?t ?loc) (has-package ?t ?pkg))
-    :effect (and (truck-at ?t ?loc) (location-in-city ?pkg ?loc)
-              (destination ?pkg ?loc) (not (has-package ?t ?pkg))))
-      
-  (:action move-truck
-    :parameters (?t - truck ?fromLoc - location ?toLoc - location)
-    :precondition (and (truck-at ?t ?fromLoc) (connected ?fromLoc ?toLoc))
-    :effect (and (not (truck-at ?t ?fromLoc)) (truck-at ?t ?toLoc)))
-        
-  (:action pickup-package
-    :parameters (?t - truck ?pkg - package)
-    :precondition (and (truck-at (location-of ?pkg) ?loc) (has-package nil ?pkg))
-    :effect (and (not (has-package nil ?pkg)) (has-package ?t ?pkg)))
-          
-  (:action deliver-package
-    :parameters (?t - truck ?pkg - package)
-    :precondition (and (truck-at (location-of ?pkg) ?loc) (has-package ?t ?pkg) (arrived-at ?pkg))
-    :effect (and (not (has-package ?t ?pkg)) (not (has-package nil ?pkg))))
-              
-  (:action enter-vehicle
-    :parameters (?p - package ?v - vehicle)
-    :precondition (and (not (has-package ?v ?p)) (free-space-in ?v))
-    :effect (and (has-package ?v ?p) (not (has-package nil ?p))))
-                
-  (:action leave-vehicle
-    :parameters (?p - package ?v - vehicle)
-    :precondition (has-package ?v ?p)
-    :effect (and (not (has-package ?v ?p)) (has-package nil ?p)))
-                     
-  (:action fly-plane
-    :parameters (?p - package ?apFrom - airport ?apTo - airport)
-    :precondition (and (at-airport ?p ?apFrom))
-    :effect (and (not (at-airport ?p ?apFrom)) (at-airport ?p ?apTo))))
-
-```
- The above code produces the following error: There is a value error on finding unknown keyword in domain definition: 'requires'. Remove the keyword 'requires' from definition, keep the rest of code the same.
-
- Requirement 1: Correct the error and give the entire PDDL code for a STRIPS Planner. 
- Requirement 2: Do not create a problem file. Do not use conditional expressions. 
- Requirement 3: Generate PDDL domain code in code blocks for a STRIPS Planner. Do not give any explanations.
-**LLM MODEL** (HUGGING_FACE):
-```pddl
-(define (domain delivery)
-  (:types location truck package - object)
-  (:types airport - unique)
-  
-  (:predicate (city ?l - location))
-  (:predicate (location-in-city ?l - location ?c - city))
-  (:predicate (truck-at ?t - truck ?loc - location))
-  (:predicate (plane-at ?p - package ?ap - airport))
-  (:predicate (has-package ?x - vehicle ?pkg - package))
-  (:predicate (destination ?pkg - package ?dest - location))
-  (:predicate (connected ?fromLoc - location ?toLoc - location))
-  (:predicate (free-space-in ?v - vehicle))
-  (:predicate (at-airport ?p - package ?ap - airport))
-  (:predicate (arrived-at ?pkg - package))
-  
-  (:constants HomeCity Airport1 Airport2 Airport3 Truck1 Plane1 Package1 Package2)
-  
-  (:action load-truck
-    :parameters (?t - truck ?loc - location ?pkg - package)
-    :precondition (and (truck-at ?t ?loc) (not (has-package ?t ?pkg)))
-    :effect (and (not (truck-at ?t ?loc)) (not (location-in-city ?pkg ?loc))
-              (not (destination ?pkg ?loc)) (has-package ?t ?pkg)))
-    
-  (:action unload-truck
-    :parameters (?t - truck ?loc - location ?pkg - package)
-    :precondition (and (truck-at ?t ?loc) (has-package ?t ?pkg))
-    :effect (and (truck-at ?t ?loc) (location-in-city ?pkg ?loc)
-              (destination ?pkg ?loc) (not (has-package ?t ?pkg))))
-      
-  (:action move-truck
-    :parameters (?t - truck ?fromLoc - location ?toLoc - location)
-    :precondition (and (truck-at ?t ?fromLoc) (connected ?fromLoc ?toLoc))
-    :effect (and (not (truck-at ?t ?fromLoc)) (truck-at ?t ?toLoc)))
-        
-  (:action pickup-package
-    :parameters (?t - truck ?pkg - package)
-    :precondition (and (truck-at (location-of ?pkg) ?loc) (has-package nil ?pkg))
-    :effect (and (not (has-package nil ?pkg)) (has-package ?t ?pkg)))
-          
-  (:action deliver-package
-    :parameters (?t - truck ?pkg - package)
-    :precondition (and (truck-at (location-of ?pkg) ?loc) (has-package ?t ?pkg) (arrived-at ?pkg))
-    :effect (and (not (has-package ?t ?pkg)) (not (has-package nil ?pkg))))
-              
-  (:action enter-vehicle
-    :parameters (?p - package ?v - vehicle)
-    :precondition (and (not (has-package ?v ?p)) (free-space-in ?v))
-    :effect (and (has-package ?v ?p) (not (has-package nil ?p))))
-                
-  (:action leave-vehicle
-    :parameters (?p - package ?v - vehicle)
-    :precondition (has-package ?v ?p)
-    :effect (and (not (has-package ?v ?p)) (has-package nil ?p)))
-                     
-  (:action fly-plane
-    :parameters (?p - package ?apFrom - airport ?apTo - airport)
-    :precondition (and (at-airport ?p ?apFrom))
-    :effect (and (not (at-airport ?p ?apFrom)) (at-airport ?p ?apTo))))
-
-```
-**USER** :
-```pddl
-
-(define (domain delivery)
-  (:types location truck package - object)
-  (:types airport - unique)
-  
-  (:predicate (city ?l - location))
-  (:predicate (location-in-city ?l - location ?c - city))
-  (:predicate (truck-at ?t - truck ?loc - location))
-  (:predicate (plane-at ?p - package ?ap - airport))
-  (:predicate (has-package ?x - vehicle ?pkg - package))
-  (:predicate (destination ?pkg - package ?dest - location))
-  (:predicate (connected ?fromLoc - location ?toLoc - location))
-  (:predicate (free-space-in ?v - vehicle))
-  (:predicate (at-airport ?p - package ?ap - airport))
-  (:predicate (arrived-at ?pkg - package))
-  
-  (:constants HomeCity Airport1 Airport2 Airport3 Truck1 Plane1 Package1 Package2)
-  
-  (:action load-truck
-    :parameters (?t - truck ?loc - location ?pkg - package)
-    :precondition (and (truck-at ?t ?loc) (not (has-package ?t ?pkg)))
-    :effect (and (not (truck-at ?t ?loc)) (not (location-in-city ?pkg ?loc))
-              (not (destination ?pkg ?loc)) (has-package ?t ?pkg)))
-    
-  (:action unload-truck
-    :parameters (?t - truck ?loc - location ?pkg - package)
-    :precondition (and (truck-at ?t ?loc) (has-package ?t ?pkg))
-    :effect (and (truck-at ?t ?loc) (location-in-city ?pkg ?loc)
-              (destination ?pkg ?loc) (not (has-package ?t ?pkg))))
-      
-  (:action move-truck
-    :parameters (?t - truck ?fromLoc - location ?toLoc - location)
-    :precondition (and (truck-at ?t ?fromLoc) (connected ?fromLoc ?toLoc))
-    :effect (and (not (truck-at ?t ?fromLoc)) (truck-at ?t ?toLoc)))
-        
-  (:action pickup-package
-    :parameters (?t - truck ?pkg - package)
-    :precondition (and (truck-at (location-of ?pkg) ?loc) (has-package nil ?pkg))
-    :effect (and (not (has-package nil ?pkg)) (has-package ?t ?pkg)))
-          
-  (:action deliver-package
-    :parameters (?t - truck ?pkg - package)
-    :precondition (and (truck-at (location-of ?pkg) ?loc) (has-package ?t ?pkg) (arrived-at ?pkg))
-    :effect (and (not (has-package ?t ?pkg)) (not (has-package nil ?pkg))))
-              
-  (:action enter-vehicle
-    :parameters (?p - package ?v - vehicle)
-    :precondition (and (not (has-package ?v ?p)) (free-space-in ?v))
-    :effect (and (has-package ?v ?p) (not (has-package nil ?p))))
-                
-  (:action leave-vehicle
-    :parameters (?p - package ?v - vehicle)
-    :precondition (has-package ?v ?p)
-    :effect (and (not (has-package ?v ?p)) (has-package nil ?p)))
-                     
-  (:action fly-plane
-    :parameters (?p - package ?apFrom - airport ?apTo - airport)
-    :precondition (and (at-airport ?p ?apFrom))
-    :effect (and (not (at-airport ?p ?apFrom)) (at-airport ?p ?apTo))))
-
-```
- The above code produces the following error: There is a value error on finding unknown keyword in domain definition: 'predicate'. Remove the keyword 'predicate' from definition, keep the rest of code the same.
-
- Requirement 1: Correct the error and give the entire PDDL code for a STRIPS Planner. 
- Requirement 2: Do not create a problem file. Do not use conditional expressions. 
- Requirement 3: Generate PDDL domain code in code blocks for a STRIPS Planner. Do not give any explanations.
-**LLM MODEL** (HUGGING_FACE):
-```pddl
-(define (domain delivery)
-  (:requirements :strips)
-  (:types location truck package - object airport - unique)
-  (:predicates
-    (city ?l - location)
-    (location-in-city ?l - location ?c - city)
-    (truck-at ?t - truck ?loc - location)
-    (plane-at ?p - package ?ap - airport)
-    (has-package ?x - vehicle ?pkg - package)
-    (destination ?pkg - package ?dest - location)
-    (connected ?fromLoc - location ?toLoc - location)
-    (free-space-in ?v - vehicle)
-    (at-airport ?p - package ?ap - airport)
-    (arrived-at ?pkg - package))
-  (:constants HomeCity Airport1 Airport2 Airport3 Truck1 Plane1 Package1 Package2)
-  
-  (:action load-truck
-    :parameters (?t - truck ?loc - location ?pkg - package)
-    :precondition (and (truck-at ?t ?loc) (not (has-package ?t ?pkg)))
-    :effect (and (not (truck-at ?t ?loc)) (not (location-in-city ?pkg ?loc))
-              (not (destination ?pkg ?loc)) (has-package ?t ?pkg)))
-  
-  (:action unload-truck
-    :parameters (?t - truck ?loc - location ?pkg - package)
-    :precondition (and (truck-at ?t ?loc) (has-package ?t ?pkg))
-    :effect (and (truck-at ?t ?loc) (location-in-city ?pkg ?loc)
-              (destination ?pkg ?loc) (not (has-package ?t ?pkg))))
-  
-  (:action move-truck
-    :parameters (?t - truck ?fromLoc - location ?toLoc - location)
-    :precondition (and (truck-at ?t ?fromLoc) (connected ?fromLoc ?toLoc))
-    :effect (and (not (truck-at ?t ?fromLoc)) (truck-at ?t ?toLoc)))
-  
-  (:action pickup-package
-    :parameters (?t - truck ?pkg - package)
-    :precondition (and (truck-at (location-of ?pkg) ?loc) (has-package nil ?pkg))
-    :effect (and (not (has-package nil ?pkg)) (has-package ?t ?pkg)))
-  
-  (:action deliver-package
-    :parameters (?t - truck ?pkg - package)
-    :precondition (and (truck-at (location-of ?pkg) ?loc) (has-package ?t ?pkg) (arrived-at ?pkg))
-    :effect (and (not (has-package ?t ?pkg)) (not (has-package nil ?pkg))))
-  
-  (:action enter-vehicle
-    :parameters (?p - package ?v - vehicle)
-    :precondition (and (not (has-package ?v ?p)) (free-space-in ?v))
-    :effect (and (has-package ?v ?p) (not (has-package nil ?p))))
-  
-  (:action leave-vehicle
-    :parameters (?p - package ?v - vehicle)
-    :precondition (has-package ?v ?p)
-    :effect (and (not (has-package ?v ?p)) (has-package nil ?p)))
-  
-  (:action fly-plane
-    :parameters (?p - package ?apFrom - airport ?apTo - airport)
-    :precondition (and (at-airport ?p ?apFrom))
-    :effect (and (not (at-airport ?p ?apFrom)) (at-airport ?p ?apTo))))
-
-```
-**USER** :
-```pddl
-
-(define (domain delivery)
-  (:requirements :strips)
-  (:types location truck package - object airport - unique)
-  (:predicates
-    (city ?l - location)
-    (location-in-city ?l - location ?c - city)
-    (truck-at ?t - truck ?loc - location)
-    (plane-at ?p - package ?ap - airport)
-    (has-package ?x - vehicle ?pkg - package)
-    (destination ?pkg - package ?dest - location)
-    (connected ?fromLoc - location ?toLoc - location)
-    (free-space-in ?v - vehicle)
-    (at-airport ?p - package ?ap - airport)
-    (arrived-at ?pkg - package))
-  (:constants HomeCity Airport1 Airport2 Airport3 Truck1 Plane1 Package1 Package2)
-  
-  (:action load-truck
-    :parameters (?t - truck ?loc - location ?pkg - package)
-    :precondition (and (truck-at ?t ?loc) (not (has-package ?t ?pkg)))
-    :effect (and (not (truck-at ?t ?loc)) (not (location-in-city ?pkg ?loc))
-              (not (destination ?pkg ?loc)) (has-package ?t ?pkg)))
-  
-  (:action unload-truck
-    :parameters (?t - truck ?loc - location ?pkg - package)
-    :precondition (and (truck-at ?t ?loc) (has-package ?t ?pkg))
-    :effect (and (truck-at ?t ?loc) (location-in-city ?pkg ?loc)
-              (destination ?pkg ?loc) (not (has-package ?t ?pkg))))
-  
-  (:action move-truck
-    :parameters (?t - truck ?fromLoc - location ?toLoc - location)
-    :precondition (and (truck-at ?t ?fromLoc) (connected ?fromLoc ?toLoc))
-    :effect (and (not (truck-at ?t ?fromLoc)) (truck-at ?t ?toLoc)))
-  
-  (:action pickup-package
-    :parameters (?t - truck ?pkg - package)
-    :precondition (and (truck-at (location-of ?pkg) ?loc) (has-package nil ?pkg))
-    :effect (and (not (has-package nil ?pkg)) (has-package ?t ?pkg)))
-  
-  (:action deliver-package
-    :parameters (?t - truck ?pkg - package)
-    :precondition (and (truck-at (location-of ?pkg) ?loc) (has-package ?t ?pkg) (arrived-at ?pkg))
-    :effect (and (not (has-package ?t ?pkg)) (not (has-package nil ?pkg))))
-  
-  (:action enter-vehicle
-    :parameters (?p - package ?v - vehicle)
-    :precondition (and (not (has-package ?v ?p)) (free-space-in ?v))
-    :effect (and (has-package ?v ?p) (not (has-package nil ?p))))
-  
-  (:action leave-vehicle
-    :parameters (?p - package ?v - vehicle)
-    :precondition (has-package ?v ?p)
-    :effect (and (not (has-package ?v ?p)) (has-package nil ?p)))
-  
-  (:action fly-plane
-    :parameters (?p - package ?apFrom - airport ?apTo - airport)
-    :precondition (and (at-airport ?p ?apFrom))
-    :effect (and (not (at-airport ?p ?apFrom)) (at-airport ?p ?apTo))))
-
-```
- The above code produces the following error: There is a semantic error of unknown parent type: unique
-
- Requirement 1: Correct the error and give the entire PDDL code for a STRIPS Planner. 
- Requirement 2: Do not create a problem file. Do not use conditional expressions. 
- Requirement 3: Generate PDDL domain code in code blocks for a STRIPS Planner. Do not give any explanations.
-**LLM MODEL** (HUGGING_FACE):
-```pddl
-(define (domain delivery)
-  (:requirements :strips)
-  (:types location truck package - object airport - location)
-  (:predicates
-    (city ?l - location)
-    (location-in-city ?l - location ?c - city)
-    (truck-at ?t - truck ?loc - location)
-    (plane-at ?p - package ?ap - airport)
-    (has-package ?x - vehicle ?pkg - package)
-    (destination ?pkg - package ?dest - location)
-    (connected ?fromLoc - location ?toLoc - location)
-    (free-space-in ?v - vehicle)
-    (at-airport ?p - package ?ap - airport)
-    (arrived-at ?pkg - package))
-  (:constants HomeCity Airport1 Airport2 Airport3 Truck1 Plane1 Package1 Package2)
-  
-  (:action load-truck
-    :parameters (?t - truck ?loc - location ?pkg - package)
-    :precondition (and (truck-at ?t ?loc) (not (has-package ?t ?pkg)))
-    :effect (and (not (truck-at ?t ?loc)) (not (location-in-city ?pkg ?loc))
-              (not (destination ?pkg ?loc)) (has-package ?t ?pkg)))
-  
-  (:action unload-truck
-    :parameters (?t - truck ?loc - location ?pkg - package)
-    :precondition (and (truck-at ?t ?loc) (has-package ?t ?pkg))
-    :effect (and (truck-at ?t ?loc) (location-in-city ?pkg ?loc)
-              (destination ?pkg ?loc) (not (has-package ?t ?pkg))))
-  
-  (:action move-truck
-    :parameters (?t - truck ?fromLoc - location ?toLoc - location)
-    :precondition (and (truck-at ?t ?fromLoc) (connected ?fromLoc ?toLoc))
-    :effect (and (not (truck-at ?t ?fromLoc)) (truck-at ?t ?toLoc)))
-  
-  (:action pickup-package
-    :parameters (?t - truck ?pkg - package)
-    :precondition (and (truck-at (location-of ?pkg) ?loc) (has-package nil ?pkg))
-    :effect (and (not (has-package nil ?pkg)) (has-package ?t ?pkg)))
-  
-  (:action deliver-package
-    :parameters (?t - truck ?pkg - package)
-    :precondition (and (truck-at (location-of ?pkg) ?loc) (has-package ?t ?pkg) (arrived-at ?pkg))
-    :effect (and (not (has-package ?t ?pkg)) (not (has-package nil ?pkg))))
-  
-  (:action enter-vehicle
-    :parameters (?p - package ?v - vehicle)
-    :precondition (and (not (has-package ?v ?p)) (free-space-in ?v))
-    :effect (and (has-package ?v ?p) (not (has-package nil ?p))))
-  
-  (:action leave-vehicle
-    :parameters (?p - package ?v - vehicle)
-    :precondition (has-package ?v ?p)
-    :effect (and (not (has-package ?v ?p)) (has-package nil ?p)))
-  
-  (:action fly-plane
-    :parameters (?p - package ?apFrom - airport ?apTo - airport)
-    :precondition (and (at-airport ?p ?apFrom))
-    :effect (and (not (at-airport ?p ?apFrom)) (at-airport ?p ?apTo))))
-
-```
-**USER** :
-```pddl
-
-(define (domain delivery)
-  (:requirements :strips)
-  (:types location truck package - object airport - location)
-  (:predicates
-    (city ?l - location)
-    (location-in-city ?l - location ?c - city)
-    (truck-at ?t - truck ?loc - location)
-    (plane-at ?p - package ?ap - airport)
-    (has-package ?x - vehicle ?pkg - package)
-    (destination ?pkg - package ?dest - location)
-    (connected ?fromLoc - location ?toLoc - location)
-    (free-space-in ?v - vehicle)
-    (at-airport ?p - package ?ap - airport)
-    (arrived-at ?pkg - package))
-  (:constants HomeCity Airport1 Airport2 Airport3 Truck1 Plane1 Package1 Package2)
-  
-  (:action load-truck
-    :parameters (?t - truck ?loc - location ?pkg - package)
-    :precondition (and (truck-at ?t ?loc) (not (has-package ?t ?pkg)))
-    :effect (and (not (truck-at ?t ?loc)) (not (location-in-city ?pkg ?loc))
-              (not (destination ?pkg ?loc)) (has-package ?t ?pkg)))
-  
-  (:action unload-truck
-    :parameters (?t - truck ?loc - location ?pkg - package)
-    :precondition (and (truck-at ?t ?loc) (has-package ?t ?pkg))
-    :effect (and (truck-at ?t ?loc) (location-in-city ?pkg ?loc)
-              (destination ?pkg ?loc) (not (has-package ?t ?pkg))))
-  
-  (:action move-truck
-    :parameters (?t - truck ?fromLoc - location ?toLoc - location)
-    :precondition (and (truck-at ?t ?fromLoc) (connected ?fromLoc ?toLoc))
-    :effect (and (not (truck-at ?t ?fromLoc)) (truck-at ?t ?toLoc)))
-  
-  (:action pickup-package
-    :parameters (?t - truck ?pkg - package)
-    :precondition (and (truck-at (location-of ?pkg) ?loc) (has-package nil ?pkg))
-    :effect (and (not (has-package nil ?pkg)) (has-package ?t ?pkg)))
-  
-  (:action deliver-package
-    :parameters (?t - truck ?pkg - package)
-    :precondition (and (truck-at (location-of ?pkg) ?loc) (has-package ?t ?pkg) (arrived-at ?pkg))
-    :effect (and (not (has-package ?t ?pkg)) (not (has-package nil ?pkg))))
-  
-  (:action enter-vehicle
-    :parameters (?p - package ?v - vehicle)
-    :precondition (and (not (has-package ?v ?p)) (free-space-in ?v))
-    :effect (and (has-package ?v ?p) (not (has-package nil ?p))))
-  
-  (:action leave-vehicle
-    :parameters (?p - package ?v - vehicle)
-    :precondition (has-package ?v ?p)
-    :effect (and (not (has-package ?v ?p)) (has-package nil ?p)))
-  
-  (:action fly-plane
-    :parameters (?p - package ?apFrom - airport ?apTo - airport)
-    :precondition (and (at-airport ?p ?apFrom))
-    :effect (and (not (at-airport ?p ?apFrom)) (at-airport ?p ?apTo))))
-
-```
- The above code produces the following error: There is a semantic error where unknown type city is used in predicate definition.
-
- Requirement 1: Correct the error and give the entire PDDL code for a STRIPS Planner. 
- Requirement 2: Do not create a problem file. Do not use conditional expressions. 
- Requirement 3: Generate PDDL domain code in code blocks for a STRIPS Planner. Do not give any explanations.
-**LLM MODEL** (HUGGING_FACE):
-```pddl (define (domain delivery)
-(:requirements :strips)
-(:types location truck package - object airport - location)
+(:types city location airport truck plane package - object)
 (:predicates
-(at ?l - location ?loc - location)
-(has-package ?x - vehicle ?pkg - package)
-(destination ?pkg - package ?dest - location)
-(connected ?fromLoc - location ?toLoc - location)
-(free-space-in ?v - vehicle)
-(at-airport ?p - package ?ap - airport)
-(arrived-at ?pkg - package))
-(:constants HomeCity Airport1 Airport2 Airport3 Truck1 Plane1 Package1 Package2)
+    (at ?x - location)
+    (cityof ?x - location ?c - city)
+    (airport-in ?a - airport ?c - city)
+    (free ?v - vehicle)
+    (holding ?v - vehicle ?p - package)
+))
 
-(:action load-truck
-:parameters (?t - truck ?loc - location ?pkg - package)
-:precondition (and (at ?t ?loc) (not (has-package ?t ?pkg)))
-:effect (and (not (at ?t ?loc)) (not (at ?pkg ?loc))
-(not (destination ?pkg ?loc)) (has-package ?t ?pkg)))
+(:action Drive
+    :parameters (?t - truck ?from - location ?to - location ?pkg - package)
+    :precondition (and (at ?t ?from) (cityof ?from ?c) (cityof ?to ?c) (free ?t) (not (holding ?t ?pkg)))
+    :effect (and (not (at ?t ?from)) (at ?t ?to) (not (free ?t)) (when (or (null ?pkg) (holding ?t ?pkg)) (not (holding ?t ?pkg))))
+)
 
-(:action unload-truck
-:parameters (?t - truck ?loc - location ?pkg - package)
-:precondition (and (at ?t ?loc) (has-package ?t ?pkg))
-:effect (and (at ?t ?loc) (at ?pkg ?loc)
-(destination ?pkg ?loc) (not (has-package ?t ?pkg))))
+(:action Pickup
+    :parameters (?t - truck ?loc - location ?pkg - package)
+    :precondition (and (at ?t ?loc) (cityof ?loc ?c) (free ?t) (holding null ?pkg))
+    :effect (and (holding ?t ?pkg) (not (free ?t)))
+)
 
-(:action move-truck
-:parameters (?t - truck ?fromLoc - location ?toLoc - location)
-:precondition (and (at ?t ?fromLoc) (connected ?fromLoc ?toLoc))
-:effect (and (not (at ?t ?fromLoc)) (at ?t ?toLoc)))
+(:action Unload
+    :parameters (?t - truck ?loc - location ?pkg - package)
+    :precondition (and (at ?t ?loc) (cityof ?loc ?c) (holding ?t ?pkg))
+    :effect (and (not (holding ?t ?pkg)) (free ?t))
+)
 
-(:action pickup-package
-:parameters (?t - truck ?pkg - package)
-:precondition (and (at (location-of ?pkg) (location-of ?t)) (has-package nil ?pkg))
-:effect (and (not (has-package nil ?pkg)) (has-package ?t ?pkg)))
+(:action Fly
+    :parameters (?p - plane ?from - airport ?to - airport)
+    :precondition (and (at ?p ?from) (airport-in ?from ?c1) (airport-in ?to ?c2) (= ?c1 ?c2))
+    :effect (and (not (at ?p ?from)) (at ?p ?to))
+)
 
-(:action deliver-package
-:parameters (?t - truck ?pkg - package)
-:precondition (and (at (location-of ?pkg) (location-of ?t)) (has-package ?t ?pkg) (arrived-at ?pkg))
-:effect (and (not (has-package ?t ?pkg)) (not (has-package nil ?pkg))))
+(:action LoadPlane
+    :parameters (?p - plane ?loc - airport ?pkg - package)
+    :precondition (and (at ?p ?loc) (airport-in ?loc ?c) (free ?p) (holding null ?pkg))
+    :effect (and (holding ?p ?pkg) (not (free ?p)))
+)
 
-(:action enter-vehicle
-:parameters (?p - package ?v - vehicle)
-:precondition (and (not (has-package ?v ?p)) (free-space-in ?v))
-:effect (and (has-package ?v ?p) (not (has-package nil ?p))))
+(:action UnloadPlane
+    :parameters (?p - plane ?loc - airport ?pkg - package)
+    :precondition (and (at ?p ?loc) (airport-in ?loc ?c) (holding ?p ?pkg))
+    :effect (and (not (holding ?p ?pkg)) (free ?p))
+)
+)
 
-(:action leave-vehicle
-:parameters (?p - package ?v - vehicle)
-:precondition (has-package ?v ?p)
-:effect (and (not (has-package ?v ?p)) (has-package nil ?p)))
+```
+**USER** :
+```pddl
 
-(:action fly-plane
-:parameters (?p - package ?apFrom - airport ?apTo - airport)
-:precondition (and (at-airport ?p ?apFrom))
-:effect (and (not (at-airport ?p ?apFrom)) (at-airport ?p ?apTo))))
+(define (domain delivery-domain)
+(:requirements :strips :typing)
+(:types city location airport truck plane package - object)
+(:predicates
+    (at ?x - location)
+    (cityof ?x - location ?c - city)
+    (airport-in ?a - airport ?c - city)
+    (free ?v - vehicle)
+    (holding ?v - vehicle ?p - package)
+))
+
+(:action Drive
+    :parameters (?t - truck ?from - location ?to - location ?pkg - package)
+    :precondition (and (at ?t ?from) (cityof ?from ?c) (cityof ?to ?c) (free ?t) (not (holding ?t ?pkg)))
+    :effect (and (not (at ?t ?from)) (at ?t ?to) (not (free ?t)) (when (or (null ?pkg) (holding ?t ?pkg)) (not (holding ?t ?pkg))))
+)
+
+(:action Pickup
+    :parameters (?t - truck ?loc - location ?pkg - package)
+    :precondition (and (at ?t ?loc) (cityof ?loc ?c) (free ?t) (holding null ?pkg))
+    :effect (and (holding ?t ?pkg) (not (free ?t)))
+)
+
+(:action Unload
+    :parameters (?t - truck ?loc - location ?pkg - package)
+    :precondition (and (at ?t ?loc) (cityof ?loc ?c) (holding ?t ?pkg))
+    :effect (and (not (holding ?t ?pkg)) (free ?t))
+)
+
+(:action Fly
+    :parameters (?p - plane ?from - airport ?to - airport)
+    :precondition (and (at ?p ?from) (airport-in ?from ?c1) (airport-in ?to ?c2) (= ?c1 ?c2))
+    :effect (and (not (at ?p ?from)) (at ?p ?to))
+)
+
+(:action LoadPlane
+    :parameters (?p - plane ?loc - airport ?pkg - package)
+    :precondition (and (at ?p ?loc) (airport-in ?loc ?c) (free ?p) (holding null ?pkg))
+    :effect (and (holding ?p ?pkg) (not (free ?p)))
+)
+
+(:action UnloadPlane
+    :parameters (?p - plane ?loc - airport ?pkg - package)
+    :precondition (and (at ?p ?loc) (airport-in ?loc ?c) (holding ?p ?pkg))
+    :effect (and (not (holding ?p ?pkg)) (free ?p))
+)
+)
+
+```
+
+The above code produces the following error -> There was an error in parsing the code. Got unexpected token: (. The parenthesis is opened in the wrong position in the code. Please check the parenthesis.
+
+Instruction 1: Correct the error and give the entire PDDL code in code blocks and please do not give any explanations in the output.
+Instruction 2: Do not create a problem file and do not use conditional expressions.
+**LLM MODEL** (HUGGING_FACE):
+```pddl 
+
+(define (domain delivery-domain)
+(:requirements :strips :typing)
+(:types city location airport truck plane package - object)
+(:predicates
+    (at ?x - location)
+    (cityof ?x - location ?c - city)
+    (airport-in ?a - airport ?c - city)
+    (free ?v - vehicle)
+    (holding ?v - vehicle ?p - package)
+))
+
+(:action Drive
+    :parameters (?t - truck ?from - location ?to - location ?pkg - package)
+    :precondition (and (at ?t ?from) (cityof ?from ?c) (cityof ?to ?c) (free ?t) (not (holding ?t ?pkg)))
+    :effect (and (not (at ?t ?from)) (at ?t ?to) (not (free ?t)) (when (or (null ?pkg) (holding ?t ?pkg)) (not (holding ?t ?pkg)))))
+
+(:action Pickup
+    :parameters (?t - truck ?loc - location ?pkg - package)
+    :precondition (and (at ?t ?loc) (cityof ?loc ?c) (free ?t) (holding nil ?pkg))
+    :effect (and (holding ?t ?pkg) (not (free ?t))))
+
+(:action Unload
+    :parameters (?t - truck ?loc - location ?pkg - package)
+    :precondition (and (at ?t ?loc) (cityof ?loc ?c) (holding ?t ?pkg))
+    :effect (and (not (holding ?t ?pkg)) (free ?t)))
+
+(:action Fly
+    :parameters (?p - plane ?from - airport ?to - airport)
+    :precondition (and (at ?p ?from) (airport-in ?from ?c1) (airport-in ?to ?c2) (= ?c1 ?c2))
+    :effect (and (not (at ?p ?from)) (at ?p ?to)))
+
+(:action LoadPlane
+    :parameters (?p - plane ?loc - airport ?pkg - package)
+    :precondition (and (at ?p ?loc) (airport-in ?loc ?c) (free ?p) (holding nil ?pkg))
+    :effect (and (holding ?p ?pkg) (not (free ?p))))
+
+(:action UnloadPlane
+    :parameters (?p - plane ?loc - airport ?pkg - package)
+    :precondition (and (at ?p ?loc) (airport-in ?loc ?c) (holding ?p ?pkg))
+    :effect (and (not (holding ?p ?pkg)) (free ?p)))
+)
+
+```
+**USER** :
+```pddl
+
+(define (domain delivery-domain)
+(:requirements :strips :typing)
+(:types city location airport truck plane package - object)
+(:predicates
+    (at ?x - location)
+    (cityof ?x - location ?c - city)
+    (airport-in ?a - airport ?c - city)
+    (free ?v - vehicle)
+    (holding ?v - vehicle ?p - package)
+))
+
+(:action Drive
+    :parameters (?t - truck ?from - location ?to - location ?pkg - package)
+    :precondition (and (at ?t ?from) (cityof ?from ?c) (cityof ?to ?c) (free ?t) (not (holding ?t ?pkg)))
+    :effect (and (not (at ?t ?from)) (at ?t ?to) (not (free ?t)) (when (or (null ?pkg) (holding ?t ?pkg)) (not (holding ?t ?pkg)))))
+
+(:action Pickup
+    :parameters (?t - truck ?loc - location ?pkg - package)
+    :precondition (and (at ?t ?loc) (cityof ?loc ?c) (free ?t) (holding nil ?pkg))
+    :effect (and (holding ?t ?pkg) (not (free ?t))))
+
+(:action Unload
+    :parameters (?t - truck ?loc - location ?pkg - package)
+    :precondition (and (at ?t ?loc) (cityof ?loc ?c) (holding ?t ?pkg))
+    :effect (and (not (holding ?t ?pkg)) (free ?t)))
+
+(:action Fly
+    :parameters (?p - plane ?from - airport ?to - airport)
+    :precondition (and (at ?p ?from) (airport-in ?from ?c1) (airport-in ?to ?c2) (= ?c1 ?c2))
+    :effect (and (not (at ?p ?from)) (at ?p ?to)))
+
+(:action LoadPlane
+    :parameters (?p - plane ?loc - airport ?pkg - package)
+    :precondition (and (at ?p ?loc) (airport-in ?loc ?c) (free ?p) (holding nil ?pkg))
+    :effect (and (holding ?p ?pkg) (not (free ?p))))
+
+(:action UnloadPlane
+    :parameters (?p - plane ?loc - airport ?pkg - package)
+    :precondition (and (at ?p ?loc) (airport-in ?loc ?c) (holding ?p ?pkg))
+    :effect (and (not (holding ?p ?pkg)) (free ?p)))
+)
+
+```
+
+The above code produces the following error -> There was an error in parsing the code. Got unexpected token: (. The parenthesis is opened in the wrong position in the code. Please check the parenthesis.
+
+Instruction 1: Correct the error and give the entire PDDL code in code blocks and please do not give any explanations in the output.
+Instruction 2: Do not create a problem file and do not use conditional expressions.
+**LLM MODEL** (HUGGING_FACE):
+```pddl 
+
+(define (domain delivery-domain)
+(:requirements :strips :typing)
+(:types city location airport truck plane package - object)
+(:predicates
+    (at ?x - location)
+    (cityof ?x - location ?c - city)
+    (airport-in ?a - airport ?c - city)
+    (free ?v - vehicle)
+    (holding ?v - vehicle ?p - package))
+
+(:action Drive
+    :parameters (?t - truck ?from - location ?to - location ?pkg - package)
+    :precondition (and (at ?t ?from) (cityof ?from ?c) (cityof ?to ?c) (free ?t) (not (holding ?t ?pkg)))
+    :effect (and (not (at ?t ?from)) (at ?t ?to) (not (free ?t)) (when (or (null ?pkg) (holding ?t ?pkg)) (not (holding ?t ?pkg)))))
+
+(:action Pickup
+    :parameters (?t - truck ?loc - location ?pkg - package)
+    :precondition (and (at ?t ?loc) (cityof ?loc ?c) (free ?t) (holding nil ?pkg))
+    :effect (and (holding ?t ?pkg) (not (free ?t))))
+
+(:action Unload
+    :parameters (?t - truck ?loc - location ?pkg - package)
+    :precondition (and (at ?t ?loc) (cityof ?loc ?c) (holding ?t ?pkg))
+    :effect (and (not (holding ?t ?pkg)) (free ?t)))
+
+(:action Fly
+    :parameters (?p - plane ?from - airport ?to - airport)
+    :precondition (and (at ?p ?from) (airport-in ?from ?c1) (airport-in ?to ?c2) (= ?c1 ?c2))
+    :effect (and (not (at ?p ?from)) (at ?p ?to)))
+
+(:action LoadPlane
+    :parameters (?p - plane ?loc - airport ?pkg - package)
+    :precondition (and (at ?p ?loc) (airport-in ?loc ?c) (free ?p) (holding nil ?pkg))
+    :effect (and (holding ?p ?pkg) (not (free ?p))))
+
+(:action UnloadPlane
+    :parameters (?p - plane ?loc - airport ?pkg - package)
+    :precondition (and (at ?p ?loc) (airport-in ?loc ?c) (holding ?p ?pkg))
+    :effect (and (not (holding ?p ?pkg)) (free ?p))))
+
+```
+**USER** :
+```pddl
+
+(define (domain delivery-domain)
+(:requirements :strips :typing)
+(:types city location airport truck plane package - object)
+(:predicates
+    (at ?x - location)
+    (cityof ?x - location ?c - city)
+    (airport-in ?a - airport ?c - city)
+    (free ?v - vehicle)
+    (holding ?v - vehicle ?p - package))
+
+(:action Drive
+    :parameters (?t - truck ?from - location ?to - location ?pkg - package)
+    :precondition (and (at ?t ?from) (cityof ?from ?c) (cityof ?to ?c) (free ?t) (not (holding ?t ?pkg)))
+    :effect (and (not (at ?t ?from)) (at ?t ?to) (not (free ?t)) (when (or (null ?pkg) (holding ?t ?pkg)) (not (holding ?t ?pkg)))))
+
+(:action Pickup
+    :parameters (?t - truck ?loc - location ?pkg - package)
+    :precondition (and (at ?t ?loc) (cityof ?loc ?c) (free ?t) (holding nil ?pkg))
+    :effect (and (holding ?t ?pkg) (not (free ?t))))
+
+(:action Unload
+    :parameters (?t - truck ?loc - location ?pkg - package)
+    :precondition (and (at ?t ?loc) (cityof ?loc ?c) (holding ?t ?pkg))
+    :effect (and (not (holding ?t ?pkg)) (free ?t)))
+
+(:action Fly
+    :parameters (?p - plane ?from - airport ?to - airport)
+    :precondition (and (at ?p ?from) (airport-in ?from ?c1) (airport-in ?to ?c2) (= ?c1 ?c2))
+    :effect (and (not (at ?p ?from)) (at ?p ?to)))
+
+(:action LoadPlane
+    :parameters (?p - plane ?loc - airport ?pkg - package)
+    :precondition (and (at ?p ?loc) (airport-in ?loc ?c) (free ?p) (holding nil ?pkg))
+    :effect (and (holding ?p ?pkg) (not (free ?p))))
+
+(:action UnloadPlane
+    :parameters (?p - plane ?loc - airport ?pkg - package)
+    :precondition (and (at ?p ?loc) (airport-in ?loc ?c) (holding ?p ?pkg))
+    :effect (and (not (holding ?p ?pkg)) (free ?p))))
+
+```
+
+The above code produces the following error -> There is a semantic error where unknown type 'vehicle' is used in predicate definition.
+
+Instruction 1: Correct the error and give the entire PDDL code in code blocks and please do not give any explanations in the output.
+Instruction 2: Do not create a problem file and do not use conditional expressions.
+**LLM MODEL** (HUGGING_FACE):
+```pddl 
+
+(define (domain delivery-domain)
+(:requirements :strips :typing)
+(:types city location airport - object truck plane package - object)
+(:predicates
+    (at ?x - location)
+    (cityof ?x - location ?c - city)
+    (airport-in ?a - airport ?c - city)
+    (free ?v - truck) ;; changed from 'vehicle' to 'truck'
+    (holding ?v - truck ?p - package)) ;; changed from 'vehicle' to 'truck'
+
+(:action Drive
+    :parameters (?t - truck ?from - location ?to - location ?pkg - package)
+    :precondition (and (at ?t ?from) (cityof ?from ?c) (cityof ?to ?c) (free ?t) (not (holding ?t ?pkg)))
+    :effect (and (not (at ?t ?from)) (at ?t ?to) (not (free ?t)) (when (or (null ?pkg) (holding ?t ?pkg)) (not (holding ?t ?pkg)))))
+
+(:action Pickup
+    :parameters (?t - truck ?loc - location ?pkg - package)
+    :precondition (and (at ?t ?loc) (cityof ?loc ?c) (free ?t) (holding nil ?pkg))
+    :effect (and (holding ?t ?pkg) (not (free ?t))))
+
+(:action Unload
+    :parameters (?t - truck ?loc - location ?pkg - package)
+    :precondition (and (at ?t ?loc) (cityof ?loc ?c) (holding ?t ?pkg))
+    :effect (and (not (holding ?t ?pkg)) (free ?t)))
+
+(:action Fly
+    :parameters (?p - plane ?from - airport ?to - airport)
+    :precondition (and (at ?p ?from) (airport-in ?from ?c1) (airport-in ?to ?c2) (= ?c1 ?c2))
+    :effect (and (not (at ?p ?from)) (at ?p ?to)))
+
+(:action LoadPlane
+    :parameters (?p - plane ?loc - airport ?pkg - package)
+    :precondition (and (at ?p ?loc) (airport-in ?loc ?c) (free ?p) (holding nil ?pkg))
+    :effect (and (holding ?p ?pkg) (not (free ?p))))
+
+(:action UnloadPlane
+    :parameters (?p - plane ?loc - airport ?pkg - package)
+    :precondition (and (at ?p ?loc) (airport-in ?loc ?c) (holding ?p ?pkg))
+    :effect (and (not (holding ?p ?pkg)) (free ?p))))
+
+```
+**USER** :
+```pddl
+
+(define (domain delivery-domain)
+(:requirements :strips :typing)
+(:types city location airport - object truck plane package - object)
+(:predicates
+    (at ?x - location)
+    (cityof ?x - location ?c - city)
+    (airport-in ?a - airport ?c - city)
+    (free ?v - truck) ;; changed from 'vehicle' to 'truck'
+    (holding ?v - truck ?p - package)) ;; changed from 'vehicle' to 'truck'
+
+(:action Drive
+    :parameters (?t - truck ?from - location ?to - location ?pkg - package)
+    :precondition (and (at ?t ?from) (cityof ?from ?c) (cityof ?to ?c) (free ?t) (not (holding ?t ?pkg)))
+    :effect (and (not (at ?t ?from)) (at ?t ?to) (not (free ?t)) (when (or (null ?pkg) (holding ?t ?pkg)) (not (holding ?t ?pkg)))))
+
+(:action Pickup
+    :parameters (?t - truck ?loc - location ?pkg - package)
+    :precondition (and (at ?t ?loc) (cityof ?loc ?c) (free ?t) (holding nil ?pkg))
+    :effect (and (holding ?t ?pkg) (not (free ?t))))
+
+(:action Unload
+    :parameters (?t - truck ?loc - location ?pkg - package)
+    :precondition (and (at ?t ?loc) (cityof ?loc ?c) (holding ?t ?pkg))
+    :effect (and (not (holding ?t ?pkg)) (free ?t)))
+
+(:action Fly
+    :parameters (?p - plane ?from - airport ?to - airport)
+    :precondition (and (at ?p ?from) (airport-in ?from ?c1) (airport-in ?to ?c2) (= ?c1 ?c2))
+    :effect (and (not (at ?p ?from)) (at ?p ?to)))
+
+(:action LoadPlane
+    :parameters (?p - plane ?loc - airport ?pkg - package)
+    :precondition (and (at ?p ?loc) (airport-in ?loc ?c) (free ?p) (holding nil ?pkg))
+    :effect (and (holding ?p ?pkg) (not (free ?p))))
+
+(:action UnloadPlane
+    :parameters (?p - plane ?loc - airport ?pkg - package)
+    :precondition (and (at ?p ?loc) (airport-in ?loc ?c) (holding ?p ?pkg))
+    :effect (and (not (holding ?p ?pkg)) (free ?p))))
+
+```
+
+The above code produces the following error -> There is a semantic error where there are wrong number of arguments for predicate 'at' in precondition of action 'drive'.
+
+Instruction 1: Correct the error and give the entire PDDL code in code blocks and please do not give any explanations in the output.
+Instruction 2: Do not create a problem file and do not use conditional expressions.
+**LLM MODEL** (HUGGING_FACE):
+```pddl 
+
+(define (domain delivery-domain)
+(:requirements :strips :typing)
+(:types city location airport - object truck plane package - object)
+(:predicates
+    (at ?x - location)
+    (free ?v - truck)
+    (holding ?v - truck ?p - package))
+
+(:action Drive
+    :parameters (?t - truck ?from - location ?to - location ?pkg - package)
+    :precondition (and (at ?t ?from) (free ?t) (not (holding ?t ?pkg)))
+    :effect (and (not (at ?t ?from)) (at ?t ?to) (not (free ?t)) (when (or (null ?pkg) (holding ?t ?pkg)) (not (holding ?t ?pkg)))))
+
+(:action Pickup
+    :parameters (?t - truck ?loc - location ?pkg - package)
+    :precondition (and (at ?t ?loc) (free ?t) (holding nil ?pkg))
+    :effect (and (holding ?t ?pkg) (not (free ?t))))
+
+(:action Unload
+    :parameters (?t - truck ?loc - location ?pkg - package)
+    :precondition (and (at ?t ?loc) (holding ?t ?pkg))
+    :effect (and (not (holding ?t ?pkg)) (free ?t)))
+
+(:action Fly
+    :parameters (?p - plane ?from - airport ?to - airport)
+    :precondition (and (at ?p ?from) (= ?from ?to))
+    :effect (and (not (at ?p ?from)) (at ?p ?to)))
+
+(:action LoadPlane
+    :parameters (?p - plane ?loc - airport ?pkg - package)
+    :precondition (and (at ?p ?loc) (free ?p) (holding nil ?pkg))
+    :effect (and (holding ?p ?pkg) (not (free ?p))))
+
+(:action UnloadPlane
+    :parameters (?p - plane ?loc - airport ?pkg - package)
+    :precondition (and (at ?p ?loc) (holding ?p ?pkg))
+    :effect (and (not (holding ?p ?pkg)) (free ?p))))
+
+```
+**USER** :
+```pddl
+
+(define (domain delivery-domain)
+(:requirements :strips :typing)
+(:types city location airport - object truck plane package - object)
+(:predicates
+    (at ?x - location)
+    (free ?v - truck)
+    (holding ?v - truck ?p - package))
+
+(:action Drive
+    :parameters (?t - truck ?from - location ?to - location ?pkg - package)
+    :precondition (and (at ?t ?from) (free ?t) (not (holding ?t ?pkg)))
+    :effect (and (not (at ?t ?from)) (at ?t ?to) (not (free ?t)) (when (or (null ?pkg) (holding ?t ?pkg)) (not (holding ?t ?pkg)))))
+
+(:action Pickup
+    :parameters (?t - truck ?loc - location ?pkg - package)
+    :precondition (and (at ?t ?loc) (free ?t) (holding nil ?pkg))
+    :effect (and (holding ?t ?pkg) (not (free ?t))))
+
+(:action Unload
+    :parameters (?t - truck ?loc - location ?pkg - package)
+    :precondition (and (at ?t ?loc) (holding ?t ?pkg))
+    :effect (and (not (holding ?t ?pkg)) (free ?t)))
+
+(:action Fly
+    :parameters (?p - plane ?from - airport ?to - airport)
+    :precondition (and (at ?p ?from) (= ?from ?to))
+    :effect (and (not (at ?p ?from)) (at ?p ?to)))
+
+(:action LoadPlane
+    :parameters (?p - plane ?loc - airport ?pkg - package)
+    :precondition (and (at ?p ?loc) (free ?p) (holding nil ?pkg))
+    :effect (and (holding ?p ?pkg) (not (free ?p))))
+
+(:action UnloadPlane
+    :parameters (?p - plane ?loc - airport ?pkg - package)
+    :precondition (and (at ?p ?loc) (holding ?p ?pkg))
+    :effect (and (not (holding ?p ?pkg)) (free ?p))))
+
+```
+
+The above code produces the following error -> There is a semantic error where there are wrong number of arguments for predicate 'at' in precondition of action 'drive'.
+
+Instruction 1: Correct the error and give the entire PDDL code in code blocks and please do not give any explanations in the output.
+Instruction 2: Do not create a problem file and do not use conditional expressions.
+**LLM MODEL** (HUGGING_FACE):
+```pddl 
+
+(define (domain delivery-domain)
+(:requirements :strips :typing)
+(:types city location airport - object truck plane package - object)
+(:predicates
+    (at ?x - location)
+    (free ?v - truck)
+    (holding ?v - truck ?p - package))
+
+(:action Drive
+    :parameters (?t - truck ?from - location ?to - location)
+    :precondition (and (at ?t ?from) (free ?t))
+    :effect (and (not (at ?t ?from)) (at ?t ?to) (not (free ?t)) ))
+
+(:action Pickup
+    :parameters (?t - truck ?loc - location ?pkg - package)
+    :precondition (and (at ?t ?loc) (free ?t) (holding nil ?pkg))
+    :effect (and (holding ?t ?pkg) (not (free ?t))))
+
+(:action Unload
+    :parameters (?t - truck ?loc - location ?pkg - package)
+    :precondition (and (at ?t ?loc) (holding ?t ?pkg))
+    :effect (and (not (holding ?t ?pkg)) (free ?t)))
+
+(:action Fly
+    :parameters (?p - plane ?from - airport ?to - airport)
+    :precondition (and (at ?p ?from) (= ?from ?to))
+    :effect (and (not (at ?p ?from)) (at ?p ?to)))
+
+(:action LoadPlane
+    :parameters (?p - plane ?loc - airport ?pkg - package)
+    :precondition (and (at ?p ?loc) (free ?p) (holding nil ?pkg))
+    :effect (and (holding ?p ?pkg) (not (free ?p))))
+
+(:action UnloadPlane
+    :parameters (?p - plane ?loc - airport ?pkg - package)
+    :precondition (and (at ?p ?loc) (holding ?p ?pkg))
+    :effect (and (not (holding ?p ?pkg)) (free ?p))))
+
+```
+**USER** :
+```pddl
+
+(define (domain delivery-domain)
+(:requirements :strips :typing)
+(:types city location airport - object truck plane package - object)
+(:predicates
+    (at ?x - location)
+    (free ?v - truck)
+    (holding ?v - truck ?p - package))
+
+(:action Drive
+    :parameters (?t - truck ?from - location ?to - location)
+    :precondition (and (at ?t ?from) (free ?t))
+    :effect (and (not (at ?t ?from)) (at ?t ?to) (not (free ?t)) ))
+
+(:action Pickup
+    :parameters (?t - truck ?loc - location ?pkg - package)
+    :precondition (and (at ?t ?loc) (free ?t) (holding nil ?pkg))
+    :effect (and (holding ?t ?pkg) (not (free ?t))))
+
+(:action Unload
+    :parameters (?t - truck ?loc - location ?pkg - package)
+    :precondition (and (at ?t ?loc) (holding ?t ?pkg))
+    :effect (and (not (holding ?t ?pkg)) (free ?t)))
+
+(:action Fly
+    :parameters (?p - plane ?from - airport ?to - airport)
+    :precondition (and (at ?p ?from) (= ?from ?to))
+    :effect (and (not (at ?p ?from)) (at ?p ?to)))
+
+(:action LoadPlane
+    :parameters (?p - plane ?loc - airport ?pkg - package)
+    :precondition (and (at ?p ?loc) (free ?p) (holding nil ?pkg))
+    :effect (and (holding ?p ?pkg) (not (free ?p))))
+
+(:action UnloadPlane
+    :parameters (?p - plane ?loc - airport ?pkg - package)
+    :precondition (and (at ?p ?loc) (holding ?p ?pkg))
+    :effect (and (not (holding ?p ?pkg)) (free ?p))))
+
+```
+
+The above code produces the following error -> There is a semantic error where there are wrong number of arguments for predicate 'at' in precondition of action 'drive'.
+
+Instruction 1: Correct the error and give the entire PDDL code in code blocks and please do not give any explanations in the output.
+Instruction 2: Do not create a problem file and do not use conditional expressions.
+**LLM MODEL** (HUGGING_FACE):
+```pddl 
+
+(define (domain delivery-domain)
+(:requirements :strips :typing)
+(:types city location airport - object truck plane package - object)
+(:predicates
+    (at ?x - location)
+    (free ?v - truck)
+    (holding ?v - truck ?p - package))
+
+(:action Drive
+    :parameters (?t - truck ?from - location ?to - location)
+    :precondition (and (at ?t ?from) (free ?t))
+    :effect (and (not (at ?t ?from)) (at ?t ?to) (not (free ?t)) ))
+
+(:action Pickup
+    :parameters (?t - truck ?loc - location ?pkg - package)
+    :precondition (and (at ?t ?loc) (free ?t) (holding nil ?pkg))
+    :effect (and (holding ?t ?pkg) (not (free ?t))))
+
+(:action Unload
+    :parameters (?t - truck ?loc - location ?pkg - package)
+    :precondition (and (at ?t ?loc) (holding ?t ?pkg))
+    :effect (and (not (holding ?t ?pkg)) (free ?t)))
+
+(:action Fly
+    :parameters (?p - plane ?from - airport ?to - airport)
+    :precondition (and (at ?p ?from) (= ?from ?to))
+    :effect (and (not (at ?p ?from)) (at ?p ?to)))
+
+(:action LoadPlane
+    :parameters (?p - plane ?loc - airport ?pkg - package)
+    :precondition (and (at ?p ?loc) (free ?p) (holding nil ?pkg))
+    :effect (and (holding ?p ?pkg) (not (free ?p))))
+
+(:action UnloadPlane
+    :parameters (?p - plane ?loc - airport ?pkg - package)
+    :precondition (and (at ?p ?loc) (holding ?p ?pkg))
+    :effect (and (not (holding ?p ?pkg)) (free ?p))))
+
+```
+**USER** :
+```pddl
+
+(define (domain delivery-domain)
+(:requirements :strips :typing)
+(:types city location airport - object truck plane package - object)
+(:predicates
+    (at ?x - location)
+    (free ?v - truck)
+    (holding ?v - truck ?p - package))
+
+(:action Drive
+    :parameters (?t - truck ?from - location ?to - location)
+    :precondition (and (at ?t ?from) (free ?t))
+    :effect (and (not (at ?t ?from)) (at ?t ?to) (not (free ?t)) ))
+
+(:action Pickup
+    :parameters (?t - truck ?loc - location ?pkg - package)
+    :precondition (and (at ?t ?loc) (free ?t) (holding nil ?pkg))
+    :effect (and (holding ?t ?pkg) (not (free ?t))))
+
+(:action Unload
+    :parameters (?t - truck ?loc - location ?pkg - package)
+    :precondition (and (at ?t ?loc) (holding ?t ?pkg))
+    :effect (and (not (holding ?t ?pkg)) (free ?t)))
+
+(:action Fly
+    :parameters (?p - plane ?from - airport ?to - airport)
+    :precondition (and (at ?p ?from) (= ?from ?to))
+    :effect (and (not (at ?p ?from)) (at ?p ?to)))
+
+(:action LoadPlane
+    :parameters (?p - plane ?loc - airport ?pkg - package)
+    :precondition (and (at ?p ?loc) (free ?p) (holding nil ?pkg))
+    :effect (and (holding ?p ?pkg) (not (free ?p))))
+
+(:action UnloadPlane
+    :parameters (?p - plane ?loc - airport ?pkg - package)
+    :precondition (and (at ?p ?loc) (holding ?p ?pkg))
+    :effect (and (not (holding ?p ?pkg)) (free ?p))))
+
+```
+
+The above code produces the following error -> There is a semantic error where there are wrong number of arguments for predicate 'at' in precondition of action 'drive'.
+
+Instruction 1: Correct the error and give the entire PDDL code in code blocks and please do not give any explanations in the output.
+Instruction 2: Do not create a problem file and do not use conditional expressions.
+**LLM MODEL** (HUGGING_FACE):
+```pddl 
+
+(define (domain delivery-domain)
+    (:requirements :strips :typing)
+    (:types city location airport - object truck plane package - object)
+    (:predicates
+        (at ?x - location)
+        (free ?v - truck)
+        (holding ?v - truck ?p - package))
+    
+    (:action Drive
+        :parameters (?t - truck ?from - location ?to - location)
+        :precondition (and (at ?t ?from) (free ?t))
+        :effect (and (not (at ?t ?from)) (at ?t ?to) (not (free ?t)) ))
+        
+    (:action Pickup
+        :parameters (?t - truck ?loc - location ?pkg - package)
+        :precondition (and (at ?t ?loc) (free ?t) (holding nil ?pkg))
+        :effect (and (holding ?t ?pkg) (not (free ?t))))
+         
+    (:action Unload
+        :parameters (?t - truck ?loc - location ?pkg - package)
+        :precondition (and (at ?t ?loc) (holding ?t ?pkg))
+        :effect (and (not (holding ?t ?pkg)) (free ?t)))
+            
+    (:action Fly
+        :parameters (?p - plane ?from - airport ?to - airport)
+        :precondition (and (at ?p ?from) (= ?from ?to))
+        :effect (and (not (at ?p ?from)) (at ?p ?to)))
+                  
+    (:action LoadPlane
+        :parameters (?p - plane ?loc - airport ?pkg - package)
+        :precondition (and (at ?p ?loc) (free ?p) (holding nil ?pkg))
+        :effect (and (holding ?p ?pkg) (not (free ?p))))
+     
+    (:action UnloadPlane
+        :parameters (?p - plane ?loc - airport ?pkg - package)
+        :precondition (and (at ?p ?loc) (holding ?p ?pkg))
+        :effect (and (not (holding ?p ?pkg)) (free ?p))))
+
+```
+**USER** :
+```pddl
+
+(define (domain delivery-domain)
+    (:requirements :strips :typing)
+    (:types city location airport - object truck plane package - object)
+    (:predicates
+        (at ?x - location)
+        (free ?v - truck)
+        (holding ?v - truck ?p - package))
+    
+    (:action Drive
+        :parameters (?t - truck ?from - location ?to - location)
+        :precondition (and (at ?t ?from) (free ?t))
+        :effect (and (not (at ?t ?from)) (at ?t ?to) (not (free ?t)) ))
+        
+    (:action Pickup
+        :parameters (?t - truck ?loc - location ?pkg - package)
+        :precondition (and (at ?t ?loc) (free ?t) (holding nil ?pkg))
+        :effect (and (holding ?t ?pkg) (not (free ?t))))
+         
+    (:action Unload
+        :parameters (?t - truck ?loc - location ?pkg - package)
+        :precondition (and (at ?t ?loc) (holding ?t ?pkg))
+        :effect (and (not (holding ?t ?pkg)) (free ?t)))
+            
+    (:action Fly
+        :parameters (?p - plane ?from - airport ?to - airport)
+        :precondition (and (at ?p ?from) (= ?from ?to))
+        :effect (and (not (at ?p ?from)) (at ?p ?to)))
+                  
+    (:action LoadPlane
+        :parameters (?p - plane ?loc - airport ?pkg - package)
+        :precondition (and (at ?p ?loc) (free ?p) (holding nil ?pkg))
+        :effect (and (holding ?p ?pkg) (not (free ?p))))
+     
+    (:action UnloadPlane
+        :parameters (?p - plane ?loc - airport ?pkg - package)
+        :precondition (and (at ?p ?loc) (holding ?p ?pkg))
+        :effect (and (not (holding ?p ?pkg)) (free ?p))))
+
+```
+
+The above code produces the following error -> There is a semantic error where there are wrong number of arguments for predicate 'at' in precondition of action 'drive'.
+
+Instruction 1: Correct the error and give the entire PDDL code in code blocks and please do not give any explanations in the output.
+Instruction 2: Do not create a problem file and do not use conditional expressions.
+**LLM MODEL** (HUGGING_FACE):
+```pddl 
+
+(define (domain delivery-domain)
+(:requirements :strips :typing)
+(:types city location airport - object truck plane package - object)
+(:predicates
+    (at ?x - object ?loc - location)
+    (free ?v - truck)
+    (holding ?v - truck ?p - package))
+
+(::action Drive
+    :parameters (?t - truck ?from - location ?to - location)
+    :precondition (and (at ?t ?from) (at ?t ?to) (free ?t))
+    :effect (and (not (at ?t ?from)) (not (at ?t ?to)) (at ?t some-other-location) (not (free ?t)) ))
+
+(::action Pickup
+    :parameters (?t - truck ?loc - location ?pkg - package)
+    :precondition (and (at ?t ?loc) (free ?t) (holding nil ?pkg))
+    :effect (and (holding ?t ?pkg) (not (free ?t))))
+```
+**USER** :
+```pddl
+
+(define (domain delivery-domain)
+(:requirements :strips :typing)
+(:types city location airport - object truck plane package - object)
+(:predicates
+    (at ?x - object ?loc - location)
+    (free ?v - truck)
+    (holding ?v - truck ?p - package))
+
+(::action Drive
+    :parameters (?t - truck ?from - location ?to - location)
+    :precondition (and (at ?t ?from) (at ?t ?to) (free ?t))
+    :effect (and (not (at ?t ?from)) (not (at ?t ?to)) (at ?t some-other-location) (not (free ?t)) ))
+
+(::action Pickup
+    :parameters (?t - truck ?loc - location ?pkg - package)
+    :precondition (and (at ?t ?loc) (free ?t) (holding nil ?pkg))
+    :effect (and (holding ?t ?pkg) (not (free ?t))))
+```
+
+The above code produces the following error -> There was an error in parsing the code. Missing closing parenthesis. Please check the parenthesis.
+
+Instruction 1: Correct the error and give the entire PDDL code in code blocks and please do not give any explanations in the output.
+Instruction 2: Do not create a problem file and do not use conditional expressions.
+**LLM MODEL** (HUGGING_FACE):
+```pddl 
+
+(define (domain delivery-domain)
+(:requirements :strips :typing)
+(:types city location airport - object truck plane package - object)
+(:predicates
+    (at ?x - object ?loc - location)
+    (free ?v - truck)
+    (holding ?v - truck ?p - package))
+
+(::action Drive
+    :parameters (?t - truck ?from - location ?to - location)
+    :precondition (and (at ?t ?from) (free ?t))
+    :effect (and (not (at ?t ?from)) (at ?t ?to) (not (free ?t)) ))
+
+(::action Pickup
+    :parameters (?t - truck ?loc - location ?pkg - package)
+    :precondition (and (at ?t ?loc) (free ?t) (holding nil ?pkg))
+    :effect (and (holding ?t ?pkg) (not (free ?t)))))
+
+```
+**USER** :
+```pddl
+
+(define (domain delivery-domain)
+(:requirements :strips :typing)
+(:types city location airport - object truck plane package - object)
+(:predicates
+    (at ?x - object ?loc - location)
+    (free ?v - truck)
+    (holding ?v - truck ?p - package))
+
+(::action Drive
+    :parameters (?t - truck ?from - location ?to - location)
+    :precondition (and (at ?t ?from) (free ?t))
+    :effect (and (not (at ?t ?from)) (at ?t ?to) (not (free ?t)) ))
+
+(::action Pickup
+    :parameters (?t - truck ?loc - location ?pkg - package)
+    :precondition (and (at ?t ?loc) (free ?t) (holding nil ?pkg))
+    :effect (and (holding ?t ?pkg) (not (free ?t)))))
+
+```
+
+The above code produces the following error -> There is a value error on finding unknown keyword in domain definition: ':action'. Valid keywords in definition are 'requirements', 'types', 'predicates', 'constants' and 'action'. Remove the keyword ':action' from definition, keep the rest of code the same.
+
+Instruction 1: Correct the error and give the entire PDDL code in code blocks and please do not give any explanations in the output.
+Instruction 2: Do not create a problem file and do not use conditional expressions.
+**LLM MODEL** (HUGGING_FACE):
+```pddl 
+
+(define (domain delivery-domain)
+(:requirements :strips :typing)
+(:types city location airport - object truck plane package - object)
+(:predicates
+    (at ?x - object ?loc - location)
+    (free ?v - truck)
+    (holding ?v - truck ?p - package))
+
+(action Drive
+    :parameters (?t - truck ?from - location ?to - location)
+    :precondition (and (at ?t ?from) (free ?t))
+    :effect (and (not (at ?t ?from)) (at ?t ?to) (not (free ?t)) ))
+
+(action Pickup
+    :parameters (?t - truck ?loc - location ?pkg - package)
+    :precondition (and (at ?t ?loc) (free ?t) (holding nil ?pkg))
+    :effect (and (holding ?t ?pkg) (not (free ?t)))))
+
+```
+**USER** :
+```pddl
+
+(define (domain delivery-domain)
+(:requirements :strips :typing)
+(:types city location airport - object truck plane package - object)
+(:predicates
+    (at ?x - object ?loc - location)
+    (free ?v - truck)
+    (holding ?v - truck ?p - package))
+
+(action Drive
+    :parameters (?t - truck ?from - location ?to - location)
+    :precondition (and (at ?t ?from) (free ?t))
+    :effect (and (not (at ?t ?from)) (at ?t ?to) (not (free ?t)) ))
+
+(action Pickup
+    :parameters (?t - truck ?loc - location ?pkg - package)
+    :precondition (and (at ?t ?loc) (free ?t) (holding nil ?pkg))
+    :effect (and (holding ?t ?pkg) (not (free ?t)))))
+
+```
+
+The above code produces the following error -> There is a value error where keywords have to start with a colon ":". For example, ":requirements", ":predicates", ":action", ":parameters", ":precondition" and ":effect" are valid keywords.
+
+Instruction 1: Correct the error and give the entire PDDL code in code blocks and please do not give any explanations in the output.
+Instruction 2: Do not create a problem file and do not use conditional expressions.
+**LLM MODEL** (HUGGING_FACE):
+```pddl 
+
+(define (domain delivery-domain)
+  (:requirements :strips :typing)
+  (:types city location airport - object truck plane package - object)
+  (:predicates
+    (at ?x - object ?loc - location)
+    (free ?v - truck)
+    (holding ?v - truck ?p - package))
+  
+  (:action Drive
+    :parameters (?t - truck ?from - location ?to - location)
+    :precondition (and (at ?t ?from) (free ?t))
+    :effect (and (not (at ?t ?from)) (at ?t ?to) (not (free ?t)) ))
+
+  (:action Pickup
+    :parameters (?t - truck ?loc - location ?pkg - package)
+    :precondition (and (at ?t ?loc) (free ?t) (not (holding ?t ?pkg)))
+    :effect (and (holding ?t ?pkg) (not (free ?t)))))
+
+```
+**USER** :
+```pddl
+
+(define (domain delivery-domain)
+  (:requirements :strips :typing)
+  (:types city location airport - object truck plane package - object)
+  (:predicates
+    (at ?x - object ?loc - location)
+    (free ?v - truck)
+    (holding ?v - truck ?p - package))
+  
+  (:action Drive
+    :parameters (?t - truck ?from - location ?to - location)
+    :precondition (and (at ?t ?from) (free ?t))
+    :effect (and (not (at ?t ?from)) (at ?t ?to) (not (free ?t)) ))
+
+  (:action Pickup
+    :parameters (?t - truck ?loc - location ?pkg - package)
+    :precondition (and (at ?t ?loc) (free ?t) (not (holding ?t ?pkg)))
+    :effect (and (holding ?t ?pkg) (not (free ?t)))))
+
+```
+
+The above code produces the following error -> There is a semantic error where unknown predicate 'not' used in precondition statement of action name 'pickup'. Remove negative literals from the precondition statement of the action having it and replan that action only.
+
+Instruction 1: Correct the error and give the entire PDDL code in code blocks and please do not give any explanations in the output.
+Instruction 2: Do not create a problem file and do not use conditional expressions.
+**LLM MODEL** (HUGGING_FACE):
+```pddl 
+
+(define (domain delivery-domain)
+(:requirements :strips :typing)
+(:types city location airport - object truck plane package - object)
+(:predicates
+	(at ?x - object ?loc - location)
+	(free ?v - truck)
+	(holding ?v - truck ?p - package))
+
+(:action Drive
+	:parameters (?t - truck ?from - location ?to - location)
+        :precondition (and (at ?t ?from) (free ?t))
+        :effect (and (not (at ?t ?from)) (at ?t ?to)))
+
+(:action Pickup
+	:parameters (?t - truck ?loc - location ?pkg - package)
+        :precondition (and (at ?t ?loc) (free ?t))
+        :effect (and (holding ?t ?pkg))))
+
 ```

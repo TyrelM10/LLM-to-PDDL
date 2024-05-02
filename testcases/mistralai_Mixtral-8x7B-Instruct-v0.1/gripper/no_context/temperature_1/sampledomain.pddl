@@ -1,27 +1,41 @@
 
-(define (domain robotic-gripper)
-  (:requirements :strips)
+(define (domain robots-with-grippers)
+  (:requirements :strips :typing)
 
-  (:types gripper location ball)
+  ;; Define types of objects
+  (:types robot object room robot-room)
 
-  (:constants left-gripper right-gripper)
+  (:constants
+    left-gripper right-gripper   ; Two possible grippers
+    room1 room2 room3           ; Example room names
+    robot1 robot2              ; Example robot names
+  )
+
   (:predicates
-    (carrying ?g - gripper ?b - ball)
-    (at ?x - location)
-    (free ?g - gripper)
-    (ball-here ?b - ball ?loc - location))
+    (ball ?x - object)             ; An object is a ball
+    (inroom ?x - object ?r - room)  ; Object x is in room r
+    (free ?r - robot)              ; Robot r is free
+    (carrying ?r - robot ?b - object) ; Robot r is carrying ball b
+    (at ?r - robot ?loc - room)     ; Robot r is at location loc
+    (adjacent ?r1 - room ?r2 - room) ; Room r1 is adjacent to room r2
+  )
 
-  (:action pick-up
-    :parameters (?g - gripper ?b - ball ?loc - location)
-    :precondition (and (at ?loc) (free ?g) (ball-here ?b loc))
-    :effect (and (not (at ?loc)) (not (free ?g)) (carrying ?g ?b)))
+  ;; Actions
+  (:action pickup
+    :parameters (?r - robot ?o - object ?from - room)
+    :precondition (and (free ?r) (ball ?o) (inroom ?o ?from))
+    :effect (and (not (free ?r)) (carrying ?r ?o) (not (inroom ?o ?from)) (not (at ?r from)))
+  )
 
-  (:action put-down
-    :parameters (?g - gripper ?b - ball ?loc - location)
-    :precondition (and (carrying ?g ?b) (free ?loc))
-    :effect (and (at ?loc) (free ?g) (not (carrying ?g ?b))))
+  (:action putdown
+    :parameters (?r - robot ?o - object ?to - room)
+    :precondition (and (carrying ?r ?o) (free ?to) (adjacent ?to (current-room ?r)))
+    :effect (and (free ?r) (inroom ?o ?to) (not (carrying ?r ?o)) (at ?r ?to))
+  )
 
   (:action move
-    :parameters (?g1 - gripper ?loc1 - location ?g2 - gripper ?loc2 - location)
-    :precondition (and (at ?loc1) (at ?loc2) (free ?g1) (free ?g2))
-    :effect (and (not (at ?loc1)) (not (at ?loc2)) (at ?loc2) (at ?loc1))))
+    :parameters (?r - robot ?to - room)
+    :precondition (and (free ?r) (adjacent (current-room ?r) ?to))
+    :effect (and (not (at ?r (current-room ?r))) (at ?r ?to) (not (free ?r)) (free (current-room ?r)))
+  )
+)

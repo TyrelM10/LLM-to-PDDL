@@ -37,6 +37,8 @@ def parse_nested_list(input_file):
     for tok in tokens:  # Check that generator is exhausted.
         
         # raise ParseError("Unexpected token: %s." % tok)
+        if tok == "(":
+            receiver({'error_number': 3, 'error':"There was an error in parsing the code."+" Got unexpected token: %s." % tok + " The parenthesis is opened in the wrong position in the code. Please check the parenthesis."})
         receiver({'error_number': 3, 'error':"There was an error in parsing the code."+" Got unexpected token: %s." % tok})
     return result
 

@@ -66,13 +66,14 @@ class LispIterator:
     def get_word(self):
         """If called on a word, return the word as a string.
         If called on a structure, raise ParseError."""
-        self._raise_if(self.is_structure(), "not a word")
+        # print(type(self.contents))
+        self._raise_if(self.is_structure(), "not a word but a structure of "+ ' ,'.join(self.contents)+". It should be a single word.")
         return self.contents
 
     def peek(self):
         """Structures only. Return iterator for next subtree, or None
         if already at the end. Do not advance."""
-        self._raise_if(self.is_word(), "not a structure")
+        self._raise_if(self.is_word(), "not a structure but a word which is "+str(self.contents)+". It should be a structure.")
         if self.position == len(self.contents):
             return None
         return LispIterator(self.contents[self.position])

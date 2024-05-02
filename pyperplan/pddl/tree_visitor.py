@@ -409,9 +409,9 @@ class TraversePDDLDomain(PDDLVisitor):
                     # )
                     
                     if c.key == "not":
-                        receiver({'error_number': 38, 'error':"There is a semantic error where unknown predicate 'not' used in precondition of action name '"+self.action_name+"'. Remove negative literals from the precondition of the action having it and rewrite that action only."})
+                        receiver({'error_number': 38, 'error':"There is a semantic error where unknown predicate 'not' used in precondition statement of action name '"+self.action_name+"'. Remove negative literals from the precondition statement of the action having it and replan that action only. Try adding another predicate in the precondition statement to remove this error."})
                         
-                    receiver({'error_number': 38, 'error':"There is a semantic error where unknown predicate '"+c.key+"' used in precondition of action name '"+self.action_name+"'. Remove '"+c.key+"' from the precondition of all actions having it."})
+                    receiver({'error_number': 38, 'error':"There is a semantic error where unknown predicate '"+c.key+"' used in precondition statement of action name '"+self.action_name+"'. Remove '"+c.key+"' from the precondition statement of all actions having it and replan that action only."})
                 # Call helper.
                 
                 self.add_precond(precond, c)
