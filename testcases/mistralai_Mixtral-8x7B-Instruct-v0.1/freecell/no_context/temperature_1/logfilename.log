@@ -1,0 +1,613 @@
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.0.68:5000
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 118-440-111
+INFO:werkzeug:127.0.0.1 - - [27/Apr/2024 23:28:38] "GET / HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [27/Apr/2024 23:28:38] "[36mGET /static/index.css HTTP/1.1[0m" 304 -
+INFO:werkzeug:127.0.0.1 - - [27/Apr/2024 23:28:38] "[36mGET /static/images/UoA_Primary_Logo_RGB.png HTTP/1.1[0m" 304 -
+INFO:werkzeug:127.0.0.1 - - [27/Apr/2024 23:28:38] "[36mGET /static/images/favicon.png HTTP/1.1[0m" 304 -
+INFO:werkzeug:127.0.0.1 - - [27/Apr/2024 23:28:40] "[36mGET /static/images/favicon.png HTTP/1.1[0m" 304 -
+ERROR:root:======== LENGTH OF QUERY TEXT : 23 ==========
+ERROR:root: ```pddl
+(define (domain freecell)
+  (:requirements :strips :typing)
+  (:types card - object)
+  (:predicates
+    (on-table ?c - card)
+    (in-column ?i - integer ?c - card)
+ERROR:root:======== LENGTH OF QUERY TEXT : 273 ==========
+ERROR:root:=========================================================================================
+ERROR:root:ID:662d7c1a3e032989897cfaae, MODEL:mistralai/Mixtral-8x7B-Instruct-v0.1
+ERROR:root:=========================================================================================
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: (.'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:=========== CHAT COUNT ==========>> 1
+ERROR:root:======== LENGTH OF QUERY TEXT : 8 ==========
+ERROR:root: (define (domain cards)
+
+(:types card location - object
+ERROR:root:======== LENGTH OF QUERY TEXT : 370 ==========
+ERROR:root:=========================================================================================
+ERROR:root:ID:662d7c3c7a9da613fd807f12, MODEL:mistralai/Mixtral-8x7B-Instruct-v0.1
+ERROR:root:=========================================================================================
+ERROR:root:-------------- Hugging Chat API Result Parsing_Error ---------------
+ERROR:root:---- No word PDDL in return -----> list index out of range
+ERROR:root:----No word LISP in return-------> list index out of range
+ERROR:root:--------- Hugging Chat API Result Parsing Error Completed ----------
+ERROR:root:{'error_number': 10, 'error': 'There is a value error where keywords have to start with a colon ":"'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:=========== CHAT COUNT ==========>> 2
+ERROR:root:======== LENGTH OF QUERY TEXT : 309 ==========
+ERROR:root:=========================================================================================
+ERROR:root:ID:662d7c79443b68d1df50dd15, MODEL:mistralai/Mixtral-8x7B-Instruct-v0.1
+ERROR:root:=========================================================================================
+ERROR:root:-------------- Hugging Chat API Result Parsing_Error ---------------
+ERROR:root:---- No word PDDL in return -----> list index out of range
+ERROR:root:----No word LISP in return-------> list index out of range
+ERROR:root:--------- Hugging Chat API Result Parsing Error Completed ----------
+ERROR:root:{'error_number': 10, 'error': 'There is a value error where keywords have to start with a colon ":"'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:=========== CHAT COUNT ==========>> 3
+ERROR:root:======== LENGTH OF QUERY TEXT : 25 ==========
+ERROR:root: Here's the corrected PDDL domain code in the required format for a STRIPS planner without using conditional expressions:
+
+```pddl
+(define (domain cards)
+  (:requirements :strips :typing)
+ERROR:root:======== LENGTH OF QUERY TEXT : 366 ==========
+ERROR:root:=========================================================================================
+ERROR:root:ID:662d7c8ffd2133041e0eed62, MODEL:mistralai/Mixtral-8x7B-Instruct-v0.1
+ERROR:root:=========================================================================================
+ERROR:root:{'error_number': 10, 'error': 'There is a value error where keywords have to start with a colon ":"'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:=========== CHAT COUNT ==========>> 4
+ERROR:root:======== LENGTH OF QUERY TEXT : 309 ==========
+ERROR:root:=========================================================================================
+ERROR:root:ID:662d7ccc28e809340cd3e00c, MODEL:mistralai/Mixtral-8x7B-Instruct-v0.1
+ERROR:root:=========================================================================================
+ERROR:root:-------------- Hugging Chat API Result Parsing_Error ---------------
+ERROR:root:---- No word PDDL in return -----> list index out of range
+ERROR:root:----No word LISP in return-------> list index out of range
+ERROR:root:--------- Hugging Chat API Result Parsing Error Completed ----------
+ERROR:root:{'error_number': 10, 'error': 'There is a value error where keywords have to start with a colon ":"'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:=========== CHAT COUNT ==========>> 5
+ERROR:root:======== LENGTH OF QUERY TEXT : 309 ==========
+ERROR:root:=========================================================================================
+ERROR:root:ID:662d7ce2443b68d1df50dd37, MODEL:mistralai/Mixtral-8x7B-Instruct-v0.1
+ERROR:root:=========================================================================================
+ERROR:root:-------------- Hugging Chat API Result Parsing_Error ---------------
+ERROR:root:---- No word PDDL in return -----> list index out of range
+ERROR:root:----No word LISP in return-------> list index out of range
+ERROR:root:--------- Hugging Chat API Result Parsing Error Completed ----------
+ERROR:root:{'error_number': 10, 'error': 'There is a value error where keywords have to start with a colon ":"'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:=========== CHAT COUNT ==========>> 6
+ERROR:root:======== LENGTH OF QUERY TEXT : 322 ==========
+ERROR:root:=========================================================================================
+ERROR:root:ID:662d7cfc9b590d2f140b0a3a, MODEL:mistralai/Mixtral-8x7B-Instruct-v0.1
+ERROR:root:=========================================================================================
+ERROR:root:-------------- Hugging Chat API Result Parsing_Error ---------------
+ERROR:root:---- No word PDDL in return -----> list index out of range
+ERROR:root:----No word LISP in return-------> list index out of range
+ERROR:root:--------- Hugging Chat API Result Parsing Error Completed ----------
+ERROR:root:{'error_number': 10, 'error': 'There is a value error where keywords have to start with a colon ":"'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:=========== CHAT COUNT ==========>> 7
+ERROR:root:======== LENGTH OF QUERY TEXT : 309 ==========
+ERROR:root:=========================================================================================
+ERROR:root:ID:662d7d169a694781feca94a3, MODEL:mistralai/Mixtral-8x7B-Instruct-v0.1
+ERROR:root:=========================================================================================
+ERROR:root:-------------- Hugging Chat API Result Parsing_Error ---------------
+ERROR:root:---- No word PDDL in return -----> list index out of range
+ERROR:root:----No word LISP in return-------> list index out of range
+ERROR:root:--------- Hugging Chat API Result Parsing Error Completed ----------
+ERROR:root:{'error_number': 10, 'error': 'There is a value error where keywords have to start with a colon ":"'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:=========== CHAT COUNT ==========>> 8
+ERROR:root:======== LENGTH OF QUERY TEXT : 332 ==========
+ERROR:root:=========================================================================================
+ERROR:root:ID:662d7d3228e809340cd3e036, MODEL:mistralai/Mixtral-8x7B-Instruct-v0.1
+ERROR:root:=========================================================================================
+ERROR:root:{'error_number': 10, 'error': 'There is a value error where keywords have to start with a colon ":"'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:=========== CHAT COUNT ==========>> 9
+ERROR:root:======== LENGTH OF QUERY TEXT : 315 ==========
+ERROR:root:=========================================================================================
+ERROR:root:ID:662d7d531ca01a81e3c20ffd, MODEL:mistralai/Mixtral-8x7B-Instruct-v0.1
+ERROR:root:=========================================================================================
+ERROR:root:-------------- Hugging Chat API Result Parsing_Error ---------------
+ERROR:root:---- No word PDDL in return -----> list index out of range
+ERROR:root:----No word LISP in return-------> list index out of range
+ERROR:root:--------- Hugging Chat API Result Parsing Error Completed ----------
+ERROR:root:{'error_number': 10, 'error': 'There is a value error where keywords have to start with a colon ":"'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:=========== CHAT COUNT ==========>> 10
+ERROR:root:======== LENGTH OF QUERY TEXT : 403 ==========
+ERROR:root:=========================================================================================
+ERROR:root:ID:662d7d7be0aae6e23a820fc1, MODEL:mistralai/Mixtral-8x7B-Instruct-v0.1
+ERROR:root:=========================================================================================
+ERROR:root:{'error_number': 10, 'error': 'There is a value error where keywords have to start with a colon ":"'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:=========== CHAT COUNT ==========>> 11
+ERROR:root:======== LENGTH OF QUERY TEXT : 313 ==========
+ERROR:root:=========================================================================================
+ERROR:root:ID:662d7d9d882fa6a2cf7f8569, MODEL:mistralai/Mixtral-8x7B-Instruct-v0.1
+ERROR:root:=========================================================================================
+ERROR:root:-------------- Hugging Chat API Result Parsing_Error ---------------
+ERROR:root:---- No word PDDL in return -----> list index out of range
+ERROR:root:----No word LISP in return-------> list index out of range
+ERROR:root:--------- Hugging Chat API Result Parsing Error Completed ----------
+ERROR:root:{'error_number': 10, 'error': 'There is a value error where keywords have to start with a colon ":"'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:=========== CHAT COUNT ==========>> 12
+ERROR:root:======== LENGTH OF QUERY TEXT : 313 ==========
+ERROR:root:=========================================================================================
+ERROR:root:ID:662d7dc09c09b8ea4726f69b, MODEL:mistralai/Mixtral-8x7B-Instruct-v0.1
+ERROR:root:=========================================================================================
+ERROR:root:-------------- Hugging Chat API Result Parsing_Error ---------------
+ERROR:root:---- No word PDDL in return -----> list index out of range
+ERROR:root:----No word LISP in return-------> list index out of range
+ERROR:root:--------- Hugging Chat API Result Parsing Error Completed ----------
+ERROR:root:{'error_number': 10, 'error': 'There is a value error where keywords have to start with a colon ":"'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:=========== CHAT COUNT ==========>> 13
+ERROR:root:======== LENGTH OF QUERY TEXT : 326 ==========
+ERROR:root:=========================================================================================
+ERROR:root:ID:662d7de33e032989897cfb4b, MODEL:mistralai/Mixtral-8x7B-Instruct-v0.1
+ERROR:root:=========================================================================================
+ERROR:root:{'error_number': 10, 'error': 'There is a value error where keywords have to start with a colon ":"'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:=========== CHAT COUNT ==========>> 14
+ERROR:root:======== LENGTH OF QUERY TEXT : 313 ==========
+ERROR:root:=========================================================================================
+ERROR:root:ID:662d7e0c3e032989897cfb5b, MODEL:mistralai/Mixtral-8x7B-Instruct-v0.1
+ERROR:root:=========================================================================================
+ERROR:root:-------------- Hugging Chat API Result Parsing_Error ---------------
+ERROR:root:---- No word PDDL in return -----> list index out of range
+ERROR:root:----No word LISP in return-------> list index out of range
+ERROR:root:--------- Hugging Chat API Result Parsing Error Completed ----------
+ERROR:root:{'error_number': 10, 'error': 'There is a value error where keywords have to start with a colon ":"'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:=========== CHAT COUNT ==========>> 15
+ERROR:root:======== LENGTH OF QUERY TEXT : 386 ==========
+ERROR:root:=========================================================================================
+ERROR:root:ID:662d7e3628e809340cd3e097, MODEL:mistralai/Mixtral-8x7B-Instruct-v0.1
+ERROR:root:=========================================================================================
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: (.'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: :action.'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: move-to-column.'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: :parameters.'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: (.'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: ?src_card.'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: -.'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: card.'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: ?src.'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: -.'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: source.'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: ?dst.'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: -.'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: destination.'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: ).'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: :precondition.'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: (.'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: and.'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: (.'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: if.'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: (.'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: eq.'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: src.'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: freecell.'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: ).'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: (.'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: not.'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: (.'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: occupied-freecell.'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: src.'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: ).'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: ).'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: ).'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: (.'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: if.'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: (.'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: eq.'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: dst.'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: column.'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: ).'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: (.'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: =.'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: (.'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: number-of-cards-in-column.'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: dst.'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: ).'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: 7.'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: ).'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: (.'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: not.'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: (.'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: full-column.'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: dst.'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: ).'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: ).'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: ).'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: ).'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: :effect.'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: (.'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: and.'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: (.'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: if.'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: (.'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: eq.'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: src.'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: freecell.'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: ).'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: (.'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: unoccupied-freecell.'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: src.'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: ).'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: ).'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: (.'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: if.'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: (.'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: eq.'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: dst.'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: column.'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: ).'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: (.'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: =.'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: (.'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: number-of-cards-in-column.'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: dst.'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: ).'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: (.'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: +.'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: 1.'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: (.'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: number-of-cards-in-column.'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: dst.'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: ).'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: ).'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: ).'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: (.'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: =.'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: (.'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: number-of-cards-in-column.'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: src.'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: ).'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: (.'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: -.'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: (.'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: number-of-cards-in-column.'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: src.'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: ).'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: 1.'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: ).'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: ).'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: ).'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: (.'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: if.'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: (.'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: eq.'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: dst.'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: column.'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: ).'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: (.'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: on.'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: src_card.'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: dst.'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: ).'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: (.'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: not.'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: (.'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: on.'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: src_card.'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: src.'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: ).'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: ).'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: ).'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: ).'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: ).'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: (.'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: :action.'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: move-to-homecell.'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: :parameters.'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: (.'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: ?c.'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: -.'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: card.'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: ?h.'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: -.'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: homecell.'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: ).'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: :precondition.'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: (.'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: and.'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: (.'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: or.'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: (.'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: on-table.'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: ?c.'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: ).'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: (.'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: in-column.'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: ?c.'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: h.'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: ).'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: ).'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: (.'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: same-suit.'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: ?c.'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: (.'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: top-card.'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: h.'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: ).'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: ).'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: (.'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: <.'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: (.'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: value-of.'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: ?c.'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: ).'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: (.'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: value-of.'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: (.'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: top-card.'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: h.'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: ).'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: ).'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: ).'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: ).'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: :effect.'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: (.'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: and.'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: (.'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: not.'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: (.'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: on-table.'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: ?c.'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: ).'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: ).'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: (.'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: not.'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: (.'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: in-column.'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: ?c.'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: h.'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: ).'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: ).'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: (.'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: on.'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: ?c.'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: h.'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: ).'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: ).'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: ).'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: ).'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 10, 'error': 'There is a value error where keywords have to start with a colon ":"'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 22, 'error': "There is a value error on finding unknown keyword in domain definition: '*types'. Remove the keyword '*types' from definition, keep the rest of code the same."}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 10, 'error': 'There is a value error where keywords have to start with a colon ":"'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 22, 'error': "There is a value error on finding unknown keyword in domain definition: '*constants'. Remove the keyword '*constants' from definition, keep the rest of code the same."}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 10, 'error': 'There is a value error where keywords have to start with a colon ":"'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 22, 'error': "There is a value error on finding unknown keyword in domain definition: '*predicates'. Remove the keyword '*predicates' from definition, keep the rest of code the same."}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:{'error_number': 18, 'error': 'There is a value error where EffectStmt must start with ":effect" keyword'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root: < --------- Exited Code -------- > 

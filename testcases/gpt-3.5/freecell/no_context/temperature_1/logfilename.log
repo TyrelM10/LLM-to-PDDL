@@ -1,0 +1,35 @@
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://137.50.168.187:5000
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 118-440-111
+INFO:werkzeug:127.0.0.1 - - [25/Apr/2024 00:46:23] "GET / HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [25/Apr/2024 00:46:23] "[36mGET /static/index.css HTTP/1.1[0m" 304 -
+INFO:werkzeug:127.0.0.1 - - [25/Apr/2024 00:46:23] "[36mGET /static/images/UoA_Primary_Logo_RGB.png HTTP/1.1[0m" 304 -
+INFO:werkzeug:127.0.0.1 - - [25/Apr/2024 00:46:23] "[36mGET /static/images/favicon.png HTTP/1.1[0m" 304 -
+INFO:werkzeug:127.0.0.1 - - [25/Apr/2024 00:46:27] "[36mGET /static/images/favicon.png HTTP/1.1[0m" 304 -
+ERROR:root:{'error_number': 35, 'error': 'There is a semantic error where unknown type number is used in predicate definition.'}
+ERROR:root:----- RUNNING FOR ERROR ---> CHAT_GPT
+ERROR:root:{'error_number': 38, 'error': "There is a semantic error where unknown predicate 'eq' used in precondition of action. Remove 'eq' from the precondition of all actions having it."}
+ERROR:root:----- RUNNING FOR ERROR ---> CHAT_GPT
+ERROR:root:{'error_number': 38, 'error': "There is a semantic error where unknown predicate '=' used in precondition of action. Remove '=' from the precondition of all actions having it."}
+ERROR:root:----- RUNNING FOR ERROR ---> CHAT_GPT
+ERROR:root:{'error_number': 38, 'error': "There is a semantic error where unknown predicate 'not' used in precondition of action. Remove 'not' from the precondition of all actions having it."}
+ERROR:root:----- RUNNING FOR ERROR ---> CHAT_GPT
+ERROR:root:Number of Types Parsed: 4
+ERROR:root:Types Parsed: dict_keys(['card', 'suit', 'stack', 'object'])
+ERROR:root:Number of Predicates Parsed: 9
+ERROR:root:Predicates Parsed: dict_keys(['top_of_stack', 'homecell_contains', 'freecell_contains', 'card_value', 'color_of_suit', 'next_value', 'opposite_color', 'empty_freecell', 'less_than_8_columns'])
+ERROR:root:Number of Actions Parsed: 4
+ERROR:root:Actions Parsed: dict_keys(['move_to_freecell', 'move_to_homecell', 'move_within_column', 'move_to_new_column'])
+ERROR:root:Number of Constants Parsed: 0
+ERROR:root:Constants Parsed: {}
+ERROR:root:Domain parsed successfully.
+ERROR:root: < --------- Exited Code -------- > 
+ERROR:root: < --------- Exited Code -------- > 
+ERROR:root: < --------- Exited Code -------- > 
+ERROR:root: < --------- Exited Code -------- > 
+INFO:werkzeug:127.0.0.1 - - [25/Apr/2024 00:47:51] "POST / HTTP/1.1" 200 -

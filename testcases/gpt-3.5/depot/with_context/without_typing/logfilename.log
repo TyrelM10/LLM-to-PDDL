@@ -1,0 +1,10 @@
+ERROR:root:{'error_number': 35, 'error': 'There is a semantic error where unknown type crate is used in predicate definition.'}
+ERROR:root:Number of Types Parsed: 3
+ERROR:root:Types Parsed: dict_keys(['object', 'truck', 'pallet'])
+ERROR:root:Number of Predicates Parsed: 7
+ERROR:root:Predicates Parsed: dict_keys(['at', 'on', 'empty', 'loaded', 'clear', 'hoist-empty', 'holding'])
+ERROR:root:Number of Actions Parsed: 6
+ERROR:root:Actions Parsed: dict_keys(['load', 'unload', 'transport', 'stack', 'pick-up', 'drop'])
+ERROR:root:Number of Constants Parsed: 0
+ERROR:root:Constants Parsed: {}
+ERROR:root:Domain parsed successfully.

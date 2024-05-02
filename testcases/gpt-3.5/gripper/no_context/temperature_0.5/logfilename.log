@@ -1,0 +1,92 @@
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://137.50.168.187:5000
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 118-440-111
+INFO:werkzeug:127.0.0.1 - - [24/Apr/2024 22:31:37] "GET / HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [24/Apr/2024 22:31:37] "[36mGET /static/index.css HTTP/1.1[0m" 304 -
+INFO:werkzeug:127.0.0.1 - - [24/Apr/2024 22:31:37] "[36mGET /static/images/UoA_Primary_Logo_RGB.png HTTP/1.1[0m" 304 -
+INFO:werkzeug:127.0.0.1 - - [24/Apr/2024 22:31:37] "GET /static/images/favicon.png HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [24/Apr/2024 22:31:41] "[36mGET /static/images/favicon.png HTTP/1.1[0m" 304 -
+ERROR:root:{'error_number': 18, 'error': 'There is a value error where EffectStmt must start with ":effect" keyword'}
+ERROR:root:----- RUNNING FOR ERROR ---> CHAT_GPT
+ERROR:root:{'error_number': 18, 'error': 'There is a value error where EffectStmt must start with ":effect" keyword'}
+ERROR:root:----- RUNNING FOR ERROR ---> CHAT_GPT
+ERROR:root:{'error_number': 18, 'error': 'There is a value error where EffectStmt must start with ":effect" keyword'}
+ERROR:root:----- RUNNING FOR ERROR ---> CHAT_GPT
+ERROR:root:{'error_number': 18, 'error': 'There is a value error where EffectStmt must start with ":effect" keyword'}
+ERROR:root:----- RUNNING FOR ERROR ---> CHAT_GPT
+ERROR:root:{'error_number': 18, 'error': 'There is a value error where EffectStmt must start with ":effect" keyword'}
+ERROR:root:----- RUNNING FOR ERROR ---> CHAT_GPT
+ERROR:root:{'error_number': 18, 'error': 'There is a value error where EffectStmt must start with ":effect" keyword'}
+ERROR:root:----- RUNNING FOR ERROR ---> CHAT_GPT
+ERROR:root:{'error_number': 18, 'error': 'There is a value error where EffectStmt must start with ":effect" keyword'}
+ERROR:root:----- RUNNING FOR ERROR ---> CHAT_GPT
+ERROR:root:Number of Types Parsed: 4
+ERROR:root:Types Parsed: dict_keys(['ball', 'room', 'gripper', 'object'])
+ERROR:root:Number of Predicates Parsed: 4
+ERROR:root:Predicates Parsed: dict_keys(['at-robot', 'at-ball', 'empty', 'holding'])
+ERROR:root:Number of Actions Parsed: 3
+ERROR:root:Actions Parsed: dict_keys(['pick-up', 'put-down', 'move'])
+ERROR:root:Number of Constants Parsed: 0
+ERROR:root:Constants Parsed: {}
+ERROR:root:Domain parsed successfully.
+ERROR:root:{'error_number': 18, 'error': 'There is a value error where EffectStmt must start with ":effect" keyword'}
+ERROR:root:----- RUNNING FOR ERROR ---> CHAT_GPT
+ERROR:root:Number of Types Parsed: 4
+ERROR:root:Types Parsed: dict_keys(['ball', 'room', 'gripper', 'object'])
+ERROR:root:Number of Predicates Parsed: 4
+ERROR:root:Predicates Parsed: dict_keys(['at-robot', 'at-ball', 'empty', 'holding'])
+ERROR:root:Number of Actions Parsed: 3
+ERROR:root:Actions Parsed: dict_keys(['pick-up', 'put-down', 'move'])
+ERROR:root:Number of Constants Parsed: 0
+ERROR:root:Constants Parsed: {}
+ERROR:root:Domain parsed successfully.
+ERROR:root:{'error_number': 18, 'error': 'There is a value error where EffectStmt must start with ":effect" keyword'}
+ERROR:root:----- RUNNING FOR ERROR ---> CHAT_GPT
+ERROR:root:Number of Types Parsed: 4
+ERROR:root:Types Parsed: dict_keys(['ball', 'room', 'gripper', 'object'])
+ERROR:root:Number of Predicates Parsed: 4
+ERROR:root:Predicates Parsed: dict_keys(['at-robot', 'at-ball', 'empty', 'holding'])
+ERROR:root:Number of Actions Parsed: 3
+ERROR:root:Actions Parsed: dict_keys(['pick-up', 'put-down', 'move'])
+ERROR:root:Number of Constants Parsed: 0
+ERROR:root:Constants Parsed: {}
+ERROR:root:Domain parsed successfully.
+ERROR:root:{'error_number': 18, 'error': 'There is a value error where EffectStmt must start with ":effect" keyword'}
+ERROR:root:----- RUNNING FOR ERROR ---> CHAT_GPT
+ERROR:root:Number of Types Parsed: 4
+ERROR:root:Types Parsed: dict_keys(['ball', 'room', 'gripper', 'object'])
+ERROR:root:Number of Predicates Parsed: 4
+ERROR:root:Predicates Parsed: dict_keys(['at-robot', 'at-ball', 'empty', 'holding'])
+ERROR:root:Number of Actions Parsed: 3
+ERROR:root:Actions Parsed: dict_keys(['pick-up', 'put-down', 'move'])
+ERROR:root:Number of Constants Parsed: 0
+ERROR:root:Constants Parsed: {}
+ERROR:root:Domain parsed successfully.
+ERROR:root:{'error_number': 18, 'error': 'There is a value error where EffectStmt must start with ":effect" keyword'}
+ERROR:root:----- RUNNING FOR ERROR ---> CHAT_GPT
+ERROR:root:Number of Types Parsed: 4
+ERROR:root:Types Parsed: dict_keys(['ball', 'room', 'gripper', 'object'])
+ERROR:root:Number of Predicates Parsed: 4
+ERROR:root:Predicates Parsed: dict_keys(['at-robot', 'at-ball', 'empty', 'holding'])
+ERROR:root:Number of Actions Parsed: 3
+ERROR:root:Actions Parsed: dict_keys(['pick-up', 'put-down', 'move'])
+ERROR:root:Number of Constants Parsed: 0
+ERROR:root:Constants Parsed: {}
+ERROR:root:Domain parsed successfully.
+ERROR:root:{'error_number': 18, 'error': 'There is a value error where EffectStmt must start with ":effect" keyword'}
+ERROR:root:----- RUNNING FOR ERROR ---> CHAT_GPT
+ERROR:root:Number of Types Parsed: 4
+ERROR:root:Types Parsed: dict_keys(['ball', 'room', 'gripper', 'object'])
+ERROR:root:Number of Predicates Parsed: 4
+ERROR:root:Predicates Parsed: dict_keys(['at-robot', 'at-ball', 'empty', 'holding'])
+ERROR:root:Number of Actions Parsed: 3
+ERROR:root:Actions Parsed: dict_keys(['pick-up', 'put-down', 'move'])
+ERROR:root:Number of Constants Parsed: 0
+ERROR:root:Constants Parsed: {}
+ERROR:root:Domain parsed successfully.
+INFO:werkzeug:127.0.0.1 - - [24/Apr/2024 22:32:59] "POST / HTTP/1.1" 200 -

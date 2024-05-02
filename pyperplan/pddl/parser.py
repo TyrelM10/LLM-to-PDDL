@@ -413,7 +413,7 @@ def _parse_type_helper(iter, type_class):
                 if var[0] != "?":
                     print('VAR:', var)
                     # raise ValueError('Error variables must start with a "?"')
-                    receiver({'error_number': 8, 'error':'There is a value error where variables must start with a "?".'+"Please add '?' before the variable name also check if {} is a variable and replan the code.".format(var)})
+                    receiver({'error_number': 8, 'error':'There is a value error where variables must start with a "?".'+'Please add "?" before the variable name also check if {} is a variable and replan the code.'.format(var)})
                 tmpList.insert(0, var)
             else:
                 tmpList.insert(0, var)

@@ -1,0 +1,338 @@
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://137.50.171.68:5000
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 118-440-111
+INFO:werkzeug:127.0.0.1 - - [29/Apr/2024 23:44:52] "GET / HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Apr/2024 23:44:52] "[36mGET /static/index.css HTTP/1.1[0m" 304 -
+INFO:werkzeug:127.0.0.1 - - [29/Apr/2024 23:44:52] "[36mGET /static/images/UoA_Primary_Logo_RGB.png HTTP/1.1[0m" 304 -
+INFO:werkzeug:127.0.0.1 - - [29/Apr/2024 23:44:52] "[36mGET /static/images/favicon.png HTTP/1.1[0m" 304 -
+INFO:werkzeug:127.0.0.1 - - [29/Apr/2024 23:44:55] "[36mGET /static/images/favicon.png HTTP/1.1[0m" 304 -
+ERROR:root:======== LENGTH OF QUERY TEXT : 211 ==========
+ERROR:root:=========================================================================================
+ERROR:root:ID:663022e88a6ec449b99bea9a, MODEL:mistralai/Mixtral-8x7B-Instruct-v0.1
+ERROR:root:=========================================================================================
+ERROR:root:{'error_number': 35, 'error': "There is a semantic error where unknown type 'room' is used in predicate definition."}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:=========== CHAT COUNT ==========>> 1
+ERROR:root:======== LENGTH OF QUERY TEXT : 261 ==========
+ERROR:root:=========================================================================================
+ERROR:root:ID:663023062677859698a97683, MODEL:mistralai/Mixtral-8x7B-Instruct-v0.1
+ERROR:root:=========================================================================================
+ERROR:root:-------------- Hugging Chat API Result Parsing_Error ---------------
+ERROR:root:---- No word PDDL in return -----> list index out of range
+ERROR:root:----No word LISP in return-------> list index out of range
+ERROR:root:--------- Hugging Chat API Result Parsing Error Completed ----------
+ERROR:root:{'error_number': 22, 'error': "There is a value error on finding unknown keyword in domain definition: ':types'. Valid keywords in definition are 'requirements', 'types', 'predicates', 'constants' and 'action'. Remove the keyword ':types' from definition, keep the rest of code the same."}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:=========== CHAT COUNT ==========>> 2
+ERROR:root:======== LENGTH OF QUERY TEXT : 172 ==========
+ERROR:root:=========================================================================================
+ERROR:root:ID:663023282677859698a9768b, MODEL:mistralai/Mixtral-8x7B-Instruct-v0.1
+ERROR:root:=========================================================================================
+ERROR:root:-------------- Hugging Chat API Result Parsing_Error ---------------
+ERROR:root:---- No word PDDL in return -----> list index out of range
+ERROR:root:----No word LISP in return-------> list index out of range
+ERROR:root:--------- Hugging Chat API Result Parsing Error Completed ----------
+ERROR:root:{'error_number': 10, 'error': 'There is a value error where keywords have to start with a colon ":". For example, ":requirements", ":predicates", ":action", ":parameters", ":precondition" and ":effect" are valid keywords.'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:=========== CHAT COUNT ==========>> 3
+ERROR:root:======== LENGTH OF QUERY TEXT : 178 ==========
+ERROR:root:=========================================================================================
+ERROR:root:ID:6630234b5436cfc79d3b0552, MODEL:mistralai/Mixtral-8x7B-Instruct-v0.1
+ERROR:root:=========================================================================================
+ERROR:root:-------------- Hugging Chat API Result Parsing_Error ---------------
+ERROR:root:---- No word PDDL in return -----> list index out of range
+ERROR:root:----No word LISP in return-------> list index out of range
+ERROR:root:--------- Hugging Chat API Result Parsing Error Completed ----------
+ERROR:root:{'error_number': 10, 'error': 'There is a value error where keywords have to start with a colon ":". For example, ":requirements", ":predicates", ":action", ":parameters", ":precondition" and ":effect" are valid keywords.'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:=========== CHAT COUNT ==========>> 4
+ERROR:root:======== LENGTH OF QUERY TEXT : 16 ==========
+ERROR:root: Sure, here's the corrected PDDL code:
+```ruby
+(define (domain robots-with-grippers)
+  ;; Define requirements
+  (:requirements :strips :typing)
+ERROR:root:======== LENGTH OF QUERY TEXT : 191 ==========
+ERROR:root:=========================================================================================
+ERROR:root:ID:66302364691f1bad3cc01cad, MODEL:mistralai/Mixtral-8x7B-Instruct-v0.1
+ERROR:root:=========================================================================================
+ERROR:root:-------------- Hugging Chat API Result Parsing_Error ---------------
+ERROR:root:---- No word PDDL in return -----> list index out of range
+ERROR:root:----No word LISP in return-------> list index out of range
+ERROR:root:--------- Hugging Chat API Result Parsing Error Completed ----------
+ERROR:root:{'error_number': 10, 'error': 'There is a value error where keywords have to start with a colon ":". For example, ":requirements", ":predicates", ":action", ":parameters", ":precondition" and ":effect" are valid keywords.'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:=========== CHAT COUNT ==========>> 5
+ERROR:root:======== LENGTH OF QUERY TEXT : 156 ==========
+ERROR:root:=========================================================================================
+ERROR:root:ID:66302395691f1bad3cc01cc3, MODEL:mistralai/Mixtral-8x7B-Instruct-v0.1
+ERROR:root:=========================================================================================
+ERROR:root:{'error_number': 10, 'error': 'There is a value error where keywords have to start with a colon ":". For example, ":requirements", ":predicates", ":action", ":parameters", ":precondition" and ":effect" are valid keywords.'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:=========== CHAT COUNT ==========>> 6
+ERROR:root:======== LENGTH OF QUERY TEXT : 16 ==========
+ERROR:root: Sure, here's the corrected PDDL code:
+```ruby
+(define (domain robots-with-grippers)
+  ;; Define requirements
+  (:requirements :strips :typing)
+ERROR:root:======== LENGTH OF QUERY TEXT : 252 ==========
+ERROR:root:=========================================================================================
+ERROR:root:ID:663023afb4c5e2d4183573f1, MODEL:mistralai/Mixtral-8x7B-Instruct-v0.1
+ERROR:root:=========================================================================================
+ERROR:root:-------------- Hugging Chat API Result Parsing_Error ---------------
+ERROR:root:---- No word PDDL in return -----> list index out of range
+ERROR:root:----No word LISP in return-------> list index out of range
+ERROR:root:--------- Hugging Chat API Result Parsing Error Completed ----------
+ERROR:root:{'error_number': 10, 'error': 'There is a value error where keywords have to start with a colon ":". For example, ":requirements", ":predicates", ":action", ":parameters", ":precondition" and ":effect" are valid keywords.'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:=========== CHAT COUNT ==========>> 7
+ERROR:root:======== LENGTH OF QUERY TEXT : 16 ==========
+ERROR:root: Sure, here's the corrected PDDL code:
+```ruby
+(define (domain robots-with-grippers)
+  ;; Define requirements
+  (:requirements :strips :typing)
+ERROR:root:======== LENGTH OF QUERY TEXT : 182 ==========
+ERROR:root:=========================================================================================
+ERROR:root:ID:663023e8c7bd25397f4616b0, MODEL:mistralai/Mixtral-8x7B-Instruct-v0.1
+ERROR:root:=========================================================================================
+ERROR:root:-------------- Hugging Chat API Result Parsing_Error ---------------
+ERROR:root:---- No word PDDL in return -----> list index out of range
+ERROR:root:----No word LISP in return-------> list index out of range
+ERROR:root:--------- Hugging Chat API Result Parsing Error Completed ----------
+ERROR:root:{'error_number': 10, 'error': 'There is a value error where keywords have to start with a colon ":". For example, ":requirements", ":predicates", ":action", ":parameters", ":precondition" and ":effect" are valid keywords.'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:=========== CHAT COUNT ==========>> 8
+ERROR:root:======== LENGTH OF QUERY TEXT : 20 ==========
+ERROR:root: Sure, here's the corrected PDDL code in a code block:
+```pddl
+(define (domain robots-with-grippers)
+  ;; Define requirements
+  (:requirements :strips :typing)
+ERROR:root:======== LENGTH OF QUERY TEXT : 187 ==========
+ERROR:root:=========================================================================================
+ERROR:root:ID:6630241f6e1bdf290e1399d1, MODEL:mistralai/Mixtral-8x7B-Instruct-v0.1
+ERROR:root:=========================================================================================
+ERROR:root:-------------- Hugging Chat API Result Parsing_Error ---------------
+ERROR:root:---- No word PDDL in return -----> list index out of range
+ERROR:root:----No word LISP in return-------> list index out of range
+ERROR:root:--------- Hugging Chat API Result Parsing Error Completed ----------
+ERROR:root:{'error_number': 10, 'error': 'There is a value error where keywords have to start with a colon ":". For example, ":requirements", ":predicates", ":action", ":parameters", ":precondition" and ":effect" are valid keywords.'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:=========== CHAT COUNT ==========>> 9
+ERROR:root:======== LENGTH OF QUERY TEXT : 181 ==========
+ERROR:root:=========================================================================================
+ERROR:root:ID:6630244e391e765c329662cf, MODEL:mistralai/Mixtral-8x7B-Instruct-v0.1
+ERROR:root:=========================================================================================
+ERROR:root:-------------- Hugging Chat API Result Parsing_Error ---------------
+ERROR:root:---- No word PDDL in return -----> list index out of range
+ERROR:root:----No word LISP in return-------> list index out of range
+ERROR:root:--------- Hugging Chat API Result Parsing Error Completed ----------
+ERROR:root:{'error_number': 35, 'error': "There is a semantic error where unknown type 'ball' is used in predicate definition."}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:=========== CHAT COUNT ==========>> 10
+ERROR:root:======== LENGTH OF QUERY TEXT : 262 ==========
+ERROR:root:=========================================================================================
+ERROR:root:ID:6630246b2677859698a976e4, MODEL:mistralai/Mixtral-8x7B-Instruct-v0.1
+ERROR:root:=========================================================================================
+ERROR:root:-------------- Hugging Chat API Result Parsing_Error ---------------
+ERROR:root:---- No word PDDL in return -----> list index out of range
+ERROR:root:----No word LISP in return-------> list index out of range
+ERROR:root:--------- Hugging Chat API Result Parsing Error Completed ----------
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code. Got unexpected token: (.'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:=========== CHAT COUNT ==========>> 11
+ERROR:root:======== LENGTH OF QUERY TEXT : 178 ==========
+ERROR:root:=========================================================================================
+ERROR:root:ID:6630248a8a6ec449b99beb4f, MODEL:mistralai/Mixtral-8x7B-Instruct-v0.1
+ERROR:root:=========================================================================================
+ERROR:root:-------------- Hugging Chat API Result Parsing_Error ---------------
+ERROR:root:---- No word PDDL in return -----> list index out of range
+ERROR:root:----No word LISP in return-------> list index out of range
+ERROR:root:--------- Hugging Chat API Result Parsing Error Completed ----------
+ERROR:root:{'error_number': 22, 'error': "There is a value error on finding unknown keyword in domain definition: 'functions'. Valid keywords in definition are 'requirements', 'types', 'predicates', 'constants' and 'action'. Remove the keyword 'functions' from definition, keep the rest of code the same."}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:=========== CHAT COUNT ==========>> 12
+ERROR:root:======== LENGTH OF QUERY TEXT : 256 ==========
+ERROR:root:=========================================================================================
+ERROR:root:ID:663024a7c7bd25397f4616f1, MODEL:mistralai/Mixtral-8x7B-Instruct-v0.1
+ERROR:root:=========================================================================================
+ERROR:root:-------------- Hugging Chat API Result Parsing_Error ---------------
+ERROR:root:---- No word PDDL in return -----> list index out of range
+ERROR:root:----No word LISP in return-------> list index out of range
+ERROR:root:--------- Hugging Chat API Result Parsing Error Completed ----------
+ERROR:root:{'error_number': 35, 'error': "There is a semantic error where unknown type 'ball' is used in predicate definition."}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:=========== CHAT COUNT ==========>> 13
+ERROR:root:======== LENGTH OF QUERY TEXT : 246 ==========
+ERROR:root:=========================================================================================
+ERROR:root:ID:663024c72677859698a976f7, MODEL:mistralai/Mixtral-8x7B-Instruct-v0.1
+ERROR:root:=========================================================================================
+ERROR:root:-------------- Hugging Chat API Result Parsing_Error ---------------
+ERROR:root:---- No word PDDL in return -----> list index out of range
+ERROR:root:----No word LISP in return-------> list index out of range
+ERROR:root:--------- Hugging Chat API Result Parsing Error Completed ----------
+ERROR:root:{'error_number': 38, 'error': "There is a semantic error where unknown predicate 'not' used in precondition of action name 'pick-up'. Remove negative literals from the precondition of the action having it and rewrite that action only."}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:=========== CHAT COUNT ==========>> 14
+ERROR:root:======== LENGTH OF QUERY TEXT : 219 ==========
+ERROR:root:=========================================================================================
+ERROR:root:ID:663024e634a6115a32f28404, MODEL:mistralai/Mixtral-8x7B-Instruct-v0.1
+ERROR:root:=========================================================================================
+ERROR:root:-------------- Hugging Chat API Result Parsing_Error ---------------
+ERROR:root:---- No word PDDL in return -----> list index out of range
+ERROR:root:----No word LISP in return-------> list index out of range
+ERROR:root:--------- Hugging Chat API Result Parsing Error Completed ----------
+ERROR:root:{'error_number': 38, 'error': "There is a semantic error where unknown predicate 'not' used in precondition of action name 'pick-up'. Remove negative literals from the precondition of the action having it and rewrite that action only."}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:=========== CHAT COUNT ==========>> 15
+ERROR:root:======== LENGTH OF QUERY TEXT : 216 ==========
+ERROR:root:=========================================================================================
+ERROR:root:ID:66302507b4c5e2d41835747e, MODEL:mistralai/Mixtral-8x7B-Instruct-v0.1
+ERROR:root:=========================================================================================
+ERROR:root:-------------- Hugging Chat API Result Parsing_Error ---------------
+ERROR:root:---- No word PDDL in return -----> list index out of range
+ERROR:root:----No word LISP in return-------> list index out of range
+ERROR:root:--------- Hugging Chat API Result Parsing Error Completed ----------
+ERROR:root:{'error_number': 38, 'error': "There is a semantic error where unknown predicate 'not' used in precondition of action name 'pick-up'. Remove negative literals from the precondition of the action having it and rewrite that action only."}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:=========== CHAT COUNT ==========>> 16
+ERROR:root:======== LENGTH OF QUERY TEXT : 211 ==========
+ERROR:root:=========================================================================================
+ERROR:root:ID:663025204703e01cbcdbcd3e, MODEL:mistralai/Mixtral-8x7B-Instruct-v0.1
+ERROR:root:=========================================================================================
+ERROR:root:-------------- Hugging Chat API Result Parsing_Error ---------------
+ERROR:root:---- No word PDDL in return -----> list index out of range
+ERROR:root:----No word LISP in return-------> list index out of range
+ERROR:root:--------- Hugging Chat API Result Parsing Error Completed ----------
+ERROR:root:{'error_number': 38, 'error': "There is a semantic error where unknown predicate 'not' used in precondition of action name 'pick-up'. Remove negative literals from the precondition of the action having it and rewrite that action only."}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:=========== CHAT COUNT ==========>> 17
+ERROR:root:======== LENGTH OF QUERY TEXT : 245 ==========
+ERROR:root:=========================================================================================
+ERROR:root:ID:66302542b4c5e2d418357490, MODEL:mistralai/Mixtral-8x7B-Instruct-v0.1
+ERROR:root:=========================================================================================
+ERROR:root:{'error_number': 38, 'error': "There is a semantic error where unknown predicate 'not' used in precondition of action name 'pick-up'. Remove negative literals from the precondition of the action having it and rewrite that action only."}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:=========== CHAT COUNT ==========>> 18
+ERROR:root:======== LENGTH OF QUERY TEXT : 231 ==========
+ERROR:root:=========================================================================================
+ERROR:root:ID:66302564c7bd25397f46172d, MODEL:mistralai/Mixtral-8x7B-Instruct-v0.1
+ERROR:root:=========================================================================================
+ERROR:root:-------------- Hugging Chat API Result Parsing_Error ---------------
+ERROR:root:---- No word PDDL in return -----> list index out of range
+ERROR:root:----No word LISP in return-------> list index out of range
+ERROR:root:--------- Hugging Chat API Result Parsing Error Completed ----------
+ERROR:root:{'error_number': 38, 'error': "There is a semantic error where unknown predicate 'not' used in precondition of action name 'pick-up'. Remove negative literals from the precondition of the action having it and rewrite that action only."}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:=========== CHAT COUNT ==========>> 19
+ERROR:root:======== LENGTH OF QUERY TEXT : 230 ==========
+ERROR:root:=========================================================================================
+ERROR:root:ID:663025878116c3d7e8fc89fe, MODEL:mistralai/Mixtral-8x7B-Instruct-v0.1
+ERROR:root:=========================================================================================
+ERROR:root:-------------- Hugging Chat API Result Parsing_Error ---------------
+ERROR:root:---- No word PDDL in return -----> list index out of range
+ERROR:root:----No word LISP in return-------> list index out of range
+ERROR:root:--------- Hugging Chat API Result Parsing Error Completed ----------
+ERROR:root:{'error_number': 38, 'error': "There is a semantic error where unknown predicate 'not' used in precondition of action name 'pick-up'. Remove negative literals from the precondition of the action having it and rewrite that action only."}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:=========== CHAT COUNT ==========>> 20
+ERROR:root:======== LENGTH OF QUERY TEXT : 170 ==========
+ERROR:root:=========================================================================================
+ERROR:root:ID:663025aa5213ec7f5de8d542, MODEL:mistralai/Mixtral-8x7B-Instruct-v0.1
+ERROR:root:=========================================================================================
+ERROR:root:{'error_number': 38, 'error': "There is a semantic error where unknown predicate 'not' used in precondition of action name 'pick-up'. Remove negative literals from the precondition of the action having it and rewrite that action only."}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:=========== CHAT COUNT ==========>> 21
+ERROR:root:======== LENGTH OF QUERY TEXT : 181 ==========
+ERROR:root:=========================================================================================
+ERROR:root:ID:663025c1b4c5e2d4183574bd, MODEL:mistralai/Mixtral-8x7B-Instruct-v0.1
+ERROR:root:=========================================================================================
+ERROR:root:-------------- Hugging Chat API Result Parsing_Error ---------------
+ERROR:root:---- No word PDDL in return -----> list index out of range
+ERROR:root:----No word LISP in return-------> list index out of range
+ERROR:root:--------- Hugging Chat API Result Parsing Error Completed ----------
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code. Got unexpected token: (.'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:=========== CHAT COUNT ==========>> 22
+ERROR:root:======== LENGTH OF QUERY TEXT : 221 ==========
+ERROR:root:=========================================================================================
+ERROR:root:ID:663025de391e765c32966358, MODEL:mistralai/Mixtral-8x7B-Instruct-v0.1
+ERROR:root:=========================================================================================
+ERROR:root:-------------- Hugging Chat API Result Parsing_Error ---------------
+ERROR:root:---- No word PDDL in return -----> list index out of range
+ERROR:root:----No word LISP in return-------> list index out of range
+ERROR:root:--------- Hugging Chat API Result Parsing Error Completed ----------
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code. Got unexpected token: (.'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:=========== CHAT COUNT ==========>> 23
+ERROR:root:======== LENGTH OF QUERY TEXT : 228 ==========
+ERROR:root:=========================================================================================
+ERROR:root:ID:663025fe8a6ec449b99bebee, MODEL:mistralai/Mixtral-8x7B-Instruct-v0.1
+ERROR:root:=========================================================================================
+ERROR:root:-------------- Hugging Chat API Result Parsing_Error ---------------
+ERROR:root:---- No word PDDL in return -----> list index out of range
+ERROR:root:----No word LISP in return-------> list index out of range
+ERROR:root:--------- Hugging Chat API Result Parsing Error Completed ----------
+ERROR:root:{'error_number': 38, 'error': "There is a semantic error where unknown predicate 'not' used in precondition of action name 'pick-up'. Remove negative literals from the precondition of the action having it and rewrite that action only."}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:=========== CHAT COUNT ==========>> 24
+ERROR:root:======== LENGTH OF QUERY TEXT : 222 ==========
+ERROR:root:=========================================================================================
+ERROR:root:ID:663026224703e01cbcdbcd9a, MODEL:mistralai/Mixtral-8x7B-Instruct-v0.1
+ERROR:root:=========================================================================================
+ERROR:root:-------------- Hugging Chat API Result Parsing_Error ---------------
+ERROR:root:---- No word PDDL in return -----> list index out of range
+ERROR:root:----No word LISP in return-------> list index out of range
+ERROR:root:--------- Hugging Chat API Result Parsing Error Completed ----------
+ERROR:root:{'error_number': 38, 'error': "There is a semantic error where unknown predicate 'not' used in precondition of action name 'pick-up'. Remove negative literals from the precondition of the action having it and rewrite that action only."}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:=========== CHAT COUNT ==========>> 25
+ERROR:root:======== LENGTH OF QUERY TEXT : 229 ==========
+ERROR:root:=========================================================================================
+ERROR:root:ID:6630264f8a6ec449b99bec14, MODEL:mistralai/Mixtral-8x7B-Instruct-v0.1
+ERROR:root:=========================================================================================
+ERROR:root:-------------- Hugging Chat API Result Parsing_Error ---------------
+ERROR:root:---- No word PDDL in return -----> list index out of range
+ERROR:root:----No word LISP in return-------> list index out of range
+ERROR:root:--------- Hugging Chat API Result Parsing Error Completed ----------
+ERROR:root:{'error_number': 38, 'error': "There is a semantic error where unknown predicate 'not' used in precondition of action name 'pick-up'. Remove negative literals from the precondition of the action having it and rewrite that action only."}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:=========== CHAT COUNT ==========>> 26
+ERROR:root:======== LENGTH OF QUERY TEXT : 224 ==========
+ERROR:root:=========================================================================================
+ERROR:root:ID:66302672bb8aaecc7c3fa693, MODEL:mistralai/Mixtral-8x7B-Instruct-v0.1
+ERROR:root:=========================================================================================
+ERROR:root:-------------- Hugging Chat API Result Parsing_Error ---------------
+ERROR:root:---- No word PDDL in return -----> list index out of range
+ERROR:root:----No word LISP in return-------> list index out of range
+ERROR:root:--------- Hugging Chat API Result Parsing Error Completed ----------
+ERROR:root:{'error_number': 38, 'error': "There is a semantic error where unknown predicate 'not' used in precondition of action name 'pick-up'. Remove negative literals from the precondition of the action having it and rewrite that action only."}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:=========== CHAT COUNT ==========>> 27
+ERROR:root:======== LENGTH OF QUERY TEXT : 0 ==========
+ERROR:root:
+ERROR:root:======== LENGTH OF QUERY TEXT : 221 ==========
+ERROR:root:=========================================================================================
+ERROR:root:ID:6630269d4703e01cbcdbcdc7, MODEL:mistralai/Mixtral-8x7B-Instruct-v0.1
+ERROR:root:=========================================================================================
+ERROR:root:-------------- Hugging Chat API Result Parsing_Error ---------------
+ERROR:root:---- No word PDDL in return -----> list index out of range
+ERROR:root:----No word LISP in return-------> list index out of range
+ERROR:root:--------- Hugging Chat API Result Parsing Error Completed ----------
+ERROR:root:Number of Types Parsed: 4
+ERROR:root:Types Parsed: dict_keys(['robot', 'gripper', 'location', 'object'])
+ERROR:root:Number of Predicates Parsed: 5
+ERROR:root:Predicates Parsed: dict_keys(['carrying', 'inroom', 'at', 'same-room', 'location-of'])
+ERROR:root:Number of Actions Parsed: 3
+ERROR:root:Actions Parsed: dict_keys(['pick-up', 'put-down', 'move'])
+ERROR:root:Number of Constants Parsed: 2
+ERROR:root:Constants Parsed: {'left-gripper': gripper, 'right-gripper': gripper}
+ERROR:root:Domain parsed successfully.
+ERROR:root:SUCCESS : 28

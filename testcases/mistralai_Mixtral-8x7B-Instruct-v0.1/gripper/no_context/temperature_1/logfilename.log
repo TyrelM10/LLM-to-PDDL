@@ -1,0 +1,149 @@
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://137.50.169.82:5000
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 118-440-111
+INFO:werkzeug:127.0.0.1 - - [30/Apr/2024 17:53:47] "GET / HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [30/Apr/2024 17:53:47] "[36mGET /static/index.css HTTP/1.1[0m" 304 -
+INFO:werkzeug:127.0.0.1 - - [30/Apr/2024 17:53:47] "[36mGET /static/images/UoA_Primary_Logo_RGB.png HTTP/1.1[0m" 304 -
+INFO:werkzeug:127.0.0.1 - - [30/Apr/2024 17:53:47] "[36mGET /static/images/favicon.png HTTP/1.1[0m" 304 -
+INFO:werkzeug:127.0.0.1 - - [30/Apr/2024 17:53:50] "[36mGET /static/images/favicon.png HTTP/1.1[0m" 304 -
+ERROR:root:======== LENGTH OF QUERY TEXT : 318 ==========
+ERROR:root:=========================================================================================
+ERROR:root:ID:6631221f2a155c96db625408, MODEL:mistralai/Mixtral-8x7B-Instruct-v0.1
+ERROR:root:=========================================================================================
+ERROR:root:-------------- Hugging Chat API Result Parsing_Error ---------------
+ERROR:root:---- No word PDDL in return -----> list index out of range
+ERROR:root:----No word LISP in return-------> list index out of range
+ERROR:root:--------- Hugging Chat API Result Parsing Error Completed ----------
+ERROR:root:{'error_number': 35, 'error': "There is a semantic error where unknown type 'gripper' is used in predicate definition."}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:=========== CHAT COUNT ==========>> 1
+ERROR:root:======== LENGTH OF QUERY TEXT : 301 ==========
+ERROR:root:=========================================================================================
+ERROR:root:ID:6631224b136e789c1bf8c8d0, MODEL:mistralai/Mixtral-8x7B-Instruct-v0.1
+ERROR:root:=========================================================================================
+ERROR:root:-------------- Hugging Chat API Result Parsing_Error ---------------
+ERROR:root:---- No word PDDL in return -----> list index out of range
+ERROR:root:----No word LISP in return-------> list index out of range
+ERROR:root:--------- Hugging Chat API Result Parsing Error Completed ----------
+ERROR:root:{'error_number': 36, 'error': "There is a semantic error where there are wrong number of arguments for predicate 'adjacent' in precondition of action 'putdown'."}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:=========== CHAT COUNT ==========>> 2
+ERROR:root:======== LENGTH OF QUERY TEXT : 338 ==========
+ERROR:root:=========================================================================================
+ERROR:root:ID:663122732a155c96db625432, MODEL:mistralai/Mixtral-8x7B-Instruct-v0.1
+ERROR:root:=========================================================================================
+ERROR:root:{'error_number': 41, 'error': "There is a semantic error where unknown predicate 'current-room' used in effect of action move. Please do not use 'current-room' and use existing predicates from the above code only. Please do not use any conditional expression in the code to remove this error."}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:=========== CHAT COUNT ==========>> 3
+ERROR:root:======== LENGTH OF QUERY TEXT : 356 ==========
+ERROR:root:=========================================================================================
+ERROR:root:ID:663122a4a2d5996605075cf4, MODEL:mistralai/Mixtral-8x7B-Instruct-v0.1
+ERROR:root:=========================================================================================
+ERROR:root:-------------- Hugging Chat API Result Parsing_Error ---------------
+ERROR:root:---- No word PDDL in return -----> list index out of range
+ERROR:root:----No word LISP in return-------> list index out of range
+ERROR:root:--------- Hugging Chat API Result Parsing Error Completed ----------
+ERROR:root:{'error_number': 22, 'error': "There is a value error on finding unknown keyword in domain definition: 'init'. Valid keywords in definition are 'requirements', 'types', 'predicates', 'constants' and 'action'. Remove the keyword 'init' from definition, keep the rest of code the same."}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:=========== CHAT COUNT ==========>> 4
+ERROR:root:======== LENGTH OF QUERY TEXT : 283 ==========
+ERROR:root:=========================================================================================
+ERROR:root:ID:663122dee4c5479522302dc8, MODEL:mistralai/Mixtral-8x7B-Instruct-v0.1
+ERROR:root:=========================================================================================
+ERROR:root:-------------- Hugging Chat API Result Parsing_Error ---------------
+ERROR:root:---- No word PDDL in return -----> list index out of range
+ERROR:root:----No word LISP in return-------> list index out of range
+ERROR:root:--------- Hugging Chat API Result Parsing Error Completed ----------
+ERROR:root:{'error_number': 22, 'error': "There is a value error on finding unknown keyword in domain definition: 'init'. Valid keywords in definition are 'requirements', 'types', 'predicates', 'constants' and 'action'. Remove the keyword 'init' from definition, keep the rest of code the same."}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:=========== CHAT COUNT ==========>> 5
+ERROR:root:======== LENGTH OF QUERY TEXT : 368 ==========
+ERROR:root:=========================================================================================
+ERROR:root:ID:6631230fe4c5479522302ddc, MODEL:mistralai/Mixtral-8x7B-Instruct-v0.1
+ERROR:root:=========================================================================================
+ERROR:root:-------------- Hugging Chat API Result Parsing_Error ---------------
+ERROR:root:---- No word PDDL in return -----> list index out of range
+ERROR:root:----No word LISP in return-------> list index out of range
+ERROR:root:---- No word Ruby in return-------> list index out of range
+ERROR:root:--------- Hugging Chat API Result Parsing Error Completed ----------
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code. Got unexpected token: (. The parenthesis is opened in the wrong position in the code. Please check the parenthesis.'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:=========== CHAT COUNT ==========>> 6
+ERROR:root:======== LENGTH OF QUERY TEXT : 273 ==========
+ERROR:root:=========================================================================================
+ERROR:root:ID:66312383dcbf94c862ca3910, MODEL:mistralai/Mixtral-8x7B-Instruct-v0.1
+ERROR:root:=========================================================================================
+ERROR:root:-------------- Hugging Chat API Result Parsing_Error ---------------
+ERROR:root:---- No word PDDL in return -----> list index out of range
+ERROR:root:----No word LISP in return-------> list index out of range
+ERROR:root:--------- Hugging Chat API Result Parsing Error Completed ----------
+ERROR:root:{'error_number': 41, 'error': "There is a semantic error where unknown predicate 'the-room' used in effect of action move. Please do not use 'the-room' and use existing predicates from the above code only. Please do not use any conditional expression in the code to remove this error."}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:=========== CHAT COUNT ==========>> 7
+ERROR:root:======== LENGTH OF QUERY TEXT : 470 ==========
+ERROR:root:=========================================================================================
+ERROR:root:ID:663123aeab2cb8538f10334a, MODEL:mistralai/Mixtral-8x7B-Instruct-v0.1
+ERROR:root:=========================================================================================
+ERROR:root:-------------- Hugging Chat API Result Parsing_Error ---------------
+ERROR:root:---- No word PDDL in return -----> list index out of range
+ERROR:root:----No word LISP in return-------> list index out of range
+ERROR:root:--------- Hugging Chat API Result Parsing Error Completed ----------
+ERROR:root:{'error_number': 22, 'error': "There is a value error on finding unknown keyword in domain definition: 'functions'. Valid keywords in definition are 'requirements', 'types', 'predicates', 'constants' and 'action'. Remove the keyword 'functions' from definition, keep the rest of code the same."}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:=========== CHAT COUNT ==========>> 8
+ERROR:root:======== LENGTH OF QUERY TEXT : 308 ==========
+ERROR:root:=========================================================================================
+ERROR:root:ID:663123edab2cb8538f10336d, MODEL:mistralai/Mixtral-8x7B-Instruct-v0.1
+ERROR:root:=========================================================================================
+ERROR:root:-------------- Hugging Chat API Result Parsing_Error ---------------
+ERROR:root:---- No word PDDL in return -----> list index out of range
+ERROR:root:----No word LISP in return-------> list index out of range
+ERROR:root:--------- Hugging Chat API Result Parsing Error Completed ----------
+ERROR:root:{'error_number': 22, 'error': "There is a value error on finding unknown keyword in domain definition: 'init'. Valid keywords in definition are 'requirements', 'types', 'predicates', 'constants' and 'action'. Remove the keyword 'init' from definition, keep the rest of code the same."}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:=========== CHAT COUNT ==========>> 9
+ERROR:root:======== LENGTH OF QUERY TEXT : 351 ==========
+ERROR:root:=========================================================================================
+ERROR:root:ID:6631241b352a25b0cff6b6a7, MODEL:mistralai/Mixtral-8x7B-Instruct-v0.1
+ERROR:root:=========================================================================================
+ERROR:root:-------------- Hugging Chat API Result Parsing_Error ---------------
+ERROR:root:---- No word PDDL in return -----> list index out of range
+ERROR:root:----No word LISP in return-------> list index out of range
+ERROR:root:--------- Hugging Chat API Result Parsing Error Completed ----------
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code. Got unexpected token: (. The parenthesis is opened in the wrong position in the code. Please check the parenthesis.'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:=========== CHAT COUNT ==========>> 10
+ERROR:root:======== LENGTH OF QUERY TEXT : 280 ==========
+ERROR:root:=========================================================================================
+ERROR:root:ID:66312452dcbf94c862ca398c, MODEL:mistralai/Mixtral-8x7B-Instruct-v0.1
+ERROR:root:=========================================================================================
+ERROR:root:-------------- Hugging Chat API Result Parsing_Error ---------------
+ERROR:root:---- No word PDDL in return -----> list index out of range
+ERROR:root:----No word LISP in return-------> list index out of range
+ERROR:root:--------- Hugging Chat API Result Parsing Error Completed ----------
+ERROR:root:{'error_number': 4, 'error': 'There was an error in parsing the code. Missing closing parenthesis. Please check the parenthesis.'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:=========== CHAT COUNT ==========>> 11
+ERROR:root:======== LENGTH OF QUERY TEXT : 314 ==========
+ERROR:root:=========================================================================================
+ERROR:root:ID:6631247e73bcbfa5c1b06d3e, MODEL:mistralai/Mixtral-8x7B-Instruct-v0.1
+ERROR:root:=========================================================================================
+ERROR:root:-------------- Hugging Chat API Result Parsing_Error ---------------
+ERROR:root:---- No word PDDL in return -----> list index out of range
+ERROR:root:----No word LISP in return-------> list index out of range
+ERROR:root:--------- Hugging Chat API Result Parsing Error Completed ----------
+ERROR:root:Number of Types Parsed: 4
+ERROR:root:Types Parsed: dict_keys(['robot', 'object', 'room', 'robot-room'])
+ERROR:root:Number of Predicates Parsed: 6
+ERROR:root:Predicates Parsed: dict_keys(['ball', 'inroom', 'free', 'carrying', 'at', 'adjacent'])
+ERROR:root:Number of Actions Parsed: 3
+ERROR:root:Actions Parsed: dict_keys(['pickup', 'putdown', 'move'])
+ERROR:root:Number of Constants Parsed: 7
+ERROR:root:Constants Parsed: {'left-gripper': object, 'right-gripper': object, 'room1': object, 'room2': object, 'room3': object, 'robot1': object, 'robot2': object}
+ERROR:root:Domain parsed successfully.
+ERROR:root:SUCCESS : 12

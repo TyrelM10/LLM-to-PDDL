@@ -1,0 +1,20 @@
+ERROR:root:Number of Types Parsed: 1
+ERROR:root:Types Parsed: dict_keys(['object'])
+ERROR:root:Number of Predicates Parsed: 3
+ERROR:root:Predicates Parsed: dict_keys(['on', 'ontable', 'clear'])
+ERROR:root:Number of Actions Parsed: 2
+ERROR:root:Actions Parsed: dict_keys(['move', 'move-to-table'])
+ERROR:root:Number of Constants Parsed: 0
+ERROR:root:Constants Parsed: {}
+ERROR:root:Domain parsed successfully.
+ERROR:root:Number of Types Parsed: 1
+ERROR:root:Types Parsed: dict_keys(['object'])
+ERROR:root:Number of Predicates Parsed: 3
+ERROR:root:Predicates Parsed: dict_keys(['on', 'ontable', 'clear'])
+ERROR:root:Number of Actions Parsed: 2
+ERROR:root:Actions Parsed: dict_keys(['move', 'move-to-table'])
+ERROR:root:Number of Constants Parsed: 0
+ERROR:root:Constants Parsed: {}
+ERROR:root:Number of Objects Parsed: 3
+ERROR:root:Objects Parsed: {'block1': object, 'block2': object, 'block3': object}
+ERROR:root:Action Path Sucessfully Found.

@@ -1,0 +1,54 @@
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://137.50.169.82:5000
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 118-440-111
+INFO:werkzeug:127.0.0.1 - - [30/Apr/2024 17:22:51] "GET / HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [30/Apr/2024 17:22:51] "[36mGET /static/index.css HTTP/1.1[0m" 304 -
+INFO:werkzeug:127.0.0.1 - - [30/Apr/2024 17:22:51] "[36mGET /static/images/UoA_Primary_Logo_RGB.png HTTP/1.1[0m" 304 -
+INFO:werkzeug:127.0.0.1 - - [30/Apr/2024 17:22:51] "[36mGET /static/images/favicon.png HTTP/1.1[0m" 304 -
+INFO:werkzeug:127.0.0.1 - - [30/Apr/2024 17:22:54] "[36mGET /static/images/favicon.png HTTP/1.1[0m" 304 -
+ERROR:root:======== LENGTH OF QUERY TEXT : 242 ==========
+ERROR:root:=========================================================================================
+ERROR:root:ID:66311adfb6761769d5d39217, MODEL:mistralai/Mixtral-8x7B-Instruct-v0.1
+ERROR:root:=========================================================================================
+ERROR:root:-------------- Hugging Chat API Result Parsing_Error ---------------
+ERROR:root:---- No word PDDL in return -----> list index out of range
+ERROR:root:----No word LISP in return-------> list index out of range
+ERROR:root:--------- Hugging Chat API Result Parsing Error Completed ----------
+ERROR:root:{'error_number': 38, 'error': "There is a semantic error where unknown predicate 'not' used in precondition statement of action name 'moveball'. Remove negative literals from the precondition statement of the action having it and replan that action only."}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:=========== CHAT COUNT ==========>> 1
+ERROR:root:======== LENGTH OF QUERY TEXT : 327 ==========
+ERROR:root:=========================================================================================
+ERROR:root:ID:66311afea2d5996605075915, MODEL:mistralai/Mixtral-8x7B-Instruct-v0.1
+ERROR:root:=========================================================================================
+ERROR:root:-------------- Hugging Chat API Result Parsing_Error ---------------
+ERROR:root:---- No word PDDL in return -----> list index out of range
+ERROR:root:----No word LISP in return-------> list index out of range
+ERROR:root:--------- Hugging Chat API Result Parsing Error Completed ----------
+ERROR:root:{'error_number': 38, 'error': "There is a semantic error where unknown predicate 'not' used in precondition statement of action name 'moveball_add'. Remove negative literals from the precondition statement of the action having it and replan that action only."}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:=========== CHAT COUNT ==========>> 2
+ERROR:root:======== LENGTH OF QUERY TEXT : 233 ==========
+ERROR:root:=========================================================================================
+ERROR:root:ID:66311b27315e7c5fb0b87246, MODEL:mistralai/Mixtral-8x7B-Instruct-v0.1
+ERROR:root:=========================================================================================
+ERROR:root:-------------- Hugging Chat API Result Parsing_Error ---------------
+ERROR:root:---- No word PDDL in return -----> list index out of range
+ERROR:root:----No word LISP in return-------> list index out of range
+ERROR:root:---- No word Ruby in return-------> list index out of range
+ERROR:root:--------- Hugging Chat API Result Parsing Error Completed ----------
+ERROR:root:Number of Types Parsed: 4
+ERROR:root:Types Parsed: dict_keys(['room', 'ball', 'gripper', 'object'])
+ERROR:root:Number of Predicates Parsed: 4
+ERROR:root:Predicates Parsed: dict_keys(['carrying', 'at', 'free', 'empty'])
+ERROR:root:Number of Actions Parsed: 4
+ERROR:root:Actions Parsed: dict_keys(['pickup', 'putdown', 'moveball_remove', 'moveball_add'])
+ERROR:root:Number of Constants Parsed: 0
+ERROR:root:Constants Parsed: {}
+ERROR:root:Domain parsed successfully.
+ERROR:root:SUCCESS : 3

@@ -1,0 +1,145 @@
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://137.50.171.68:5000
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 118-440-111
+INFO:werkzeug:127.0.0.1 - - [29/Apr/2024 23:22:02] "GET / HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Apr/2024 23:22:02] "[36mGET /static/images/UoA_Primary_Logo_RGB.png HTTP/1.1[0m" 304 -
+INFO:werkzeug:127.0.0.1 - - [29/Apr/2024 23:22:02] "[36mGET /static/index.css HTTP/1.1[0m" 304 -
+INFO:werkzeug:127.0.0.1 - - [29/Apr/2024 23:22:02] "[36mGET /static/images/favicon.png HTTP/1.1[0m" 304 -
+INFO:werkzeug:127.0.0.1 - - [29/Apr/2024 23:22:05] "[36mGET /static/images/favicon.png HTTP/1.1[0m" 304 -
+ERROR:root:======== LENGTH OF QUERY TEXT : 241 ==========
+ERROR:root:=========================================================================================
+ERROR:root:ID:66301d8e5436cfc79d3b0352, MODEL:mistralai/Mixtral-8x7B-Instruct-v0.1
+ERROR:root:=========================================================================================
+ERROR:root:{'error_number': 22, 'error': "There is a value error on finding unknown keyword in domain definition: 'predicate'. Valid keywords in definition are 'requirements', 'types', 'predicates', 'constants' and 'action'. Remove the keyword 'predicate' from definition, keep the rest of code the same."}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:=========== CHAT COUNT ==========>> 1
+ERROR:root:======== LENGTH OF QUERY TEXT : 147 ==========
+ERROR:root:=========================================================================================
+ERROR:root:ID:66301dac9b041b1088bd3dec, MODEL:mistralai/Mixtral-8x7B-Instruct-v0.1
+ERROR:root:=========================================================================================
+ERROR:root:-------------- Hugging Chat API Result Parsing_Error ---------------
+ERROR:root:---- No word PDDL in return -----> list index out of range
+ERROR:root:----No word LISP in return-------> list index out of range
+ERROR:root:--------- Hugging Chat API Result Parsing Error Completed ----------
+ERROR:root:{'error_number': 41, 'error': "There is a semantic error where unknown predicate 'on' used in effect of action stack. Please do not use 'on' and use existing predicates from the above code only. Please do not use any conditional expression in the code to remove this error."}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:=========== CHAT COUNT ==========>> 2
+ERROR:root:======== LENGTH OF QUERY TEXT : 328 ==========
+ERROR:root:=========================================================================================
+ERROR:root:ID:66301dc6b4c5e2d4183571a6, MODEL:mistralai/Mixtral-8x7B-Instruct-v0.1
+ERROR:root:=========================================================================================
+ERROR:root:-------------- Hugging Chat API Result Parsing_Error ---------------
+ERROR:root:---- No word PDDL in return -----> list index out of range
+ERROR:root:----No word LISP in return-------> list index out of range
+ERROR:root:---- No word Ruby in return-------> list index out of range
+ERROR:root:--------- Hugging Chat API Result Parsing Error Completed ----------
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code. Got unexpected token: (.'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:=========== CHAT COUNT ==========>> 3
+ERROR:root:======== LENGTH OF QUERY TEXT : 217 ==========
+ERROR:root:=========================================================================================
+ERROR:root:ID:66301dee9b041b1088bd3e09, MODEL:mistralai/Mixtral-8x7B-Instruct-v0.1
+ERROR:root:=========================================================================================
+ERROR:root:-------------- Hugging Chat API Result Parsing_Error ---------------
+ERROR:root:---- No word PDDL in return -----> list index out of range
+ERROR:root:----No word LISP in return-------> list index out of range
+ERROR:root:--------- Hugging Chat API Result Parsing Error Completed ----------
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code. Got unexpected token: (.'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:=========== CHAT COUNT ==========>> 4
+ERROR:root:======== LENGTH OF QUERY TEXT : 206 ==========
+ERROR:root:=========================================================================================
+ERROR:root:ID:66301e134703e01cbcdbcaa4, MODEL:mistralai/Mixtral-8x7B-Instruct-v0.1
+ERROR:root:=========================================================================================
+ERROR:root:-------------- Hugging Chat API Result Parsing_Error ---------------
+ERROR:root:---- No word PDDL in return -----> list index out of range
+ERROR:root:----No word LISP in return-------> list index out of range
+ERROR:root:--------- Hugging Chat API Result Parsing Error Completed ----------
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code. Got unexpected token: (.'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:=========== CHAT COUNT ==========>> 5
+ERROR:root:======== LENGTH OF QUERY TEXT : 239 ==========
+ERROR:root:=========================================================================================
+ERROR:root:ID:66301e31691f1bad3cc01a7f, MODEL:mistralai/Mixtral-8x7B-Instruct-v0.1
+ERROR:root:=========================================================================================
+ERROR:root:-------------- Hugging Chat API Result Parsing_Error ---------------
+ERROR:root:---- No word PDDL in return -----> list index out of range
+ERROR:root:----No word LISP in return-------> list index out of range
+ERROR:root:--------- Hugging Chat API Result Parsing Error Completed ----------
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code. Got unexpected token: (.'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:=========== CHAT COUNT ==========>> 6
+ERROR:root:======== LENGTH OF QUERY TEXT : 228 ==========
+ERROR:root:=========================================================================================
+ERROR:root:ID:66301e53bb8aaecc7c3fa3ab, MODEL:mistralai/Mixtral-8x7B-Instruct-v0.1
+ERROR:root:=========================================================================================
+ERROR:root:-------------- Hugging Chat API Result Parsing_Error ---------------
+ERROR:root:---- No word PDDL in return -----> list index out of range
+ERROR:root:----No word LISP in return-------> list index out of range
+ERROR:root:--------- Hugging Chat API Result Parsing Error Completed ----------
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code. Got unexpected token: (.'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:=========== CHAT COUNT ==========>> 7
+ERROR:root:======== LENGTH OF QUERY TEXT : 222 ==========
+ERROR:root:=========================================================================================
+ERROR:root:ID:66301e74bb8aaecc7c3fa3b7, MODEL:mistralai/Mixtral-8x7B-Instruct-v0.1
+ERROR:root:=========================================================================================
+ERROR:root:-------------- Hugging Chat API Result Parsing_Error ---------------
+ERROR:root:---- No word PDDL in return -----> list index out of range
+ERROR:root:----No word LISP in return-------> list index out of range
+ERROR:root:--------- Hugging Chat API Result Parsing Error Completed ----------
+ERROR:root:{'error_number': 22, 'error': "There is a value error on finding unknown keyword in domain definition: ':types'. Valid keywords in definition are 'requirements', 'types', 'predicates', 'constants' and 'action'. Remove the keyword ':types' from definition, keep the rest of code the same."}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:=========== CHAT COUNT ==========>> 8
+ERROR:root:======== LENGTH OF QUERY TEXT : 183 ==========
+ERROR:root:=========================================================================================
+ERROR:root:ID:66301e935213ec7f5de8d2a4, MODEL:mistralai/Mixtral-8x7B-Instruct-v0.1
+ERROR:root:=========================================================================================
+ERROR:root:-------------- Hugging Chat API Result Parsing_Error ---------------
+ERROR:root:---- No word PDDL in return -----> list index out of range
+ERROR:root:----No word LISP in return-------> list index out of range
+ERROR:root:--------- Hugging Chat API Result Parsing Error Completed ----------
+ERROR:root:{'error_number': 22, 'error': "There is a value error on finding unknown keyword in domain definition: ':predicates'. Valid keywords in definition are 'requirements', 'types', 'predicates', 'constants' and 'action'. Remove the keyword ':predicates' from definition, keep the rest of code the same."}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:=========== CHAT COUNT ==========>> 9
+ERROR:root:======== LENGTH OF QUERY TEXT : 192 ==========
+ERROR:root:=========================================================================================
+ERROR:root:ID:66301eb54703e01cbcdbcadb, MODEL:mistralai/Mixtral-8x7B-Instruct-v0.1
+ERROR:root:=========================================================================================
+ERROR:root:-------------- Hugging Chat API Result Parsing_Error ---------------
+ERROR:root:---- No word PDDL in return -----> list index out of range
+ERROR:root:----No word LISP in return-------> list index out of range
+ERROR:root:--------- Hugging Chat API Result Parsing Error Completed ----------
+ERROR:root:{'error_number': 10, 'error': 'There is a value error where keywords have to start with a colon ":". For example, ":requirements", ":predicates", ":action", ":parameters", ":precondition" and ":effect" are valid keywords.'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:=========== CHAT COUNT ==========>> 10
+ERROR:root:======== LENGTH OF QUERY TEXT : 209 ==========
+ERROR:root:=========================================================================================
+ERROR:root:ID:66301ed7b4c5e2d418357209, MODEL:mistralai/Mixtral-8x7B-Instruct-v0.1
+ERROR:root:=========================================================================================
+ERROR:root:{'error_number': 18, 'error': 'There is a value error where Predicate Statement must start with ":precondition" keyword and not ":typeopen."'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:=========== CHAT COUNT ==========>> 11
+ERROR:root:======== LENGTH OF QUERY TEXT : 200 ==========
+ERROR:root:=========================================================================================
+ERROR:root:ID:66301ef9c7bd25397f4614c0, MODEL:mistralai/Mixtral-8x7B-Instruct-v0.1
+ERROR:root:=========================================================================================
+ERROR:root:-------------- Hugging Chat API Result Parsing_Error ---------------
+ERROR:root:---- No word PDDL in return -----> list index out of range
+ERROR:root:----No word LISP in return-------> list index out of range
+ERROR:root:--------- Hugging Chat API Result Parsing Error Completed ----------
+ERROR:root:Number of Types Parsed: 2
+ERROR:root:Types Parsed: dict_keys(['block', 'object'])
+ERROR:root:Number of Predicates Parsed: 6
+ERROR:root:Predicates Parsed: dict_keys(['clear', 'ontable', 'handempty', 'holding', 'on-table', 'on'])
+ERROR:root:Number of Actions Parsed: 5
+ERROR:root:Actions Parsed: dict_keys(['pick-up', 'put-down', 'stack', 'unstack', 'place'])
+ERROR:root:Number of Constants Parsed: 0
+ERROR:root:Constants Parsed: {}
+ERROR:root:Domain parsed successfully.
+ERROR:root:SUCCESS : 12

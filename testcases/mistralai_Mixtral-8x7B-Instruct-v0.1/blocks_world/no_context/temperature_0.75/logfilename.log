@@ -1,0 +1,129 @@
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://137.50.171.68:5000
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 118-440-111
+INFO:werkzeug:127.0.0.1 - - [29/Apr/2024 23:05:50] "GET / HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Apr/2024 23:05:50] "[36mGET /static/index.css HTTP/1.1[0m" 304 -
+INFO:werkzeug:127.0.0.1 - - [29/Apr/2024 23:05:50] "[36mGET /static/images/UoA_Primary_Logo_RGB.png HTTP/1.1[0m" 304 -
+INFO:werkzeug:127.0.0.1 - - [29/Apr/2024 23:05:50] "[36mGET /static/images/favicon.png HTTP/1.1[0m" 304 -
+INFO:werkzeug:127.0.0.1 - - [29/Apr/2024 23:05:53] "[36mGET /static/images/favicon.png HTTP/1.1[0m" 304 -
+ERROR:root:======== LENGTH OF QUERY TEXT : 271 ==========
+ERROR:root:=========================================================================================
+ERROR:root:ID:663019c2c7bd25397f461296, MODEL:mistralai/Mixtral-8x7B-Instruct-v0.1
+ERROR:root:=========================================================================================
+ERROR:root:-------------- Hugging Chat API Result Parsing_Error ---------------
+ERROR:root:---- No word PDDL in return -----> list index out of range
+ERROR:root:----No word LISP in return-------> list index out of range
+ERROR:root:--------- Hugging Chat API Result Parsing Error Completed ----------
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code. Got unexpected token: (.'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:=========== CHAT COUNT ==========>> 1
+ERROR:root:======== LENGTH OF QUERY TEXT : 178 ==========
+ERROR:root:=========================================================================================
+ERROR:root:ID:663019deb4c5e2d41835702e, MODEL:mistralai/Mixtral-8x7B-Instruct-v0.1
+ERROR:root:=========================================================================================
+ERROR:root:-------------- Hugging Chat API Result Parsing_Error ---------------
+ERROR:root:---- No word PDDL in return -----> list index out of range
+ERROR:root:----No word LISP in return-------> list index out of range
+ERROR:root:--------- Hugging Chat API Result Parsing Error Completed ----------
+ERROR:root:{'error_number': 1, 'error': 'There was an error in parsing the code for something that is not a structure'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:=========== CHAT COUNT ==========>> 2
+ERROR:root:======== LENGTH OF QUERY TEXT : 166 ==========
+ERROR:root:=========================================================================================
+ERROR:root:ID:663019ff8a6ec449b99be744, MODEL:mistralai/Mixtral-8x7B-Instruct-v0.1
+ERROR:root:=========================================================================================
+ERROR:root:{'error_number': 1, 'error': 'There was an error in parsing the code for something that is not a structure'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:=========== CHAT COUNT ==========>> 3
+ERROR:root:======== LENGTH OF QUERY TEXT : 154 ==========
+ERROR:root:=========================================================================================
+ERROR:root:ID:66301a198a6ec449b99be753, MODEL:mistralai/Mixtral-8x7B-Instruct-v0.1
+ERROR:root:=========================================================================================
+ERROR:root:-------------- Hugging Chat API Result Parsing_Error ---------------
+ERROR:root:---- No word PDDL in return -----> list index out of range
+ERROR:root:----No word LISP in return-------> list index out of range
+ERROR:root:--------- Hugging Chat API Result Parsing Error Completed ----------
+ERROR:root:{'error_number': 1, 'error': 'There was an error in parsing the code for something that is not a structure'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:=========== CHAT COUNT ==========>> 4
+ERROR:root:======== LENGTH OF QUERY TEXT : 166 ==========
+ERROR:root:=========================================================================================
+ERROR:root:ID:66301a33bb8aaecc7c3fa1ee, MODEL:mistralai/Mixtral-8x7B-Instruct-v0.1
+ERROR:root:=========================================================================================
+ERROR:root:{'error_number': 1, 'error': 'There was an error in parsing the code for something that is not a structure'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:=========== CHAT COUNT ==========>> 5
+ERROR:root:======== LENGTH OF QUERY TEXT : 156 ==========
+ERROR:root:=========================================================================================
+ERROR:root:ID:66301a555213ec7f5de8d0ed, MODEL:mistralai/Mixtral-8x7B-Instruct-v0.1
+ERROR:root:=========================================================================================
+ERROR:root:{'error_number': 16, 'error': 'There is a value error where domain statement must be present before domain name!'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:=========== CHAT COUNT ==========>> 6
+ERROR:root:======== LENGTH OF QUERY TEXT : 132 ==========
+ERROR:root:=========================================================================================
+ERROR:root:ID:66301a7034a6115a32f28022, MODEL:mistralai/Mixtral-8x7B-Instruct-v0.1
+ERROR:root:=========================================================================================
+ERROR:root:-------------- Hugging Chat API Result Parsing_Error ---------------
+ERROR:root:---- No word PDDL in return -----> list index out of range
+ERROR:root:----No word LISP in return-------> list index out of range
+ERROR:root:--------- Hugging Chat API Result Parsing Error Completed ----------
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code. Got unexpected token: ).'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:=========== CHAT COUNT ==========>> 7
+ERROR:root:======== LENGTH OF QUERY TEXT : 152 ==========
+ERROR:root:=========================================================================================
+ERROR:root:ID:66301a886e1bdf290e139634, MODEL:mistralai/Mixtral-8x7B-Instruct-v0.1
+ERROR:root:=========================================================================================
+ERROR:root:-------------- Hugging Chat API Result Parsing_Error ---------------
+ERROR:root:---- No word PDDL in return -----> list index out of range
+ERROR:root:----No word LISP in return-------> list index out of range
+ERROR:root:--------- Hugging Chat API Result Parsing Error Completed ----------
+ERROR:root:{'error_number': 4, 'error': 'There was an error in parsing the code. Missing closing parenthesis. Please check the parenthesis.'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:=========== CHAT COUNT ==========>> 8
+ERROR:root:======== LENGTH OF QUERY TEXT : 136 ==========
+ERROR:root:=========================================================================================
+ERROR:root:ID:66301aa39b041b1088bd3cc5, MODEL:mistralai/Mixtral-8x7B-Instruct-v0.1
+ERROR:root:=========================================================================================
+ERROR:root:-------------- Hugging Chat API Result Parsing_Error ---------------
+ERROR:root:---- No word PDDL in return -----> list index out of range
+ERROR:root:----No word LISP in return-------> list index out of range
+ERROR:root:--------- Hugging Chat API Result Parsing Error Completed ----------
+ERROR:root:{'error_number': 52, 'error': 'Regenerate the code as received an attribute error where there is NoneType object.'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:=========== CHAT COUNT ==========>> 9
+ERROR:root:======== LENGTH OF QUERY TEXT : 185 ==========
+ERROR:root:=========================================================================================
+ERROR:root:ID:66301abcc7bd25397f4612f6, MODEL:mistralai/Mixtral-8x7B-Instruct-v0.1
+ERROR:root:=========================================================================================
+ERROR:root:-------------- Hugging Chat API Result Parsing_Error ---------------
+ERROR:root:---- No word PDDL in return -----> list index out of range
+ERROR:root:----No word LISP in return-------> list index out of range
+ERROR:root:--------- Hugging Chat API Result Parsing Error Completed ----------
+ERROR:root:{'error_number': 4, 'error': 'There was an error in parsing the code. Missing closing parenthesis. Please check the parenthesis.'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:=========== CHAT COUNT ==========>> 10
+ERROR:root:======== LENGTH OF QUERY TEXT : 137 ==========
+ERROR:root:=========================================================================================
+ERROR:root:ID:66301adbbb8aaecc7c3fa22f, MODEL:mistralai/Mixtral-8x7B-Instruct-v0.1
+ERROR:root:=========================================================================================
+ERROR:root:-------------- Hugging Chat API Result Parsing_Error ---------------
+ERROR:root:---- No word PDDL in return -----> list index out of range
+ERROR:root:----No word LISP in return-------> list index out of range
+ERROR:root:--------- Hugging Chat API Result Parsing Error Completed ----------
+ERROR:root:Number of Types Parsed: 2
+ERROR:root:Types Parsed: dict_keys(['block', 'object'])
+ERROR:root:Number of Predicates Parsed: 5
+ERROR:root:Predicates Parsed: dict_keys(['ontable', 'clear', 'on', 'handempty', 'holding'])
+ERROR:root:Number of Actions Parsed: 4
+ERROR:root:Actions Parsed: dict_keys(['pick-up', 'put-down', 'stack', 'unstack'])
+ERROR:root:Number of Constants Parsed: 0
+ERROR:root:Constants Parsed: {}
+ERROR:root:Domain parsed successfully.
+ERROR:root:SUCCESS : 11

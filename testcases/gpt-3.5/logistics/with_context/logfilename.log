@@ -1,0 +1,3 @@
+ERROR:root:{'error_number': 30, 'error': 'There is a semantic error of unknown parent type: place'}
+ERROR:root:{'error_number': 30, 'error': 'There is a semantic error of unknown parent type: vehicle'}
+ERROR:root:Domain parsed successfully.

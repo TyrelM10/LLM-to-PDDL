@@ -1,0 +1,62 @@
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://137.50.171.252:5000
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 118-440-111
+INFO:werkzeug:127.0.0.1 - - [01/May/2024 23:50:26] "GET / HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [01/May/2024 23:50:26] "[36mGET /static/index.css HTTP/1.1[0m" 304 -
+INFO:werkzeug:127.0.0.1 - - [01/May/2024 23:50:26] "[36mGET /static/images/UoA_Primary_Logo_RGB.png HTTP/1.1[0m" 304 -
+INFO:werkzeug:127.0.0.1 - - [01/May/2024 23:50:26] "[36mGET /static/images/favicon.png HTTP/1.1[0m" 304 -
+INFO:werkzeug:127.0.0.1 - - [01/May/2024 23:50:31] "[36mGET /static/images/favicon.png HTTP/1.1[0m" 304 -
+ERROR:root:======== LENGTH OF QUERY TEXT : 0 ==========
+ERROR:root:
+ERROR:root:======== LENGTH OF QUERY TEXT : 401 ==========
+ERROR:root:=========================================================================================
+ERROR:root:ID:6632c737d906b0a12e9477be, MODEL:mistralai/Mixtral-8x7B-Instruct-v0.1
+ERROR:root:=========================================================================================
+ERROR:root:{'error_number': 35, 'error': "There is a semantic error where unknown type 'tray' is used in predicate definition."}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:=========== CHAT COUNT ==========>> 1
+ERROR:root:======== LENGTH OF QUERY TEXT : 421 ==========
+ERROR:root:=========================================================================================
+ERROR:root:ID:6632c77551dec74af072205b, MODEL:mistralai/Mixtral-8x7B-Instruct-v0.1
+ERROR:root:=========================================================================================
+ERROR:root:-------------- Hugging Chat API Result Parsing_Error ---------------
+ERROR:root:---- No word PDDL in return -----> list index out of range
+ERROR:root:----No word LISP in return-------> list index out of range
+ERROR:root:--------- Hugging Chat API Result Parsing Error Completed ----------
+ERROR:root:{'error_number': 35, 'error': "There is a semantic error where unknown type 'tray' is used in predicate definition."}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:=========== CHAT COUNT ==========>> 2
+ERROR:root:======== LENGTH OF QUERY TEXT : 452 ==========
+ERROR:root:=========================================================================================
+ERROR:root:ID:6632c7b651dec74af0722082, MODEL:mistralai/Mixtral-8x7B-Instruct-v0.1
+ERROR:root:=========================================================================================
+ERROR:root:-------------- Hugging Chat API Result Parsing_Error ---------------
+ERROR:root:---- No word PDDL in return -----> list index out of range
+ERROR:root:----No word LISP in return-------> list index out of range
+ERROR:root:--------- Hugging Chat API Result Parsing Error Completed ----------
+ERROR:root:{'error_number': 35, 'error': "There is a semantic error where unknown type 'vehicle' is used in predicate definition."}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:=========== CHAT COUNT ==========>> 3
+ERROR:root:======== LENGTH OF QUERY TEXT : 479 ==========
+ERROR:root:=========================================================================================
+ERROR:root:ID:6632c7f646d5903f2f8814d1, MODEL:mistralai/Mixtral-8x7B-Instruct-v0.1
+ERROR:root:=========================================================================================
+ERROR:root:-------------- Hugging Chat API Result Parsing_Error ---------------
+ERROR:root:---- No word PDDL in return -----> list index out of range
+ERROR:root:----No word LISP in return-------> list index out of range
+ERROR:root:--------- Hugging Chat API Result Parsing Error Completed ----------
+ERROR:root:Number of Types Parsed: 6
+ERROR:root:Types Parsed: dict_keys(['crate', 'truck', 'pallet', 'hoist', 'location', 'object'])
+ERROR:root:Number of Predicates Parsed: 5
+ERROR:root:Predicates Parsed: dict_keys(['on', 'holding', 'clear', 'at-truck', 'at-hoist'])
+ERROR:root:Number of Actions Parsed: 7
+ERROR:root:Actions Parsed: dict_keys(['pick-up-crate', 'put-down-crate', 'move-truck', 'load-crate-onto-truck', 'unload-crate-from-truck', 'lift-with-hoist', 'lower-with-hoist'])
+ERROR:root:Number of Constants Parsed: 12
+ERROR:root:Constants Parsed: {'loc1': location, 'loc2': location, 'hoist1': hoist, 'hoist2': hoist, 'palleta': pallet, 'palletb': pallet, 'truck1': truck, 'truck2': truck, 'crate1': crate, 'crate2': crate, 'crate3': crate, 'crate4': crate}
+ERROR:root:Domain parsed successfully.
+ERROR:root:SUCCESS : 4

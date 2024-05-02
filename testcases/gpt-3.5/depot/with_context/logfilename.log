@@ -1,0 +1,5 @@
+ERROR:root:{'error_number': 36, 'error': "There is a semantic error where there are wrong number of arguments for predicate 'at' in precondition of action."}
+ERROR:root:Domain parsed successfully.
+ERROR:root:Action Path Sucessfully Found.
+ERROR:root:{'error_number': 1, 'error': 'There was an error in parsing the code for expected to be at end'}
+ERROR:root:Action Path Sucessfully Found.

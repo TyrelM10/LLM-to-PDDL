@@ -1,0 +1,249 @@
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://137.50.168.110:5000
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 118-440-111
+INFO:werkzeug:127.0.0.1 - - [27/Apr/2024 16:39:25] "GET / HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [27/Apr/2024 16:39:25] "[36mGET /static/index.css HTTP/1.1[0m" 304 -
+INFO:werkzeug:127.0.0.1 - - [27/Apr/2024 16:39:25] "[36mGET /static/images/UoA_Primary_Logo_RGB.png HTTP/1.1[0m" 304 -
+INFO:werkzeug:127.0.0.1 - - [27/Apr/2024 16:39:25] "[36mGET /static/images/favicon.png HTTP/1.1[0m" 304 -
+INFO:werkzeug:127.0.0.1 - - [27/Apr/2024 16:39:32] "[36mGET /static/images/favicon.png HTTP/1.1[0m" 304 -
+ERROR:root:=========================================================================================
+ERROR:root:ID:662d1c351ca01a81e3c1e98b, TITLE:New Chat, MODEL:mistralai/Mixtral-8x7B-Instruct-v0.1
+ERROR:root:=========================================================================================
+ERROR:root:-------------- Hugging Chat API Result Parsing_Error ---------------
+ERROR:root:---- No word PDDL in return -----> list index out of range
+ERROR:root:----No word LISP in return-------> list index out of range
+ERROR:root:---- No word Ruby in return-------> list index out of range
+ERROR:root:--------- Hugging Chat API Result Parsing Error Completed ----------
+ERROR:root:{'error_number': 4, 'error': 'There was an error in parsing the code. Missing closing parenthesis'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:=========== CHAT COUNT ==========>> 1
+ERROR:root:=========================================================================================
+ERROR:root:ID:662d1c4d7a9da613fd805961, TITLE:New Chat, MODEL:mistralai/Mixtral-8x7B-Instruct-v0.1
+ERROR:root:=========================================================================================
+ERROR:root:-------------- Hugging Chat API Result Parsing_Error ---------------
+ERROR:root:---- No word PDDL in return -----> list index out of range
+ERROR:root:----No word LISP in return-------> list index out of range
+ERROR:root:---- No word Ruby in return-------> list index out of range
+ERROR:root:---- No word Less in return-------> list index out of range
+ERROR:root:---- No word PDDL in return-------> list index out of range
+ERROR:root:---- NO RESULT FOUND -------
+ERROR:root:------ LAST RESORT IN QUERY -------
+ERROR:root:--------- Hugging Chat API Result Parsing Error Completed ----------
+ERROR:root:{'error_number': 22, 'error': "There is a value error on finding unknown keyword in domain definition: 'function'. Remove the keyword 'function' from definition, keep the rest of code the same."}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:=========== CHAT COUNT ==========>> 2
+ERROR:root:=========================================================================================
+ERROR:root:ID:662d1c6b7a9da613fd805971, TITLE:New Chat, MODEL:mistralai/Mixtral-8x7B-Instruct-v0.1
+ERROR:root:=========================================================================================
+ERROR:root:-------------- Hugging Chat API Result Parsing_Error ---------------
+ERROR:root:---- No word PDDL in return -----> list index out of range
+ERROR:root:----No word LISP in return-------> list index out of range
+ERROR:root:---- No word Ruby in return-------> list index out of range
+ERROR:root:---- No word Less in return-------> list index out of range
+ERROR:root:---- No word PDDL in return-------> list index out of range
+ERROR:root:---- NO RESULT FOUND -------
+ERROR:root:------ LAST RESORT IN QUERY -------
+ERROR:root:--------- Hugging Chat API Result Parsing Error Completed ----------
+ERROR:root:{'error_number': 22, 'error': "There is a value error on finding unknown keyword in domain definition: 'requires'. Remove the keyword 'requires' from definition, keep the rest of code the same."}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:=========== CHAT COUNT ==========>> 3
+ERROR:root:=========================================================================================
+ERROR:root:ID:662d1c90fd2133041e0ec4e7, TITLE:New Chat, MODEL:mistralai/Mixtral-8x7B-Instruct-v0.1
+ERROR:root:=========================================================================================
+ERROR:root:-------------- Hugging Chat API Result Parsing_Error ---------------
+ERROR:root:---- No word PDDL in return -----> list index out of range
+ERROR:root:----No word LISP in return-------> list index out of range
+ERROR:root:---- No word Ruby in return-------> list index out of range
+ERROR:root:---- No word Less in return-------> list index out of range
+ERROR:root:---- No word PDDL in return-------> list index out of range
+ERROR:root:---- NO RESULT FOUND -------
+ERROR:root:------ LAST RESORT IN QUERY -------
+ERROR:root:--------- Hugging Chat API Result Parsing Error Completed ----------
+ERROR:root:{'error_number': 4, 'error': 'There was an error in parsing the code. Missing closing parenthesis'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:=========== CHAT COUNT ==========>> 4
+ERROR:root:=========================================================================================
+ERROR:root:ID:662d1ca5882fa6a2cf7f5de5, TITLE:New Chat, MODEL:mistralai/Mixtral-8x7B-Instruct-v0.1
+ERROR:root:=========================================================================================
+ERROR:root:-------------- Hugging Chat API Result Parsing_Error ---------------
+ERROR:root:---- No word PDDL in return -----> list index out of range
+ERROR:root:----No word LISP in return-------> list index out of range
+ERROR:root:---- No word Ruby in return-------> list index out of range
+ERROR:root:---- No word Less in return-------> list index out of range
+ERROR:root:---- No word PDDL in return-------> list index out of range
+ERROR:root:---- NO RESULT FOUND -------
+ERROR:root:------ LAST RESORT IN QUERY -------
+ERROR:root:--------- Hugging Chat API Result Parsing Error Completed ----------
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: ).'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:=========== CHAT COUNT ==========>> 5
+ERROR:root:=========================================================================================
+ERROR:root:ID:662d1cdb9b590d2f140ae09b, TITLE:New Chat, MODEL:mistralai/Mixtral-8x7B-Instruct-v0.1
+ERROR:root:=========================================================================================
+ERROR:root:-------------- Hugging Chat API Result Parsing_Error ---------------
+ERROR:root:---- No word PDDL in return -----> list index out of range
+ERROR:root:----No word LISP in return-------> list index out of range
+ERROR:root:---- No word Ruby in return-------> list index out of range
+ERROR:root:---- No word Less in return-------> list index out of range
+ERROR:root:---- No word PDDL in return-------> list index out of range
+ERROR:root:---- NO RESULT FOUND -------
+ERROR:root:------ LAST RESORT IN QUERY -------
+ERROR:root:--------- Hugging Chat API Result Parsing Error Completed ----------
+ERROR:root:{'error_number': 4, 'error': 'There was an error in parsing the code. Missing closing parenthesis'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:=========== CHAT COUNT ==========>> 6
+ERROR:root:=========================================================================================
+ERROR:root:ID:662d1cf01ca01a81e3c1e9cf, TITLE:New Chat, MODEL:mistralai/Mixtral-8x7B-Instruct-v0.1
+ERROR:root:=========================================================================================
+ERROR:root:-------------- Hugging Chat API Result Parsing_Error ---------------
+ERROR:root:---- No word PDDL in return -----> list index out of range
+ERROR:root:----No word LISP in return-------> list index out of range
+ERROR:root:---- No word Ruby in return-------> list index out of range
+ERROR:root:---- No word Less in return-------> list index out of range
+ERROR:root:---- No word PDDL in return-------> list index out of range
+ERROR:root:---- NO RESULT FOUND -------
+ERROR:root:------ LAST RESORT IN QUERY -------
+ERROR:root:--------- Hugging Chat API Result Parsing Error Completed ----------
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: (.'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:=========== CHAT COUNT ==========>> 7
+ERROR:root:=========================================================================================
+ERROR:root:ID:662d1d1428e809340cd3b797, TITLE:New Chat, MODEL:mistralai/Mixtral-8x7B-Instruct-v0.1
+ERROR:root:=========================================================================================
+ERROR:root:-------------- Hugging Chat API Result Parsing_Error ---------------
+ERROR:root:---- No word PDDL in return -----> list index out of range
+ERROR:root:----No word LISP in return-------> list index out of range
+ERROR:root:---- No word Ruby in return-------> list index out of range
+ERROR:root:---- No word Less in return-------> list index out of range
+ERROR:root:---- No word PDDL in return-------> list index out of range
+ERROR:root:---- NO RESULT FOUND -------
+ERROR:root:------ LAST RESORT IN QUERY -------
+ERROR:root:--------- Hugging Chat API Result Parsing Error Completed ----------
+ERROR:root:{'error_number': 38, 'error': "There is a semantic error where unknown predicate 'not' used in precondition of action. Remove 'not' from the precondition of all actions having it."}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:=========== CHAT COUNT ==========>> 8
+ERROR:root:=========================================================================================
+ERROR:root:ID:662d1d32882fa6a2cf7f5e24, TITLE:New Chat, MODEL:mistralai/Mixtral-8x7B-Instruct-v0.1
+ERROR:root:=========================================================================================
+ERROR:root:-------------- Hugging Chat API Result Parsing_Error ---------------
+ERROR:root:---- No word PDDL in return -----> list index out of range
+ERROR:root:----No word LISP in return-------> list index out of range
+ERROR:root:---- No word Ruby in return-------> list index out of range
+ERROR:root:---- No word Less in return-------> list index out of range
+ERROR:root:---- No word PDDL in return-------> list index out of range
+ERROR:root:---- NO RESULT FOUND -------
+ERROR:root:------ LAST RESORT IN QUERY -------
+ERROR:root:--------- Hugging Chat API Result Parsing Error Completed ----------
+ERROR:root:{'error_number': 38, 'error': "There is a semantic error where unknown predicate 'not' used in precondition of action. Remove 'not' from the precondition of all actions having it."}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:=========== CHAT COUNT ==========>> 9
+ERROR:root:=========================================================================================
+ERROR:root:ID:662d1d4b9b590d2f140ae0c5, TITLE:New Chat, MODEL:mistralai/Mixtral-8x7B-Instruct-v0.1
+ERROR:root:=========================================================================================
+ERROR:root:-------------- Hugging Chat API Result Parsing_Error ---------------
+ERROR:root:---- No word PDDL in return -----> list index out of range
+ERROR:root:----No word LISP in return-------> list index out of range
+ERROR:root:---- No word Ruby in return-------> list index out of range
+ERROR:root:---- No word Less in return-------> list index out of range
+ERROR:root:---- No word PDDL in return-------> list index out of range
+ERROR:root:---- NO RESULT FOUND -------
+ERROR:root:------ LAST RESORT IN QUERY -------
+ERROR:root:--------- Hugging Chat API Result Parsing Error Completed ----------
+ERROR:root:{'error_number': 38, 'error': "There is a semantic error where unknown predicate 'not' used in precondition of action. Remove 'not' from the precondition of all actions having it."}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:=========== CHAT COUNT ==========>> 10
+ERROR:root:=========================================================================================
+ERROR:root:ID:662d1d6c7a9da613fd8059d4, TITLE:New Chat, MODEL:mistralai/Mixtral-8x7B-Instruct-v0.1
+ERROR:root:=========================================================================================
+ERROR:root:-------------- Hugging Chat API Result Parsing_Error ---------------
+ERROR:root:---- No word PDDL in return -----> list index out of range
+ERROR:root:----No word LISP in return-------> list index out of range
+ERROR:root:---- No word Ruby in return-------> list index out of range
+ERROR:root:---- No word Less in return-------> list index out of range
+ERROR:root:---- No word PDDL in return-------> list index out of range
+ERROR:root:---- NO RESULT FOUND -------
+ERROR:root:------ LAST RESORT IN QUERY -------
+ERROR:root:--------- Hugging Chat API Result Parsing Error Completed ----------
+ERROR:root:{'error_number': 38, 'error': "There is a semantic error where unknown predicate 'not' used in precondition of action. Remove 'not' from the precondition of all actions having it."}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:=========== CHAT COUNT ==========>> 11
+ERROR:root:=========================================================================================
+ERROR:root:ID:662d1d8c882fa6a2cf7f5e5f, TITLE:New Chat, MODEL:mistralai/Mixtral-8x7B-Instruct-v0.1
+ERROR:root:=========================================================================================
+ERROR:root:-------------- Hugging Chat API Result Parsing_Error ---------------
+ERROR:root:---- No word PDDL in return -----> list index out of range
+ERROR:root:----No word LISP in return-------> list index out of range
+ERROR:root:---- No word Ruby in return-------> list index out of range
+ERROR:root:---- No word Less in return-------> list index out of range
+ERROR:root:---- No word PDDL in return-------> list index out of range
+ERROR:root:---- NO RESULT FOUND -------
+ERROR:root:------ LAST RESORT IN QUERY -------
+ERROR:root:--------- Hugging Chat API Result Parsing Error Completed ----------
+ERROR:root:{'error_number': 38, 'error': "There is a semantic error where unknown predicate 'not' used in precondition of action. Remove 'not' from the precondition of all actions having it."}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:=========== CHAT COUNT ==========>> 12
+ERROR:root:=========================================================================================
+ERROR:root:ID:662d1dab1ca01a81e3c1ea42, TITLE:New Chat, MODEL:mistralai/Mixtral-8x7B-Instruct-v0.1
+ERROR:root:=========================================================================================
+ERROR:root:-------------- Hugging Chat API Result Parsing_Error ---------------
+ERROR:root:---- No word PDDL in return -----> list index out of range
+ERROR:root:----No word LISP in return-------> list index out of range
+ERROR:root:---- No word Ruby in return-------> list index out of range
+ERROR:root:---- No word Less in return-------> list index out of range
+ERROR:root:---- No word PDDL in return-------> list index out of range
+ERROR:root:---- NO RESULT FOUND -------
+ERROR:root:------ LAST RESORT IN QUERY -------
+ERROR:root:--------- Hugging Chat API Result Parsing Error Completed ----------
+ERROR:root:{'error_number': 38, 'error': "There is a semantic error where unknown predicate 'not' used in precondition of action. Remove 'not' from the precondition of all actions having it."}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:=========== CHAT COUNT ==========>> 13
+ERROR:root:=========================================================================================
+ERROR:root:ID:662d1dc8fd2133041e0ec582, TITLE:New Chat, MODEL:mistralai/Mixtral-8x7B-Instruct-v0.1
+ERROR:root:=========================================================================================
+ERROR:root:-------------- Hugging Chat API Result Parsing_Error ---------------
+ERROR:root:---- No word PDDL in return -----> list index out of range
+ERROR:root:----No word LISP in return-------> list index out of range
+ERROR:root:---- No word Ruby in return-------> list index out of range
+ERROR:root:---- No word Less in return-------> list index out of range
+ERROR:root:---- No word PDDL in return-------> list index out of range
+ERROR:root:---- NO RESULT FOUND -------
+ERROR:root:------ LAST RESORT IN QUERY -------
+ERROR:root:--------- Hugging Chat API Result Parsing Error Completed ----------
+ERROR:root:{'error_number': 38, 'error': "There is a semantic error where unknown predicate 'not' used in precondition of action. Remove 'not' from the precondition of all actions having it."}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:=========== CHAT COUNT ==========>> 14
+ERROR:root:=========================================================================================
+ERROR:root:ID:662d1de6d528feb55bc5d005, TITLE:New Chat, MODEL:mistralai/Mixtral-8x7B-Instruct-v0.1
+ERROR:root:=========================================================================================
+ERROR:root:-------------- Hugging Chat API Result Parsing_Error ---------------
+ERROR:root:---- No word PDDL in return -----> list index out of range
+ERROR:root:----No word LISP in return-------> list index out of range
+ERROR:root:---- No word Ruby in return-------> list index out of range
+ERROR:root:---- No word Less in return-------> list index out of range
+ERROR:root:---- No word PDDL in return-------> list index out of range
+ERROR:root:---- NO RESULT FOUND -------
+ERROR:root:------ LAST RESORT IN QUERY -------
+ERROR:root:--------- Hugging Chat API Result Parsing Error Completed ----------
+ERROR:root:{'error_number': 38, 'error': "There is a semantic error where unknown predicate 'not' used in precondition of action. Remove 'not' from the precondition of all actions having it."}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:=========== CHAT COUNT ==========>> 15
+ERROR:root:=========================================================================================
+ERROR:root:ID:662d1dfed423a84dd6bb1347, TITLE:New Chat, MODEL:mistralai/Mixtral-8x7B-Instruct-v0.1
+ERROR:root:=========================================================================================
+ERROR:root:-------------- Hugging Chat API Result Parsing_Error ---------------
+ERROR:root:---- No word PDDL in return -----> list index out of range
+ERROR:root:----No word LISP in return-------> list index out of range
+ERROR:root:---- No word Ruby in return-------> list index out of range
+ERROR:root:---- No word Less in return-------> list index out of range
+ERROR:root:---- No word PDDL in return-------> list index out of range
+ERROR:root:---- NO RESULT FOUND -------
+ERROR:root:------ LAST RESORT IN QUERY -------
+ERROR:root:--------- Hugging Chat API Result Parsing Error Completed ----------
+ERROR:root:{'error_number': 38, 'error': "There is a semantic error where unknown predicate 'not' used in precondition of action. Remove 'not' from the precondition of all actions having it."}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root: < --------- Exited Code -------- > 

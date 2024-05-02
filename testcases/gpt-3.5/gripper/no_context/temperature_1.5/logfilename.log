@@ -1,0 +1,42 @@
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://137.50.168.187:5000
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 118-440-111
+INFO:werkzeug:127.0.0.1 - - [24/Apr/2024 22:38:53] "GET / HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [24/Apr/2024 22:38:53] "GET /static/images/UoA_Primary_Logo_RGB.png HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [24/Apr/2024 22:38:53] "GET /static/index.css HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [24/Apr/2024 22:38:54] "GET /static/images/favicon.png HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [24/Apr/2024 22:38:57] "[36mGET /static/images/favicon.png HTTP/1.1[0m" 304 -
+ERROR:root:{'error_number': 4, 'error': 'There was an error in parsing the code. Missing closing parenthesis'}
+ERROR:root:----- RUNNING FOR ERROR ---> CHAT_GPT
+ERROR:root:{'error_number': 4, 'error': 'There was an error in parsing the code. Missing closing parenthesis'}
+ERROR:root:----- RUNNING FOR ERROR ---> CHAT_GPT
+ERROR:root:{'error_number': 36, 'error': "There is a semantic error where there are wrong number of arguments for predicate 'carrying' in precondition of action."}
+ERROR:root:----- RUNNING FOR ERROR ---> CHAT_GPT
+ERROR:root:{'error_number': 35, 'error': 'There is a semantic error where unknown type robot is used in predicate definition.'}
+ERROR:root:----- RUNNING FOR ERROR ---> CHAT_GPT
+ERROR:root:{'error_number': 30, 'error': 'There is a semantic error of unknown parent type: agent'}
+ERROR:root:----- RUNNING FOR ERROR ---> CHAT_GPT
+ERROR:root:{'error_number': 38, 'error': "There is a semantic error where unknown predicate 'at-robot' used in precondition of action. Remove 'at-robot' from the precondition of all actions having it."}
+ERROR:root:----- RUNNING FOR ERROR ---> CHAT_GPT
+ERROR:root: < --------- Exited Code -------- > 
+ERROR:root: < --------- Exited Code -------- > 
+ERROR:root: < --------- Exited Code -------- > 
+ERROR:root: < --------- Exited Code -------- > 
+ERROR:root:{'error_number': 4, 'error': 'There was an error in parsing the code. Missing closing parenthesis'}
+ERROR:root:----- RUNNING FOR ERROR ---> CHAT_GPT
+ERROR:root:{'error_number': 4, 'error': 'There was an error in parsing the code. Missing closing parenthesis'}
+ERROR:root:----- RUNNING FOR ERROR ---> CHAT_GPT
+ERROR:root:{'error_number': 4, 'error': 'There was an error in parsing the code. Missing closing parenthesis'}
+ERROR:root:----- RUNNING FOR ERROR ---> CHAT_GPT
+ERROR:root:{'error_number': 18, 'error': 'There is a value error where EffectStmt must start with ":effect" keyword'}
+ERROR:root:----- RUNNING FOR ERROR ---> CHAT_GPT
+ERROR:root: < --------- Exited Code -------- > 
+ERROR:root:{'error_number': 36, 'error': "There is a semantic error where there are wrong number of arguments for predicate 'carrying' in precondition of action."}
+ERROR:root:----- RUNNING FOR ERROR ---> CHAT_GPT
+ERROR:root: < --------- Exited Code -------- > 
+INFO:werkzeug:127.0.0.1 - - [24/Apr/2024 22:40:18] "POST / HTTP/1.1" 200 -

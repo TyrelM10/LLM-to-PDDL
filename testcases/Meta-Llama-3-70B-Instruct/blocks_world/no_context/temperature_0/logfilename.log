@@ -1,0 +1,69 @@
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://137.50.171.68:5000
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 118-440-111
+INFO:werkzeug:127.0.0.1 - - [29/Apr/2024 12:33:44] "GET / HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Apr/2024 12:33:44] "[36mGET /static/images/UoA_Primary_Logo_RGB.png HTTP/1.1[0m" 304 -
+INFO:werkzeug:127.0.0.1 - - [29/Apr/2024 12:33:44] "[36mGET /static/index.css HTTP/1.1[0m" 304 -
+INFO:werkzeug:127.0.0.1 - - [29/Apr/2024 12:33:44] "[36mGET /static/images/favicon.png HTTP/1.1[0m" 304 -
+INFO:werkzeug:127.0.0.1 - - [29/Apr/2024 12:33:53] "[36mGET /static/images/favicon.png HTTP/1.1[0m" 304 -
+ERROR:root:======== LENGTH OF QUERY TEXT : 84 ==========
+ERROR:root:=========================================================================================
+ERROR:root:ID:662f85a22677859698a92d12, MODEL:meta-llama/Meta-Llama-3-70B-Instruct
+ERROR:root:=========================================================================================
+ERROR:root:{'error_number': 22, 'error': "There is a value error on finding unknown keyword in domain definition: 'actions'. Remove the keyword 'actions' from definition, keep the rest of code the same."}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:=========== CHAT COUNT ==========>> 1
+ERROR:root:======== LENGTH OF QUERY TEXT : 83 ==========
+ERROR:root:=========================================================================================
+ERROR:root:ID:662f85ae8a6ec449b99ba1c8, MODEL:meta-llama/Meta-Llama-3-70B-Instruct
+ERROR:root:=========================================================================================
+ERROR:root:{'error_number': 22, 'error': "There is a value error on finding unknown keyword in domain definition: 'parameters'. Remove the keyword 'parameters' from definition, keep the rest of code the same."}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:=========== CHAT COUNT ==========>> 2
+ERROR:root:======== LENGTH OF QUERY TEXT : 77 ==========
+ERROR:root:=========================================================================================
+ERROR:root:ID:662f85c08a6ec449b99ba1d2, MODEL:meta-llama/Meta-Llama-3-70B-Instruct
+ERROR:root:=========================================================================================
+ERROR:root:{'error_number': 10, 'error': 'There is a value error where keywords have to start with a colon ":"'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:=========== CHAT COUNT ==========>> 3
+ERROR:root:======== LENGTH OF QUERY TEXT : 79 ==========
+ERROR:root:=========================================================================================
+ERROR:root:ID:662f85db2677859698a92d31, MODEL:meta-llama/Meta-Llama-3-70B-Instruct
+ERROR:root:=========================================================================================
+ERROR:root:{'error_number': 22, 'error': "There is a value error on finding unknown keyword in domain definition: 'actions'. Remove the keyword 'actions' from definition, keep the rest of code the same."}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:=========== CHAT COUNT ==========>> 4
+ERROR:root:======== LENGTH OF QUERY TEXT : 77 ==========
+ERROR:root:=========================================================================================
+ERROR:root:ID:662f85ef5213ec7f5de88a0b, MODEL:meta-llama/Meta-Llama-3-70B-Instruct
+ERROR:root:=========================================================================================
+ERROR:root:{'error_number': 10, 'error': 'There is a value error where keywords have to start with a colon ":"'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:=========== CHAT COUNT ==========>> 5
+ERROR:root:======== LENGTH OF QUERY TEXT : 85 ==========
+ERROR:root:=========================================================================================
+ERROR:root:ID:662f85ff275441a60774fd35, MODEL:meta-llama/Meta-Llama-3-70B-Instruct
+ERROR:root:=========================================================================================
+ERROR:root:{'error_number': 18, 'error': 'There is a value error where Predicate Statement must start with ":precondition" keyword and not ":preconditions."'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:=========== CHAT COUNT ==========>> 6
+ERROR:root:======== LENGTH OF QUERY TEXT : 85 ==========
+ERROR:root:=========================================================================================
+ERROR:root:ID:662f8611a8d2a412884f6ec8, MODEL:meta-llama/Meta-Llama-3-70B-Instruct
+ERROR:root:=========================================================================================
+ERROR:root:Number of Types Parsed: 1
+ERROR:root:Types Parsed: dict_keys(['object'])
+ERROR:root:Number of Predicates Parsed: 4
+ERROR:root:Predicates Parsed: dict_keys(['on', 'on-table', 'clear', 'hand-empty'])
+ERROR:root:Number of Actions Parsed: 4
+ERROR:root:Actions Parsed: dict_keys(['move-block-to-table', 'move-block-to-block', 'pick-up-block-from-table', 'pick-up-block-from-block'])
+ERROR:root:Number of Constants Parsed: 0
+ERROR:root:Constants Parsed: {}
+ERROR:root:Domain parsed successfully.
+ERROR:root:SUCCESS : 7

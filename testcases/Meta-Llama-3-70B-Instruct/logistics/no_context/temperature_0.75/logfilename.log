@@ -1,0 +1,48 @@
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://137.50.171.68:5000
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 118-440-111
+INFO:werkzeug:127.0.0.1 - - [29/Apr/2024 17:12:25] "GET / HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Apr/2024 17:12:25] "[36mGET /static/images/UoA_Primary_Logo_RGB.png HTTP/1.1[0m" 304 -
+INFO:werkzeug:127.0.0.1 - - [29/Apr/2024 17:12:25] "[36mGET /static/index.css HTTP/1.1[0m" 304 -
+INFO:werkzeug:127.0.0.1 - - [29/Apr/2024 17:12:25] "[36mGET /static/images/favicon.png HTTP/1.1[0m" 304 -
+INFO:werkzeug:127.0.0.1 - - [29/Apr/2024 17:12:29] "[36mGET /static/images/favicon.png HTTP/1.1[0m" 304 -
+ERROR:root:======== LENGTH OF QUERY TEXT : 69 ==========
+ERROR:root:=========================================================================================
+ERROR:root:ID:662fc6ee2677859698a94d3b, MODEL:meta-llama/Meta-Llama-3-70B-Instruct
+ERROR:root:=========================================================================================
+ERROR:root:{'error_number': 22, 'error': "There is a value error on finding unknown keyword in domain definition: 'actions'. Valid keywords in definition are 'requirements', 'types', 'predicates', 'constants' and 'action'. Remove the keyword 'actions' from definition, keep the rest of code the same."}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:=========== CHAT COUNT ==========>> 1
+ERROR:root:======== LENGTH OF QUERY TEXT : 70 ==========
+ERROR:root:=========================================================================================
+ERROR:root:ID:662fc6feb9e53738ff6ded80, MODEL:meta-llama/Meta-Llama-3-70B-Instruct
+ERROR:root:=========================================================================================
+ERROR:root:{'error_number': 18, 'error': 'There is a value error where Predicate Statement must start with ":precondition" keyword and not ":preconditions."'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:=========== CHAT COUNT ==========>> 2
+ERROR:root:======== LENGTH OF QUERY TEXT : 70 ==========
+ERROR:root:=========================================================================================
+ERROR:root:ID:662fc7212677859698a94d5f, MODEL:meta-llama/Meta-Llama-3-70B-Instruct
+ERROR:root:=========================================================================================
+ERROR:root:{'error_number': 38, 'error': "There is a semantic error where unknown predicate 'not' used in precondition of action name 'unload'. Remove negative literals from the precondition of the action having it and rewrite that action only."}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:=========== CHAT COUNT ==========>> 3
+ERROR:root:======== LENGTH OF QUERY TEXT : 69 ==========
+ERROR:root:=========================================================================================
+ERROR:root:ID:662fc7395436cfc79d3adb14, MODEL:meta-llama/Meta-Llama-3-70B-Instruct
+ERROR:root:=========================================================================================
+ERROR:root:Number of Types Parsed: 1
+ERROR:root:Types Parsed: dict_keys(['object'])
+ERROR:root:Number of Predicates Parsed: 6
+ERROR:root:Predicates Parsed: dict_keys(['at', 'in-city', 'is-airport', 'is-truck', 'is-airplane', 'in'])
+ERROR:root:Number of Actions Parsed: 4
+ERROR:root:Actions Parsed: dict_keys(['drive', 'fly', 'load', 'unload'])
+ERROR:root:Number of Constants Parsed: 0
+ERROR:root:Constants Parsed: {}
+ERROR:root:Domain parsed successfully.
+ERROR:root:SUCCESS : 4

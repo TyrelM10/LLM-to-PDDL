@@ -131,7 +131,7 @@ def generate_domain(question, model_name, error_code):
                     
             elif model_used == "HUGGING_FACE": # Calling huggingface api model
                 
-                if global_counter <= 30:
+                if global_counter <= 19:
                     # FOR LLAMA3
                     # error = code_with_error + "\n \n The above PDDL code produces the following error -> " + str(question) + "\n\nRequirement 1: Correct the error and only give the entire PDDL code for solving in a STRIPS Planner.\n Requirement 2: Do not create a problem file and do not use conditional expressions.\n Requirement 3: Give your output as the PDDL code in code blocks delimited only between ```pddl <CODE></CODE> ``` without any explanations."
                     # error_formatted = "\n```pddl\n"+code_with_error +"\n```"+"\n \n The above code produces the following error: " + str(question) + "\n\nRequirement 1: Correct the error and only give the entire PDDL code for solving in a STRIPS Planner.\n Requirement 2: Do not create a problem file and do not use conditional expressions.\n Requirement 3: Give your output as the PDDL code in code blocks delimited only between ```pddl <CODE></CODE> ``` without any explanations."

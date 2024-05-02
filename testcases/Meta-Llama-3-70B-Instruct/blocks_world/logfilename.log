@@ -1,0 +1,18 @@
+ERROR:root:{'error_number': 2, 'error': "There was an error in parsing the code. Expected '(', got pddl."}
+ERROR:root:{'error_number': 2, 'error': "There was an error in parsing the code. Expected '(', got pddl."}
+ERROR:root:{'error_number': 22, 'error': "There is a value error on finding unknown keyword in domain definition: 'actions'. Remove the keyword 'actions' from definition, keep the rest of code the same."}
+ERROR:root:{'error_number': 10, 'error': 'There is a value error where keywords have to start with a colon ":"'}
+ERROR:root:{'error_number': 18, 'error': 'There is a value error where PreconditionStmt must start with ":precondition" keyword'}
+ERROR:root:{'error_number': 38, 'error': "There is a semantic error where unknown predicate 'not' used in precondition of action. Remove 'not' from the precondition of all actions having it."}
+ERROR:root:Domain parsed successfully.
+ERROR:root:Domain parsed successfully.
+ERROR:root:{'error_number': 1, 'error': 'There was an error in parsing the code for not a word'}
+ERROR:root:{'error_number': 1, 'error': 'There was an error in parsing the code for not a word'}
+ERROR:root:{'error_number': 1, 'error': 'There was an error in parsing the code for not a word'}
+ERROR:root:{'error_number': 1, 'error': 'There was an error in parsing the code for not a word'}
+ERROR:root:{'error_number': 26, 'error': 'There is a value error when found invalid keyword when parsing :init statement.'}
+ERROR:root:{'error_number': 26, 'error': 'There is a value error when found invalid keyword when parsing :init statement.'}
+ERROR:root:{'error_number': 26, 'error': 'There is a value error when found invalid keyword when parsing :init statement.'}
+ERROR:root:{'error_number': 26, 'error': 'There is a value error when found invalid keyword when parsing :init statement.'}
+ERROR:root:Action Path Sucessfully Found.
+ERROR:root:Action Path Sucessfully Found.

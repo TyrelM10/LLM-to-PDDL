@@ -1,0 +1,44 @@
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://137.50.168.187:5000
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 118-440-111
+INFO:werkzeug:127.0.0.1 - - [24/Apr/2024 22:19:29] "GET / HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [24/Apr/2024 22:19:30] "GET /static/index.css HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [24/Apr/2024 22:19:30] "GET /static/images/UoA_Primary_Logo_RGB.png HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [24/Apr/2024 22:19:30] "GET /static/images/favicon.png HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [24/Apr/2024 22:19:34] "[36mGET /static/images/favicon.png HTTP/1.1[0m" 304 -
+ERROR:root:{'error_number': 39, 'error': 'There is a semantic error where the predicate in precondition is not in Conjuctive Normal Form (CNF).'}
+ERROR:root:----- RUNNING FOR ERROR ---> CHAT_GPT
+ERROR:root:{'error_number': 39, 'error': 'There is a semantic error where the predicate in precondition is not in Conjuctive Normal Form (CNF).'}
+ERROR:root:----- RUNNING FOR ERROR ---> CHAT_GPT
+ERROR:root:{'error_number': 39, 'error': 'There is a semantic error where the predicate in precondition is not in Conjuctive Normal Form (CNF).'}
+ERROR:root:----- RUNNING FOR ERROR ---> CHAT_GPT
+ERROR:root:{'error_number': 18, 'error': 'There is a value error where EffectStmt must start with ":effect" keyword'}
+ERROR:root:----- RUNNING FOR ERROR ---> CHAT_GPT
+ERROR:root:{'error_number': 18, 'error': 'There is a value error where EffectStmt must start with ":effect" keyword'}
+ERROR:root:----- RUNNING FOR ERROR ---> CHAT_GPT
+ERROR:root:{'error_number': 18, 'error': 'There is a value error where EffectStmt must start with ":effect" keyword'}
+ERROR:root:----- RUNNING FOR ERROR ---> CHAT_GPT
+ERROR:root:{'error_number': 18, 'error': 'There is a value error where EffectStmt must start with ":effect" keyword'}
+ERROR:root:----- RUNNING FOR ERROR ---> CHAT_GPT
+ERROR:root:{'error_number': 39, 'error': 'There is a semantic error where the predicate in precondition is not in Conjuctive Normal Form (CNF).'}
+ERROR:root:----- RUNNING FOR ERROR ---> CHAT_GPT
+ERROR:root: < --------- Exited Code -------- > 
+ERROR:root:{'error_number': 18, 'error': 'There is a value error where EffectStmt must start with ":effect" keyword'}
+ERROR:root:----- RUNNING FOR ERROR ---> CHAT_GPT
+ERROR:root:{'error_number': 39, 'error': 'There is a semantic error where the predicate in precondition is not in Conjuctive Normal Form (CNF).'}
+ERROR:root:----- RUNNING FOR ERROR ---> CHAT_GPT
+ERROR:root: < --------- Exited Code -------- > 
+ERROR:root:{'error_number': 18, 'error': 'There is a value error where EffectStmt must start with ":effect" keyword'}
+ERROR:root:----- RUNNING FOR ERROR ---> CHAT_GPT
+ERROR:root:{'error_number': 39, 'error': 'There is a semantic error where the predicate in precondition is not in Conjuctive Normal Form (CNF).'}
+ERROR:root:----- RUNNING FOR ERROR ---> CHAT_GPT
+ERROR:root: < --------- Exited Code -------- > 
+ERROR:root: < --------- Exited Code -------- > 
+ERROR:root: < --------- Exited Code -------- > 
+ERROR:root: < --------- Exited Code -------- > 
+INFO:werkzeug:127.0.0.1 - - [24/Apr/2024 22:21:01] "POST / HTTP/1.1" 200 -

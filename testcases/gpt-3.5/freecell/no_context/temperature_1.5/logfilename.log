@@ -1,0 +1,23 @@
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://137.50.168.187:5000
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 118-440-111
+INFO:werkzeug:127.0.0.1 - - [25/Apr/2024 00:58:57] "GET / HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [25/Apr/2024 00:58:57] "[36mGET /static/index.css HTTP/1.1[0m" 304 -
+INFO:werkzeug:127.0.0.1 - - [25/Apr/2024 00:58:57] "[36mGET /static/images/UoA_Primary_Logo_RGB.png HTTP/1.1[0m" 304 -
+INFO:werkzeug:127.0.0.1 - - [25/Apr/2024 00:58:58] "[36mGET /static/images/favicon.png HTTP/1.1[0m" 304 -
+INFO:werkzeug:127.0.0.1 - - [25/Apr/2024 00:59:01] "[36mGET /static/images/favicon.png HTTP/1.1[0m" 304 -
+ERROR:root:ERROR IN CHAT GPT API CODE ------> Failed to create completion as the model generated invalid Unicode output. Unfortunately, this can happen in rare situations. Consider reviewing your prompt or reducing the temperature of your request. You can retry your request, or contact us through our help center at help.openai.com if the error persists. (Please include the request ID req_2b72649cb4885f9d8361a4dd38b64dfc in your message.) {
+  "error": {
+    "message": "Failed to create completion as the model generated invalid Unicode output. Unfortunately, this can happen in rare situations. Consider reviewing your prompt or reducing the temperature of your request. You can retry your request, or contact us through our help center at help.openai.com if the error persists. (Please include the request ID req_2b72649cb4885f9d8361a4dd38b64dfc in your message.)",
+    "type": "server_error",
+    "param": null,
+    "code": "invalid_model_output"
+  }
+}
+ 500 {'error': {'message': 'Failed to create completion as the model generated invalid Unicode output. Unfortunately, this can happen in rare situations. Consider reviewing your prompt or reducing the temperature of your request. You can retry your request, or contact us through our help center at help.openai.com if the error persists. (Please include the request ID req_2b72649cb4885f9d8361a4dd38b64dfc in your message.)', 'type': 'server_error', 'param': None, 'code': 'invalid_model_output'}} {'Date': 'Wed, 24 Apr 2024 23:59:23 GMT', 'Content-Type': 'application/json', 'Content-Length': '517', 'Connection': 'keep-alive', 'access-control-allow-origin': '*', 'openai-model': 'gpt-3.5-turbo-0125', 'openai-organization': 'user-wsrjkxcde6lxab0cwioie3bg', 'openai-processing-ms': '21241', 'openai-version': '2020-10-01', 'strict-transport-security': 'max-age=15724800; includeSubDomains', 'x-ratelimit-limit-requests': '10000', 'x-ratelimit-limit-tokens': '60000', 'x-ratelimit-remaining-requests': '9999', 'x-ratelimit-remaining-tokens': '59635', 'x-ratelimit-reset-requests': '8.64s', 'x-ratelimit-reset-tokens': '365ms', 'x-request-id': 'req_2b72649cb4885f9d8361a4dd38b64dfc', 'CF-Cache-Status': 'DYNAMIC', 'Set-Cookie': '__cf_bm=Qh.bmqVtgHE..Dr4JK9zHkebU5Aad3yq1qA34uo3uHQ-1714003163-1.0.1.1-FF7UG3xYMmfa8kRVVbC1DhI0eTw9nE1YVGwQ_Ru7Kz2MmmnexP0ZFSwuvIa.LdYA5X2w_za8tQyo3lQUmShvSQ; path=/; expires=Thu, 25-Apr-24 00:29:23 GMT; domain=.api.openai.com; HttpOnly; Secure; SameSite=None, _cfuvid=lSEZheJKj2rTFIm1taH.hRC9PoerBl9LevFmTQwRTxA-1714003163113-0.0.1.1-604800000; path=/; domain=.api.openai.com; HttpOnly; Secure; SameSite=None', 'Server': 'cloudflare', 'CF-RAY': '879a0b73aca4188b-MAN', 'alt-svc': 'h3=":443"; ma=86400'}
+INFO:werkzeug:127.0.0.1 - - [25/Apr/2024 00:59:29] "POST / HTTP/1.1" 200 -

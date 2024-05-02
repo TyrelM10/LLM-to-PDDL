@@ -1,0 +1,46 @@
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://137.50.168.110:5000
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 118-440-111
+INFO:werkzeug:127.0.0.1 - - [27/Apr/2024 15:12:15] "GET / HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [27/Apr/2024 15:12:15] "[36mGET /static/images/UoA_Primary_Logo_RGB.png HTTP/1.1[0m" 304 -
+INFO:werkzeug:127.0.0.1 - - [27/Apr/2024 15:12:15] "[36mGET /static/index.css HTTP/1.1[0m" 304 -
+INFO:werkzeug:127.0.0.1 - - [27/Apr/2024 15:12:15] "[36mGET /static/images/favicon.png HTTP/1.1[0m" 304 -
+INFO:werkzeug:127.0.0.1 - - [27/Apr/2024 15:12:18] "[36mGET /static/images/favicon.png HTTP/1.1[0m" 304 -
+ERROR:root:=========================================================================================
+ERROR:root:ID:662d07c34de23f1d57c66f10, TITLE:New Chat, MODEL:mistralai/Mixtral-8x7B-Instruct-v0.1
+ERROR:root:=========================================================================================
+ERROR:root:-------------- Hugging Chat API Result Parsing_Error ---------------
+ERROR:root:---- No word PDDL in return -----> list index out of range
+ERROR:root:----No word LISP in return-------> list index out of range
+ERROR:root:--------- Hugging Chat API Result Parsing Error Completed ----------
+ERROR:root:{'error_number': 35, 'error': 'There is a semantic error where unknown type vehicle is used in predicate definition.'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:=========== CHAT COUNT ==========>> 1
+ERROR:root:=========================================================================================
+ERROR:root:ID:662d07dfd528feb55bc5c565, TITLE:New Chat, MODEL:mistralai/Mixtral-8x7B-Instruct-v0.1
+ERROR:root:=========================================================================================
+ERROR:root:{'error_number': 35, 'error': 'There is a semantic error where unknown type vehicle is used in predicate definition.'}
+ERROR:root:----- RUNNING FOR ERROR ---> HUGGING_FACE
+ERROR:root:=========== CHAT COUNT ==========>> 2
+ERROR:root:=========================================================================================
+ERROR:root:ID:662d0808fd2133041e0ebbc6, TITLE:New Chat, MODEL:mistralai/Mixtral-8x7B-Instruct-v0.1
+ERROR:root:=========================================================================================
+ERROR:root:-------------- Hugging Chat API Result Parsing_Error ---------------
+ERROR:root:---- No word PDDL in return -----> list index out of range
+ERROR:root:----No word LISP in return-------> list index out of range
+ERROR:root:--------- Hugging Chat API Result Parsing Error Completed ----------
+ERROR:root:Number of Types Parsed: 7
+ERROR:root:Types Parsed: dict_keys(['city', 'location', 'airport', 'truck', 'plane', 'package', 'object'])
+ERROR:root:Number of Predicates Parsed: 9
+ERROR:root:Predicates Parsed: dict_keys(['connected', 'at', 'carrying', 'free', 'airport-location', 'loaded', 'unloaded', 'at-airport', 'at-location'])
+ERROR:root:Number of Actions Parsed: 6
+ERROR:root:Actions Parsed: dict_keys(['drive', 'pickup', 'deliver', 'load', 'unload', 'fly'])
+ERROR:root:Number of Constants Parsed: 0
+ERROR:root:Constants Parsed: {}
+ERROR:root:Domain parsed successfully.
+ERROR:root:SUCCESS : 3

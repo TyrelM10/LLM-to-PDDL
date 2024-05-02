@@ -1,0 +1,267 @@
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://137.50.168.187:5000
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 118-440-111
+INFO:werkzeug:127.0.0.1 - - [24/Apr/2024 22:54:14] "GET / HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [24/Apr/2024 22:54:14] "[36mGET /static/index.css HTTP/1.1[0m" 304 -
+INFO:werkzeug:127.0.0.1 - - [24/Apr/2024 22:54:14] "[36mGET /static/images/UoA_Primary_Logo_RGB.png HTTP/1.1[0m" 304 -
+INFO:werkzeug:127.0.0.1 - - [24/Apr/2024 22:54:14] "[36mGET /static/images/favicon.png HTTP/1.1[0m" 304 -
+INFO:werkzeug:127.0.0.1 - - [24/Apr/2024 22:54:18] "[36mGET /static/images/favicon.png HTTP/1.1[0m" 304 -
+ERROR:root:{'error_number': 30, 'error': 'There is a semantic error of unknown parent type: vehicle'}
+ERROR:root:----- RUNNING FOR ERROR ---> CHAT_GPT
+ERROR:root:{'error_number': 30, 'error': 'There is a semantic error of unknown parent type: vehicle'}
+ERROR:root:----- RUNNING FOR ERROR ---> CHAT_GPT
+ERROR:root:ERROR IN CHAT GPT API CODE ------> Failed to create completion as the model generated invalid Unicode output. Unfortunately, this can happen in rare situations. Consider reviewing your prompt or reducing the temperature of your request. You can retry your request, or contact us through our help center at help.openai.com if the error persists. (Please include the request ID req_33eb309a0df414eb4bb271d0e80243de in your message.) {
+  "error": {
+    "message": "Failed to create completion as the model generated invalid Unicode output. Unfortunately, this can happen in rare situations. Consider reviewing your prompt or reducing the temperature of your request. You can retry your request, or contact us through our help center at help.openai.com if the error persists. (Please include the request ID req_33eb309a0df414eb4bb271d0e80243de in your message.)",
+    "type": "server_error",
+    "param": null,
+    "code": "invalid_model_output"
+  }
+}
+ 500 {'error': {'message': 'Failed to create completion as the model generated invalid Unicode output. Unfortunately, this can happen in rare situations. Consider reviewing your prompt or reducing the temperature of your request. You can retry your request, or contact us through our help center at help.openai.com if the error persists. (Please include the request ID req_33eb309a0df414eb4bb271d0e80243de in your message.)', 'type': 'server_error', 'param': None, 'code': 'invalid_model_output'}} {'Date': 'Wed, 24 Apr 2024 21:55:22 GMT', 'Content-Type': 'application/json', 'Content-Length': '517', 'Connection': 'keep-alive', 'access-control-allow-origin': '*', 'openai-model': 'gpt-3.5-turbo-0125', 'openai-organization': 'user-wsrjkxcde6lxab0cwioie3bg', 'openai-processing-ms': '39417', 'openai-version': '2020-10-01', 'strict-transport-security': 'max-age=15724800; includeSubDomains', 'x-ratelimit-limit-requests': '10000', 'x-ratelimit-limit-tokens': '60000', 'x-ratelimit-remaining-requests': '9999', 'x-ratelimit-remaining-tokens': '59561', 'x-ratelimit-reset-requests': '8.64s', 'x-ratelimit-reset-tokens': '439ms', 'x-request-id': 'req_33eb309a0df414eb4bb271d0e80243de', 'CF-Cache-Status': 'DYNAMIC', 'Server': 'cloudflare', 'CF-RAY': '8799555d589c188b-MAN', 'alt-svc': 'h3=":443"; ma=86400'}
+ERROR:root:{'error_number': 2, 'error': "There was an error in parsing the code. Expected '(', got could."}
+ERROR:root:----- RUNNING FOR ERROR ---> CHAT_GPT
+ERROR:root:Number of Types Parsed: 1
+ERROR:root:Types Parsed: dict_keys(['object'])
+ERROR:root:Number of Predicates Parsed: 4
+ERROR:root:Predicates Parsed: dict_keys(['at-person', 'at', 'want', 'buy'])
+ERROR:root:Number of Actions Parsed: 2
+ERROR:root:Actions Parsed: dict_keys(['go', 'pick-up'])
+ERROR:root:Number of Constants Parsed: 0
+ERROR:root:Constants Parsed: {}
+ERROR:root:Domain parsed successfully.
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: (.'}
+ERROR:root:----- RUNNING FOR ERROR ---> CHAT_GPT
+ERROR:root:{'error_number': 4, 'error': 'There was an error in parsing the code. Missing closing parenthesis'}
+ERROR:root:----- RUNNING FOR ERROR ---> CHAT_GPT
+ERROR:root:{'error_number': 4, 'error': 'There was an error in parsing the code. Missing closing parenthesis'}
+ERROR:root:----- RUNNING FOR ERROR ---> CHAT_GPT
+ERROR:root:Number of Types Parsed: 1
+ERROR:root:Types Parsed: dict_keys(['object'])
+ERROR:root:Number of Predicates Parsed: 4
+ERROR:root:Predicates Parsed: dict_keys(['at-person', 'at', 'want', 'buy'])
+ERROR:root:Number of Actions Parsed: 2
+ERROR:root:Actions Parsed: dict_keys(['go', 'pick-up'])
+ERROR:root:Number of Constants Parsed: 0
+ERROR:root:Constants Parsed: {}
+ERROR:root:Domain parsed successfully.
+ERROR:root:Number of Types Parsed: 1
+ERROR:root:Types Parsed: dict_keys(['object'])
+ERROR:root:Number of Predicates Parsed: 4
+ERROR:root:Predicates Parsed: dict_keys(['at-person', 'at', 'want', 'buy'])
+ERROR:root:Number of Actions Parsed: 2
+ERROR:root:Actions Parsed: dict_keys(['go', 'pick-up'])
+ERROR:root:Number of Constants Parsed: 0
+ERROR:root:Constants Parsed: {}
+ERROR:root:Domain parsed successfully.
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: :predicates.'}
+ERROR:root:----- RUNNING FOR ERROR ---> CHAT_GPT
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: (.'}
+ERROR:root:----- RUNNING FOR ERROR ---> CHAT_GPT
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: at-person.'}
+ERROR:root:----- RUNNING FOR ERROR ---> CHAT_GPT
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: ?p.'}
+ERROR:root:----- RUNNING FOR ERROR ---> CHAT_GPT
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: ).'}
+ERROR:root:----- RUNNING FOR ERROR ---> CHAT_GPT
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: (.'}
+ERROR:root:----- RUNNING FOR ERROR ---> CHAT_GPT
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: at.'}
+ERROR:root:----- RUNNING FOR ERROR ---> CHAT_GPT
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: ?x.'}
+ERROR:root:----- RUNNING FOR ERROR ---> CHAT_GPT
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: ).'}
+ERROR:root:----- RUNNING FOR ERROR ---> CHAT_GPT
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: (.'}
+ERROR:root:----- RUNNING FOR ERROR ---> CHAT_GPT
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: want.'}
+ERROR:root:----- RUNNING FOR ERROR ---> CHAT_GPT
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: ?x.'}
+ERROR:root:----- RUNNING FOR ERROR ---> CHAT_GPT
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: ).'}
+ERROR:root:----- RUNNING FOR ERROR ---> CHAT_GPT
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: (.'}
+ERROR:root:----- RUNNING FOR ERROR ---> CHAT_GPT
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: buy.'}
+ERROR:root:----- RUNNING FOR ERROR ---> CHAT_GPT
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: ?x.'}
+ERROR:root:----- RUNNING FOR ERROR ---> CHAT_GPT
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: ).'}
+ERROR:root:----- RUNNING FOR ERROR ---> CHAT_GPT
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: ).'}
+ERROR:root:----- RUNNING FOR ERROR ---> CHAT_GPT
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: (.'}
+ERROR:root:----- RUNNING FOR ERROR ---> CHAT_GPT
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: :action.'}
+ERROR:root:----- RUNNING FOR ERROR ---> CHAT_GPT
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: go.'}
+ERROR:root:----- RUNNING FOR ERROR ---> CHAT_GPT
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: :parameters.'}
+ERROR:root:----- RUNNING FOR ERROR ---> CHAT_GPT
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: (.'}
+ERROR:root:----- RUNNING FOR ERROR ---> CHAT_GPT
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: ?p.'}
+ERROR:root:----- RUNNING FOR ERROR ---> CHAT_GPT
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: ).'}
+ERROR:root:----- RUNNING FOR ERROR ---> CHAT_GPT
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: :precondition.'}
+ERROR:root:----- RUNNING FOR ERROR ---> CHAT_GPT
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: (.'}
+ERROR:root:----- RUNNING FOR ERROR ---> CHAT_GPT
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: at-person.'}
+ERROR:root:----- RUNNING FOR ERROR ---> CHAT_GPT
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: ?p.'}
+ERROR:root:----- RUNNING FOR ERROR ---> CHAT_GPT
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: ).'}
+ERROR:root:----- RUNNING FOR ERROR ---> CHAT_GPT
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: :effect.'}
+ERROR:root:----- RUNNING FOR ERROR ---> CHAT_GPT
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: (.'}
+ERROR:root:----- RUNNING FOR ERROR ---> CHAT_GPT
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: at.'}
+ERROR:root:----- RUNNING FOR ERROR ---> CHAT_GPT
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: ?p.'}
+ERROR:root:----- RUNNING FOR ERROR ---> CHAT_GPT
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: ).'}
+ERROR:root:----- RUNNING FOR ERROR ---> CHAT_GPT
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: ).'}
+ERROR:root:----- RUNNING FOR ERROR ---> CHAT_GPT
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: (.'}
+ERROR:root:----- RUNNING FOR ERROR ---> CHAT_GPT
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: :action.'}
+ERROR:root:----- RUNNING FOR ERROR ---> CHAT_GPT
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: pick-up.'}
+ERROR:root:----- RUNNING FOR ERROR ---> CHAT_GPT
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: :parameters.'}
+ERROR:root:----- RUNNING FOR ERROR ---> CHAT_GPT
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: (.'}
+ERROR:root:----- RUNNING FOR ERROR ---> CHAT_GPT
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: ?x.'}
+ERROR:root:----- RUNNING FOR ERROR ---> CHAT_GPT
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: ).'}
+ERROR:root:----- RUNNING FOR ERROR ---> CHAT_GPT
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: :precondition.'}
+ERROR:root:----- RUNNING FOR ERROR ---> CHAT_GPT
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: (.'}
+ERROR:root:----- RUNNING FOR ERROR ---> CHAT_GPT
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: and.'}
+ERROR:root:----- RUNNING FOR ERROR ---> CHAT_GPT
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: (.'}
+ERROR:root:----- RUNNING FOR ERROR ---> CHAT_GPT
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: at.'}
+ERROR:root:----- RUNNING FOR ERROR ---> CHAT_GPT
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: ?l.'}
+ERROR:root:----- RUNNING FOR ERROR ---> CHAT_GPT
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: ).'}
+ERROR:root:----- RUNNING FOR ERROR ---> CHAT_GPT
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: (.'}
+ERROR:root:----- RUNNING FOR ERROR ---> CHAT_GPT
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: want.'}
+ERROR:root:----- RUNNING FOR ERROR ---> CHAT_GPT
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: ?x.'}
+ERROR:root:----- RUNNING FOR ERROR ---> CHAT_GPT
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: ).'}
+ERROR:root:----- RUNNING FOR ERROR ---> CHAT_GPT
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: ).'}
+ERROR:root:----- RUNNING FOR ERROR ---> CHAT_GPT
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: :effect.'}
+ERROR:root:----- RUNNING FOR ERROR ---> CHAT_GPT
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: (.'}
+ERROR:root:----- RUNNING FOR ERROR ---> CHAT_GPT
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: buy.'}
+ERROR:root:----- RUNNING FOR ERROR ---> CHAT_GPT
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: ?x.'}
+ERROR:root:----- RUNNING FOR ERROR ---> CHAT_GPT
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: ).'}
+ERROR:root:----- RUNNING FOR ERROR ---> CHAT_GPT
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: ).'}
+ERROR:root:----- RUNNING FOR ERROR ---> CHAT_GPT
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: ).'}
+ERROR:root:----- RUNNING FOR ERROR ---> CHAT_GPT
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: ?x.'}
+ERROR:root:----- RUNNING FOR ERROR ---> CHAT_GPT
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: ).'}
+ERROR:root:----- RUNNING FOR ERROR ---> CHAT_GPT
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: (.'}
+ERROR:root:----- RUNNING FOR ERROR ---> CHAT_GPT
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: not.'}
+ERROR:root:----- RUNNING FOR ERROR ---> CHAT_GPT
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: (.'}
+ERROR:root:----- RUNNING FOR ERROR ---> CHAT_GPT
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: want.'}
+ERROR:root:----- RUNNING FOR ERROR ---> CHAT_GPT
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: ?x.'}
+ERROR:root:----- RUNNING FOR ERROR ---> CHAT_GPT
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: ).'}
+ERROR:root:----- RUNNING FOR ERROR ---> CHAT_GPT
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: ).'}
+ERROR:root:----- RUNNING FOR ERROR ---> CHAT_GPT
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: ).'}
+ERROR:root:----- RUNNING FOR ERROR ---> CHAT_GPT
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: ).'}
+ERROR:root:----- RUNNING FOR ERROR ---> CHAT_GPT
+ERROR:root:{'error_number': 21, 'error': "There is a value error where there is invalid domain definition. Domain definition must start with 'define'"}
+ERROR:root:----- RUNNING FOR ERROR ---> CHAT_GPT
+ERROR:root:{'error_number': 1, 'error': 'There was an error in parsing the code for not a structure'}
+ERROR:root:----- RUNNING FOR ERROR ---> CHAT_GPT
+ERROR:root:{'error_number': 16, 'error': 'There is a value error where domain statement must be present before domain name!'}
+ERROR:root:----- RUNNING FOR ERROR ---> CHAT_GPT
+ERROR:root:{'error_number': 1, 'error': 'There was an error in parsing the code for not a structure'}
+ERROR:root:----- RUNNING FOR ERROR ---> CHAT_GPT
+ERROR:root:{'error_number': 1, 'error': 'There was an error in parsing the code for not a structure'}
+ERROR:root:----- RUNNING FOR ERROR ---> CHAT_GPT
+ERROR:root:{'error_number': 1, 'error': 'There was an error in parsing the code for not a structure'}
+ERROR:root:----- RUNNING FOR ERROR ---> CHAT_GPT
+ERROR:root:{'error_number': 10, 'error': 'There is a value error where keywords have to start with a colon ":"'}
+ERROR:root:----- RUNNING FOR ERROR ---> CHAT_GPT
+ERROR:root:{'error_number': 22, 'error': "There is a value error on finding unknown keyword in domain definition: ''. Remove the keyword '' from definition, keep the rest of code the same."}
+ERROR:root:----- RUNNING FOR ERROR ---> CHAT_GPT
+ERROR:root:{'error_number': 1, 'error': 'There was an error in parsing the code for not a structure'}
+ERROR:root:----- RUNNING FOR ERROR ---> CHAT_GPT
+ERROR:root:{'error_number': 10, 'error': 'There is a value error where keywords have to start with a colon ":"'}
+ERROR:root:----- RUNNING FOR ERROR ---> CHAT_GPT
+ERROR:root:{'error_number': 22, 'error': "There is a value error on finding unknown keyword in domain definition: ''. Remove the keyword '' from definition, keep the rest of code the same."}
+ERROR:root:----- RUNNING FOR ERROR ---> CHAT_GPT
+ERROR:root:{'error_number': 1, 'error': 'There was an error in parsing the code for not a structure'}
+ERROR:root:----- RUNNING FOR ERROR ---> CHAT_GPT
+ERROR:root:{'error_number': 10, 'error': 'There is a value error where keywords have to start with a colon ":"'}
+ERROR:root:----- RUNNING FOR ERROR ---> CHAT_GPT
+ERROR:root:{'error_number': 22, 'error': "There is a value error on finding unknown keyword in domain definition: ''. Remove the keyword '' from definition, keep the rest of code the same."}
+ERROR:root:----- RUNNING FOR ERROR ---> CHAT_GPT
+ERROR:root:{'error_number': 1, 'error': 'There was an error in parsing the code for not a structure'}
+ERROR:root:----- RUNNING FOR ERROR ---> CHAT_GPT
+ERROR:root:{'error_number': 10, 'error': 'There is a value error where keywords have to start with a colon ":"'}
+ERROR:root:----- RUNNING FOR ERROR ---> CHAT_GPT
+ERROR:root:{'error_number': 22, 'error': "There is a value error on finding unknown keyword in domain definition: ''. Remove the keyword '' from definition, keep the rest of code the same."}
+ERROR:root:----- RUNNING FOR ERROR ---> CHAT_GPT
+ERROR:root:{'error_number': 1, 'error': 'There was an error in parsing the code for not a structure'}
+ERROR:root:----- RUNNING FOR ERROR ---> CHAT_GPT
+ERROR:root:{'error_number': 10, 'error': 'There is a value error where keywords have to start with a colon ":"'}
+ERROR:root:----- RUNNING FOR ERROR ---> CHAT_GPT
+ERROR:root:{'error_number': 22, 'error': "There is a value error on finding unknown keyword in domain definition: ''. Remove the keyword '' from definition, keep the rest of code the same."}
+ERROR:root:----- RUNNING FOR ERROR ---> CHAT_GPT
+ERROR:root:{'error_number': 1, 'error': 'There was an error in parsing the code for not a structure'}
+ERROR:root:----- RUNNING FOR ERROR ---> CHAT_GPT
+ERROR:root:{'error_number': 10, 'error': 'There is a value error where keywords have to start with a colon ":"'}
+ERROR:root:----- RUNNING FOR ERROR ---> CHAT_GPT
+ERROR:root:{'error_number': 22, 'error': "There is a value error on finding unknown keyword in domain definition: ''. Remove the keyword '' from definition, keep the rest of code the same."}
+ERROR:root:----- RUNNING FOR ERROR ---> CHAT_GPT
+ERROR:root:{'error_number': 52, 'error': 'Regenerate the code as received an attribute error where there is NoneType object.'}
+ERROR:root:----- RUNNING FOR ERROR ---> CHAT_GPT
+ERROR:root:Number of Types Parsed: 1
+ERROR:root:Types Parsed: dict_keys(['object'])
+ERROR:root:Number of Predicates Parsed: 0
+ERROR:root:Predicates Parsed: dict_keys([])
+ERROR:root:Number of Actions Parsed: 0
+ERROR:root:Actions Parsed: dict_keys([])
+ERROR:root:Number of Constants Parsed: 0
+ERROR:root:Constants Parsed: {}
+ERROR:root:Domain parsed successfully.
+ERROR:root: < --------- Exited Code -------- > 
+ERROR:root: < --------- Exited Code -------- > 
+INFO:werkzeug:127.0.0.1 - - [24/Apr/2024 22:56:01] "POST / HTTP/1.1" 200 -

@@ -1,0 +1,6 @@
+ERROR:root:{'error_number': 38, 'error': "There is a semantic error where unknown predicate 'or' used in precondition of action. Remove 'or' from the precondition of all actions having it."}
+ERROR:root:{'error_number': 38, 'error': "There is a semantic error where unknown predicate 'not' used in precondition of action. Remove 'not' from the precondition of all actions having it."}
+ERROR:root:Domain parsed successfully.
+ERROR:root:Domain parsed successfully.
+ERROR:root:Action Path Sucessfully Found.
+ERROR:root:Action Path Sucessfully Found.
