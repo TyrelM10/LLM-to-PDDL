@@ -1,0 +1,4 @@
+ERROR:root:{'error_number': 38, 'error': "There is a semantic error where unknown predicate 'not' used in precondition of action. Remove 'not' from the precondition of all actions having it."}
+ERROR:root:Domain parsed successfully.
+ERROR:root:{'error_number': 51, 'error': "There is a semantic error where object 'phone1' referenced in problem definition, but not defined."}
+ERROR:root:Action Path Sucessfully Found.

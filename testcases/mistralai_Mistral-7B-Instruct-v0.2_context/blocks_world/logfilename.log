@@ -1,0 +1,21 @@
+ERROR:root:{'error_number': 8, 'error': 'There is a value error where variables must start with a "?"'}
+ERROR:root:{'error_number': 8, 'error': 'There is a value error where variables must start with a "?"'}
+ERROR:root:{'error_number': 8, 'error': 'There is a value error where variables must start with a "?"'}
+ERROR:root:{'error_number': 3, 'error': 'There was an error in parsing the code.Got unexpected token: ).'}
+ERROR:root:{'error_number': 2, 'error': "There was an error in parsing the code. Expected '(', got <code>."}
+ERROR:root:{'error_number': 2, 'error': "There was an error in parsing the code. Expected '(', got <code>."}
+ERROR:root:{'error_number': 2, 'error': "There was an error in parsing the code. Expected '(', got <code>."}
+ERROR:root:{'error_number': 21, 'error': "There is a value error where there is invalid domain definition. Domain definition must start with 'define'"}
+ERROR:root:{'error_number': 8, 'error': 'There is a value error where variables must start with a "?"'}
+ERROR:root:{'error_number': 8, 'error': 'There is a value error where variables must start with a "?"'}
+ERROR:root:{'error_number': 8, 'error': 'There is a value error where variables must start with a "?"'}
+ERROR:root:{'error_number': 8, 'error': 'There is a value error where variables must start with a "?"'}
+ERROR:root:{'error_number': 8, 'error': 'There is a value error where variables must start with a "?"'}
+ERROR:root:{'error_number': 8, 'error': 'There is a value error where variables must start with a "?"'}
+ERROR:root:{'error_number': 8, 'error': 'There is a value error where variables must start with a "?"'}
+ERROR:root:{'error_number': 8, 'error': 'There is a value error where variables must start with a "?"'}
+ERROR:root:{'error_number': 8, 'error': 'There is a value error where variables must start with a "?"'}
+ERROR:root:{'error_number': 8, 'error': 'There is a value error where variables must start with a "?"'}
+ERROR:root:{'error_number': 8, 'error': 'There is a value error where variables must start with a "?"'}
+ERROR:root:{'error_number': 8, 'error': 'There is a value error where variables must start with a "?"'}
+ERROR:root:{'error_number': 8, 'error': 'There is a value error where variables must start with a "?"'}

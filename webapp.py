@@ -19,7 +19,7 @@ def index():
     if request.method == 'POST':
         question = request.form['prompt']
         # print(question)
-        answer = generate_domain(question, "CHAT_GPT", False)
+        answer = generate_domain(question, "HUGGING_FACE", False)
         res = {}
         res['answer'] = answer
         return jsonify(res), 200

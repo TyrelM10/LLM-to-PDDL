@@ -125,11 +125,15 @@ def generate_domain(question, model_name, error_code):
                             final['domain'] = conversational_texts[-1]
                             paragraph = '\n'.join(conversational_texts)
                             save_text_to_file(paragraph, 'testingfolder/conversation.md') # Saving the conversation to a file.
+                            logging.error("SUCCESS : "+str(global_counter))
+                            sys.exit("SUCCESS : "+str(global_counter))
                             return final['domain'] # Returning the domain code.
                         
                 else: # If the global counter exceeds 10.
                     paragraph = '\n'.join(conversational_texts)
                     save_text_to_file(paragraph, 'testingfolder/conversation.md')
+                    logging.error("ERROR : "+str(global_counter))
+                    sys.exit("ERROR : "+str(global_counter))
                     return conversational_texts[-2] # Returning the last conversation.
                     
             elif model_used == "HUGGING_FACE": # Calling huggingface api model

@@ -23,7 +23,7 @@ def get_code_llm_openai(message):
                     {"role": "user", "content": message},
                 )
                 chat = openai.ChatCompletion.create(
-                    model="gpt-3.5-turbo", messages=messages, temperature=0
+                    model="gpt-3.5-turbo", messages=messages, temperature=1.15
                 )
             try:
                 reply = str(chat.choices[0].message.content).split("pddl",1)[1].split('```')[0]
